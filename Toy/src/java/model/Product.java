@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity;
+package model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -32,17 +33,17 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Ninad
  */
 @Entity
-@Table(name = "customer_order")
+@Table(name = "product")
 @XmlRootElement
 @NamedQueries(
 {
-    @NamedQuery(name = "CustomerOrder.findAll", query = "SELECT c FROM CustomerOrder c"),
-    @NamedQuery(name = "CustomerOrder.findById", query = "SELECT c FROM CustomerOrder c WHERE c.id = :id"),
-    @NamedQuery(name = "CustomerOrder.findByAmount", query = "SELECT c FROM CustomerOrder c WHERE c.amount = :amount"),
-    @NamedQuery(name = "CustomerOrder.findByDateCreated", query = "SELECT c FROM CustomerOrder c WHERE c.dateCreated = :dateCreated"),
-    @NamedQuery(name = "CustomerOrder.findByConfirmationNumber", query = "SELECT c FROM CustomerOrder c WHERE c.confirmationNumber = :confirmationNumber")
+    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
+    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
+    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
+    @NamedQuery(name = "Product.findByLastUpdate", query = "SELECT p FROM Product p WHERE p.lastUpdate = :lastUpdate")
 })
-public class CustomerOrder implements Serializable
+public class Product implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
@@ -51,38 +52,41 @@ public class CustomerOrder implements Serializable
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @Column(name = "name")
+    private String name;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
-    @Column(name = "amount")
-    private BigDecimal amount;
+    @Column(name = "price")
+    private BigDecimal price;
+    @Lob
+    @Column(name = "description")
+    private String description;
     @Basic(optional = false)
-    @Column(name = "date_created")
+    @Column(name = "last_update")
     @Temporal(TemporalType.DATE)
-    private Date dateCreated;
-    @Basic(optional = false)
-    @Column(name = "confirmation_number")
-    private int confirmationNumber;
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Date lastUpdate;
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Customer customerId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerOrder")
+    private Category categoryId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private Collection<OrderedProduct> orderedProductCollection;
 
-    public CustomerOrder()
+    public Product()
     {
     }
 
-    public CustomerOrder(Integer id)
+    public Product(Integer id)
     {
         this.id = id;
     }
 
-    public CustomerOrder(Integer id, BigDecimal amount, Date dateCreated, int confirmationNumber)
+    public Product(Integer id, String name, BigDecimal price, Date lastUpdate)
     {
         this.id = id;
-        this.amount = amount;
-        this.dateCreated = dateCreated;
-        this.confirmationNumber = confirmationNumber;
+        this.name = name;
+        this.price = price;
+        this.lastUpdate = lastUpdate;
     }
 
     public Integer getId()
@@ -95,44 +99,54 @@ public class CustomerOrder implements Serializable
         this.id = id;
     }
 
-    public BigDecimal getAmount()
+    public String getName()
     {
-        return amount;
+        return name;
     }
 
-    public void setAmount(BigDecimal amount)
+    public void setName(String name)
     {
-        this.amount = amount;
+        this.name = name;
     }
 
-    public Date getDateCreated()
+    public BigDecimal getPrice()
     {
-        return dateCreated;
+        return price;
     }
 
-    public void setDateCreated(Date dateCreated)
+    public void setPrice(BigDecimal price)
     {
-        this.dateCreated = dateCreated;
+        this.price = price;
     }
 
-    public int getConfirmationNumber()
+    public String getDescription()
     {
-        return confirmationNumber;
+        return description;
     }
 
-    public void setConfirmationNumber(int confirmationNumber)
+    public void setDescription(String description)
     {
-        this.confirmationNumber = confirmationNumber;
+        this.description = description;
     }
 
-    public Customer getCustomerId()
+    public Date getLastUpdate()
     {
-        return customerId;
+        return lastUpdate;
     }
 
-    public void setCustomerId(Customer customerId)
+    public void setLastUpdate(Date lastUpdate)
     {
-        this.customerId = customerId;
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Category getCategoryId()
+    {
+        return categoryId;
+    }
+
+    public void setCategoryId(Category categoryId)
+    {
+        this.categoryId = categoryId;
     }
 
     @XmlTransient
@@ -158,11 +172,11 @@ public class CustomerOrder implements Serializable
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CustomerOrder))
+        if (!(object instanceof Product))
         {
             return false;
         }
-        CustomerOrder other = (CustomerOrder) object;
+        Product other = (Product) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
         {
             return false;
@@ -173,7 +187,7 @@ public class CustomerOrder implements Serializable
     @Override
     public String toString()
     {
-        return "entity.CustomerOrder[ id=" + id + " ]";
+        return "entity.Product[ id=" + id + " ]";
     }
     
 }

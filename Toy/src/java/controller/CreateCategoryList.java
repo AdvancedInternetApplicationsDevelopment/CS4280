@@ -1,21 +1,26 @@
+package controller;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
+import dbaccessor.CategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Category;
 
 /**
  *
  * @author Ninad
  */
-public class CreateRelatedList extends HttpServlet
+public class CreateCategoryList extends HttpServlet
 {
 
     /**
@@ -33,9 +38,30 @@ public class CreateRelatedList extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         //String product = (String)request.getAttribute("product");
-        RelatedListBean bean = new RelatedListBean("try");
+        CategoryDAO dao = new CategoryDAO();
+        List<Category> allCategories = dao.getAllCategory();
         //request.setAttribute("RelatedList", bean);
-        out.print(bean.productid + "   " + bean.productprice);
+        out.print("<table border = '2' width = 'auto'>");
+        out.print("<tr>");
+        out.print("<td>");
+        out.print("ID");
+        out.print("</td>");
+        out.print("<td>");
+        out.print("Name");
+        out.print("</td>");
+        out.print("</tr>");
+        for(Category cat: allCategories)
+        {
+            out.print("<tr>");
+            out.print("<td>");
+            out.print(cat.getId());
+            out.print("</td>");
+            out.print("<td>");
+            out.print(cat.getName());
+            out.print("</td>");
+            out.print("<tr>");
+        }
+        out.print("</table>");
         out.close();
     }
 
