@@ -5,108 +5,43 @@
  */
 package model;
 
-import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
  *
  * @author Ninad
  */
-@Entity
-@Table(name = "customer")
-@XmlRootElement
-@NamedQueries(
+public class Customer
 {
-    @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c"),
-    @NamedQuery(name = "Customer.findById", query = "SELECT c FROM Customer c WHERE c.id = :id"),
-    @NamedQuery(name = "Customer.findByName", query = "SELECT c FROM Customer c WHERE c.name = :name"),
-    @NamedQuery(name = "Customer.findByEmail", query = "SELECT c FROM Customer c WHERE c.email = :email"),
-    @NamedQuery(name = "Customer.findByPhone", query = "SELECT c FROM Customer c WHERE c.phone = :phone"),
-    @NamedQuery(name = "Customer.findByAddress", query = "SELECT c FROM Customer c WHERE c.address = :address"),
-    @NamedQuery(name = "Customer.findByCityRegion", query = "SELECT c FROM Customer c WHERE c.cityRegion = :cityRegion"),
-    @NamedQuery(name = "Customer.findByCcNumber", query = "SELECT c FROM Customer c WHERE c.ccNumber = :ccNumber")
-})
-public class Customer implements Serializable
-{
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @Column(name = "name")
-    private String name;
-    @Basic(optional = false)
-    @Column(name = "email")
     private String email;
-    @Basic(optional = false)
-    @Column(name = "phone")
+    private String name;
     private String phone;
-    @Basic(optional = false)
-    @Column(name = "address")
     private String address;
-    @Basic(optional = false)
-    @Column(name = "city_region")
     private String cityRegion;
-    @Basic(optional = false)
-    @Column(name = "cc_number")
     private String ccNumber;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private Collection<CustomerOrder> customerOrderCollection;
-
+    private Login login;
+    
     public Customer()
     {
+        email = "";
+        name = "";
+        phone = "";
+        address = "";
+        cityRegion = "";
+        ccNumber = "";
     }
 
-    public Customer(Integer id)
+    public Customer(String email)
     {
-        this.id = id;
-    }
-
-    public Customer(Integer id, String name, String email, String phone, String address, String cityRegion, String ccNumber)
-    {
-        this.id = id;
-        this.name = name;
         this.email = email;
+    }
+
+    public Customer(String email, String name, String phone, String address, String cityRegion, String ccNumber)
+    {
+        this.email = email;
+        this.name = name;
         this.phone = phone;
         this.address = address;
         this.cityRegion = cityRegion;
         this.ccNumber = ccNumber;
-    }
-
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
     }
 
     public String getEmail()
@@ -117,6 +52,16 @@ public class Customer implements Serializable
     public void setEmail(String email)
     {
         this.email = email;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     public String getPhone()
@@ -159,22 +104,21 @@ public class Customer implements Serializable
         this.ccNumber = ccNumber;
     }
 
-    @XmlTransient
-    public Collection<CustomerOrder> getCustomerOrderCollection()
+    public Login getLogin()
     {
-        return customerOrderCollection;
+        return login;
     }
 
-    public void setCustomerOrderCollection(Collection<CustomerOrder> customerOrderCollection)
+    public void setLogin(Login login)
     {
-        this.customerOrderCollection = customerOrderCollection;
+        this.login = login;
     }
 
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (email != null ? email.hashCode() : 0);
         return hash;
     }
 
@@ -187,7 +131,7 @@ public class Customer implements Serializable
             return false;
         }
         Customer other = (Customer) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.email == null && other.email != null) || (this.email != null && !this.email.equals(other.email)))
         {
             return false;
         }
@@ -197,7 +141,7 @@ public class Customer implements Serializable
     @Override
     public String toString()
     {
-        return "entity.Customer[ id=" + id + " ]";
+        return "model.Customer[ email=" + email + " ]";
     }
     
 }

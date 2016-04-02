@@ -5,96 +5,45 @@
  */
 package model;
 
-import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.sql.Timestamp;
 
 /**
  *
  * @author Ninad
  */
-@Entity
-@Table(name = "ordered_product")
-@XmlRootElement
-@NamedQueries(
+public class OrderedProduct
 {
-    @NamedQuery(name = "OrderedProduct.findAll", query = "SELECT o FROM OrderedProduct o"),
-    @NamedQuery(name = "OrderedProduct.findByCustomerOrderId", query = "SELECT o FROM OrderedProduct o WHERE o.orderedProductPK.customerOrderId = :customerOrderId"),
-    @NamedQuery(name = "OrderedProduct.findByProductId", query = "SELECT o FROM OrderedProduct o WHERE o.orderedProductPK.productId = :productId"),
-    @NamedQuery(name = "OrderedProduct.findByQuantity", query = "SELECT o FROM OrderedProduct o WHERE o.quantity = :quantity")
-})
-public class OrderedProduct implements Serializable
-{
-
-    private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected OrderedProductPK orderedProductPK;
-    @Basic(optional = false)
-    @Column(name = "quantity")
-    private int quantity;
-    @JoinColumn(name = "customer_order_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private CustomerOrder customerOrder;
-    @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    private OrderHistory orderHistory;
     private Product product;
+    private int quantity;
+    private Timestamp dateCreated;
 
     public OrderedProduct()
     {
     }
 
-    public OrderedProduct(OrderedProductPK orderedProductPK)
+    public OrderedProduct(OrderHistory orderHistory, Product product, int quantity, Timestamp dateCreated)
     {
-        this.orderedProductPK = orderedProductPK;
-    }
-
-    public OrderedProduct(OrderedProductPK orderedProductPK, int quantity)
-    {
-        this.orderedProductPK = orderedProductPK;
+        this.orderHistory = orderHistory;
+        this.product = product;
         this.quantity = quantity;
+        this.dateCreated = dateCreated;
     }
 
-    public OrderedProduct(int customerOrderId, int productId)
+    public OrderedProduct(String orderId, String productId)
     {
-        this.orderedProductPK = new OrderedProductPK(customerOrderId, productId);
+        this.orderHistory = new OrderHistory(orderId);
+        this.product = new Product(productId);
+    }
+    
+    public OrderHistory getOrderHistory()
+    {
+        return orderHistory;
     }
 
-    public OrderedProductPK getOrderedProductPK()
+    public void setOrderHistory(OrderHistory orderHistory)
     {
-        return orderedProductPK;
-    }
-
-    public void setOrderedProductPK(OrderedProductPK orderedProductPK)
-    {
-        this.orderedProductPK = orderedProductPK;
-    }
-
-    public int getQuantity()
-    {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity)
-    {
-        this.quantity = quantity;
-    }
-
-    public CustomerOrder getCustomerOrder()
-    {
-        return customerOrder;
-    }
-
-    public void setCustomerOrder(CustomerOrder customerOrder)
-    {
-        this.customerOrder = customerOrder;
+        this.orderHistory = orderHistory;
     }
 
     public Product getProduct()
@@ -106,12 +55,33 @@ public class OrderedProduct implements Serializable
     {
         this.product = product;
     }
+    
+    public int getQuantity()
+    {
+        return quantity;
+    }
 
+    public void setQuantity(int quantity)
+    {
+        this.quantity = quantity;
+    }
+
+    public Timestamp getDateCreated()
+    {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Timestamp dateCreated)
+    {
+        this.dateCreated = dateCreated;
+    }
+    
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (orderedProductPK != null ? orderedProductPK.hashCode() : 0);
+        hash += (orderHistory.getId() != null ? orderHistory.getId().hashCode() : 0);
+        hash += (product.getId() != null ? product.getId().hashCode() : 0);
         return hash;
     }
 
@@ -124,7 +94,13 @@ public class OrderedProduct implements Serializable
             return false;
         }
         OrderedProduct other = (OrderedProduct) object;
-        if ((this.orderedProductPK == null && other.orderedProductPK != null) || (this.orderedProductPK != null && !this.orderedProductPK.equals(other.orderedProductPK)))
+        if ((this.orderHistory.getId() == null && other.getOrderHistory().getId() != null)
+                || (this.orderHistory.getId() != null && !this.orderHistory.getId().equals(other.getOrderHistory().getId())))
+        {
+            return false;
+        }
+        else if ((this.product.getId() == null && other.getProduct().getId() != null)
+                || (this.product.getId() != null && !this.product.getId().equals(other.getProduct().getId())))
         {
             return false;
         }
@@ -134,7 +110,7 @@ public class OrderedProduct implements Serializable
     @Override
     public String toString()
     {
-        return "entity.OrderedProduct[ orderedProductPK=" + orderedProductPK + " ]";
+        return "model.OrderedProduct[ orderId=" + orderHistory.getId() + ", productId=" + product.getId() + " ]";
     }
     
 }

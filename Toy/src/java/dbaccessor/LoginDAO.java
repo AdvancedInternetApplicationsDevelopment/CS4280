@@ -13,19 +13,19 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Category;
+import model.Login;
 
 /**
  *
  * @author Ninad
  */
 
-public class CategoryDAO
+public class LoginDAO
 {
     Connection conn;
     ResultSet rs;
     
-    public CategoryDAO()
+    public LoginDAO()
     {
         try
         {
@@ -34,58 +34,57 @@ public class CategoryDAO
         }
         catch (ClassNotFoundException ex)
         {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (InstantiationException ex)
         {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (IllegalAccessException ex)
         {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public List<Category> getAll()
+    public List<Login> getAll()
     {
-        List<Category> ret = new ArrayList<Category>();
+        List<Login> ret = new ArrayList<Login>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.category;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM mydb.login;").executeQuery();
             while(this.rs.next())
             {
-                Category cat = new Category();
-                cat.setId(this.rs.getInt("id"));
-                cat.setName(this.rs.getString("name"));
-                ret.add(cat);
+                Login login = new Login();
+                login.setIdlogin(this.rs.getString("idlogin"));
+                login.setIdpass(this.rs.getString("idpass"));
+                ret.add(login);
             }
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }
     
-    public Category getCategoryFromID(int id)
+    public Login getLoginFromID(String idlogin)
     {
-        Category ret = new Category();
+        Login ret = new Login();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.category"
-                    + "WHERE id = ?;");
-            ps.setInt(1, id);
-            this.rs = ps.executeQuery();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.login"
+                    + "WHERE idlogin = ?;");
+            ps.setString(1, idlogin);
             while(this.rs.next())
             {
-                Category cat = new Category();
-                cat.setId(this.rs.getInt("id"));
-                cat.setName(this.rs.getString("name"));
-                ret = cat;
+                Login login = new Login();
+                login.setIdlogin(this.rs.getString("idlogin"));
+                login.setIdpass(this.rs.getString("idpass"));
+                ret = login;
             }
         }
         catch (SQLException ex)

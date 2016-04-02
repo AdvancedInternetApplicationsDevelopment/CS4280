@@ -9,14 +9,16 @@ package model;
  *
  * @author Ninad
  */
+
 public class Category
 {
     private Integer id;
     private String name;
+    
     public Category()
     {
-        this.id = 0;
-        this.name = "";
+        id = 0;
+        name = "";
     }
 
     public Category(Integer id)
@@ -49,11 +51,11 @@ public class Category
     {
         this.name = name;
     }
-    
+
     @Override
     public int hashCode()
     {
-        int hash = 0;
+        Integer hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
@@ -77,6 +79,6 @@ public class Category
     @Override
     public String toString()
     {
-        return "entity.Category[ id=" + id + " ]";
+        return "model.Category[ id=" + id + " ]";
     }
 }

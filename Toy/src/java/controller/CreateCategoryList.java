@@ -39,7 +39,7 @@ public class CreateCategoryList extends HttpServlet
         PrintWriter out = response.getWriter();
         //String product = (String)request.getAttribute("product");
         CategoryDAO dao = new CategoryDAO();
-        List<Category> allCategories = dao.getAllCategory();
+        List<Category> allCategories = dao.getAll();
         //request.setAttribute("RelatedList", bean);
         out.print("<table border = '2' width = 'auto'>");
         out.print("<tr>");

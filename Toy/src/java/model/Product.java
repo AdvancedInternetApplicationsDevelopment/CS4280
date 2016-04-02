@@ -5,96 +5,67 @@
  */
 package model;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import java.sql.Timestamp;
 
 /**
  *
  * @author Ninad
  */
-@Entity
-@Table(name = "product")
-@XmlRootElement
-@NamedQueries(
-{
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
-    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
-    @NamedQuery(name = "Product.findByLastUpdate", query = "SELECT p FROM Product p WHERE p.lastUpdate = :lastUpdate")
-})
-public class Product implements Serializable
+public class Product
 {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @Column(name = "name")
+    private String id;
     private String name;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @Column(name = "price")
-    private BigDecimal price;
-    @Lob
-    @Column(name = "description")
+    private int price;
     private String description;
-    @Basic(optional = false)
-    @Column(name = "last_update")
-    @Temporal(TemporalType.DATE)
-    private Date lastUpdate;
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    private Timestamp lastUpdate;
+    private boolean new1;
+    private byte[] image;
+    private boolean approved;
     private Category categoryId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private Collection<OrderedProduct> orderedProductCollection;
-
     public Product()
     {
+        id = "";
+        name = "";
+        price = 0;
+        description = "";
+        new1 = false;
+        approved = false;
     }
 
-    public Product(Integer id)
+    public Product(String id)
     {
         this.id = id;
     }
-
-    public Product(Integer id, String name, BigDecimal price, Date lastUpdate)
+    
+    public Product(String id, String name, int price, Timestamp lastUpdate)
     {
         this.id = id;
         this.name = name;
         this.price = price;
         this.lastUpdate = lastUpdate;
     }
+    
+    public Product(String id, String name, int price, String description,
+            Timestamp lastUpdate, boolean new1, byte[] image, boolean approved, Category categoryId)
+    {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.lastUpdate = lastUpdate;
+        this.new1 = new1;
+        this.image = image;
+        this.approved = approved;
+        this.categoryId = categoryId;
+    }
 
-    public Integer getId()
+    public String getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(String id)
     {
         this.id = id;
     }
@@ -109,12 +80,12 @@ public class Product implements Serializable
         this.name = name;
     }
 
-    public BigDecimal getPrice()
+    public int getPrice()
     {
         return price;
     }
 
-    public void setPrice(BigDecimal price)
+    public void setPrice(int price)
     {
         this.price = price;
     }
@@ -129,14 +100,44 @@ public class Product implements Serializable
         this.description = description;
     }
 
-    public Date getLastUpdate()
+    public Timestamp getLastUpdate()
     {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate)
+    public void setLastUpdate(Timestamp lastUpdate)
     {
         this.lastUpdate = lastUpdate;
+    }
+
+    public boolean getNew1()
+    {
+        return new1;
+    }
+
+    public void setNew1(boolean new1)
+    {
+        this.new1 = new1;
+    }
+
+    public byte[] getImage()
+    {
+        return image;
+    }
+
+    public void setImage(byte[] image)
+    {
+        this.image = image;
+    }
+
+    public boolean getApproved()
+    {
+        return approved;
+    }
+
+    public void setApproved(boolean approved)
+    {
+        this.approved = approved;
     }
 
     public Category getCategoryId()
@@ -148,18 +149,7 @@ public class Product implements Serializable
     {
         this.categoryId = categoryId;
     }
-
-    @XmlTransient
-    public Collection<OrderedProduct> getOrderedProductCollection()
-    {
-        return orderedProductCollection;
-    }
-
-    public void setOrderedProductCollection(Collection<OrderedProduct> orderedProductCollection)
-    {
-        this.orderedProductCollection = orderedProductCollection;
-    }
-
+    
     @Override
     public int hashCode()
     {
@@ -187,7 +177,7 @@ public class Product implements Serializable
     @Override
     public String toString()
     {
-        return "entity.Product[ id=" + id + " ]";
+        return "model.Product[ id=" + id + " ]";
     }
     
 }
