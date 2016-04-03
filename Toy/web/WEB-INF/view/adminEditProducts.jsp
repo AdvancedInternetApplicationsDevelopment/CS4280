@@ -180,9 +180,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputSpecifications" class="col-sm-3 control-label">Specifications:</label>
+                                        <label for="inputCategory" class="col-sm-3 control-label">Category:</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputSpecifications" placeholder="Specifications">
+                                            <input type="text" class="form-control" id="inputCategory" placeholder="Category">
                                         </div>
                                     </div>
                                 <div class="form-group">
