@@ -4,9 +4,26 @@
         <servlet-name>CreateCategoryList</servlet-name>
         <servlet-class>controller.CreateCategoryList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>adminControllerServlet</servlet-name>
+        <servlet-class>controller.adminControllerServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreateCategoryList</servlet-name>
         <url-pattern>/CreateCategoryList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminControllerServlet</servlet-name>
+        <url-pattern>/adminAddProducts</url-pattern>
+        <url-pattern>/adminApprovals</url-pattern>
+        <url-pattern>/adminCustomer</url-pattern>
+        <url-pattern>/adminDashboard</url-pattern>
+        <url-pattern>/adminEditProducts</url-pattern>
+        <url-pattern>/adminProducts</url-pattern>
+        <url-pattern>/adminRecycledProducts</url-pattern>
+        <url-pattern>/adminTransactions</url-pattern>
+        <url-pattern>/adminViewRecycled</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
