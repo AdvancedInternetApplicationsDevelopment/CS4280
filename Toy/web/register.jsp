@@ -459,6 +459,18 @@
 						</div>
 					<!-- Conditions Panel Ends -->
 					</div>
+                                    <div class="col-sm-6">
+                                        <div class="panel-smart">
+                                            <div class="panel-heading">
+						<h3 class="panel-title">
+                                                    LOGIN 
+						</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <a href="/ToyStore/login.jsp">Click here for login page</a>
+                                            </div>
+                                        </div>
+                                    </div>
 				</div>
 			</section>
 		<!-- Registration Section Ends -->

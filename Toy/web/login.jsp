@@ -169,7 +169,7 @@
 								<p>
 									Registration allows you to explore the store with better experience
 								</p>
-								<a href="register.html" class="btn btn-danger">
+								<a href="/ToyStore/register.jsp" class="btn btn-danger">
 									Register
 								</a>
 							</div>
