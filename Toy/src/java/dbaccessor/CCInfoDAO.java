@@ -54,7 +54,7 @@ class CCInfoDAO
         List<CCInfo> ret = new ArrayList<CCInfo>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.customer;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM mydb.cc_info;").executeQuery();
             while(this.rs.next())
             {
                 CCInfo ccInfo = new CCInfo();
