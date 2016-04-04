@@ -14,6 +14,7 @@ public class Review
     private Customer customer;
     private Product product;
     private String comments;
+    private int star;
 
     public Review()
     {
@@ -61,6 +62,16 @@ public class Review
     public void setComments(String comments)
     {
         this.comments = comments;
+    }
+
+    public int getStar()
+    {
+        return star;
+    }
+
+    public void setStar(int star)
+    {
+        this.star = star;
     }
 
     @Override

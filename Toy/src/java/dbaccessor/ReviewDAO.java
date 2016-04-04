@@ -92,6 +92,7 @@ public class ReviewDAO
                 ProductDAO productDAO = new ProductDAO();
                 review.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
                 review.setComments(this.rs.getString("comments"));
+                review.setStar(this.rs.getInt("star"));
                 ret = review;
             }
         }
