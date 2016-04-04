@@ -32,6 +32,13 @@
     <servlet-mapping>
         <servlet-name>clientSideServlet</servlet-name>
         <url-pattern>/productDetails</url-pattern>
+        <url-pattern>/cart</url-pattern>
+        <url-pattern>/productList</url-pattern>
+        <url-pattern>/wishList</url-pattern>
+        <url-pattern>/compareProducts</url-pattern>
+        <url-pattern>/addRecycleProduct</url-pattern>
+        <url-pattern>/recycleProductList</url-pattern>
+        <url-pattern>/accountDetails</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -42,7 +42,7 @@ public class clientSideServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userPath = request.getServletPath();
-        String url = "/WEB-INF/view/clientSideView" + userPath + ".jsp";
+        String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
