@@ -61,13 +61,16 @@ public class ProductDAO
                 Product product = new Product();
                 product.setId(this.rs.getString("id"));
                 product.setName(this.rs.getString("name"));
-                product.setPrice(this.rs.getInt("price"));
+                product.setModelNum(this.rs.getString("model_num"));
                 product.setDescription(this.rs.getString("description"));
-                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getInt("price"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
-                product.setNew1(this.rs.getBoolean("new"));
+                product.setAddInfo(this.rs.getString("add_info"));
                 product.setImage(this.rs.getBytes("image"));
+                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setNew1(this.rs.getBoolean("new"));
                 product.setApproved(this.rs.getBoolean("approved"));
                 ret.add(product);
             }
@@ -93,13 +96,16 @@ public class ProductDAO
                 Product product = new Product();
                 product.setId(this.rs.getString("id"));
                 product.setName(this.rs.getString("name"));
-                product.setPrice(this.rs.getInt("price"));
+                product.setModelNum(this.rs.getString("model_num"));
                 product.setDescription(this.rs.getString("description"));
-                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getInt("price"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
-                product.setNew1(this.rs.getBoolean("new"));
+                product.setAddInfo(this.rs.getString("add_info"));
                 product.setImage(this.rs.getBytes("image"));
+                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setNew1(this.rs.getBoolean("new"));
                 product.setApproved(this.rs.getBoolean("approved"));
                 ret = product;
             }

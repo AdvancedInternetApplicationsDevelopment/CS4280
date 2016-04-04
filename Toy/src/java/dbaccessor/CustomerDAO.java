@@ -60,11 +60,19 @@ public class CustomerDAO
             {
                 Customer cus = new Customer();
                 cus.setEmail(this.rs.getString("email"));
-                cus.setName(this.rs.getString("name"));
+                cus.setFname(this.rs.getString("fname"));
+                cus.setLname(this.rs.getString("lname"));
                 cus.setPhone(this.rs.getString("phone"));
-                cus.setAddress(this.rs.getString("address"));
-                cus.setCityRegion(this.rs.getString("city_region"));
+                cus.setFax(this.rs.getString("fax"));
+                cus.setAddress1(this.rs.getString("address1"));
+                cus.setAddress2(this.rs.getString("address2"));
+                cus.setCity(this.rs.getString("city"));
+                cus.setPostal(this.rs.getString("postal"));
+                cus.setCountry(this.rs.getString("country"));
+                cus.setRegion(this.rs.getString("region"));
                 cus.setCcNumber(this.rs.getString("cc_number"));
+                CCInfoDAO ccInfoDAO = new CCInfoDAO();
+                cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
                 LoginDAO loginDAO = new LoginDAO();
                 cus.setLogin(loginDAO.getLoginFromID(this.rs.getString("email")));
                 ret.add(cus);
@@ -90,11 +98,19 @@ public class CustomerDAO
             {
                 Customer cus = new Customer();
                 cus.setEmail(this.rs.getString("email"));
-                cus.setName(this.rs.getString("name"));
+                cus.setFname(this.rs.getString("fname"));
+                cus.setLname(this.rs.getString("lname"));
                 cus.setPhone(this.rs.getString("phone"));
-                cus.setAddress(this.rs.getString("address"));
-                cus.setCityRegion(this.rs.getString("city_region"));
+                cus.setFax(this.rs.getString("fax"));
+                cus.setAddress1(this.rs.getString("address1"));
+                cus.setAddress2(this.rs.getString("address2"));
+                cus.setCity(this.rs.getString("city"));
+                cus.setPostal(this.rs.getString("postal"));
+                cus.setCountry(this.rs.getString("country"));
+                cus.setRegion(this.rs.getString("region"));
                 cus.setCcNumber(this.rs.getString("cc_number"));
+                CCInfoDAO ccInfoDAO = new CCInfoDAO();
+                cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
                 LoginDAO loginDAO = new LoginDAO();
                 cus.setLogin(loginDAO.getLoginFromID(this.rs.getString("email")));
                 ret = cus;

@@ -13,22 +13,28 @@ import java.sql.Timestamp;
  */
 public class Product
 {
-
     private String id;
     private String name;
-    private int price;
+    private String modelNum;
     private String description;
+    private boolean available;
+    private double price;
+    private String addInfo;
+    private byte[] image;
     private Timestamp lastUpdate;
     private boolean new1;
-    private byte[] image;
     private boolean approved;
     private Category categoryId;
+    
     public Product()
     {
         id = "";
         name = "";
-        price = 0;
+        modelNum = "";
         description = "";
+        available = false;
+        price = 0.0;
+        addInfo = "";
         new1 = false;
         approved = false;
     }
@@ -79,15 +85,15 @@ public class Product
     {
         this.name = name;
     }
-
-    public int getPrice()
+    
+    public String getModelNum()
     {
-        return price;
+        return modelNum;
     }
 
-    public void setPrice(int price)
+    public void setModelNum(String modelNum)
     {
-        this.price = price;
+        this.modelNum = modelNum;
     }
 
     public String getDescription()
@@ -99,7 +105,47 @@ public class Product
     {
         this.description = description;
     }
+    
+    public boolean isAvailable()
+    {
+        return available;
+    }
 
+    public void setAvailable(boolean available)
+    {
+        this.available = available;
+    }
+    
+    public double getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(double price)
+    {
+        this.price = price;
+    }
+    
+    public String getAddInfo()
+    {
+        return addInfo;
+    }
+
+    public void setAddInfo(String addInfo)
+    {
+        this.addInfo = addInfo;
+    }
+    
+    public byte[] getImage()
+    {
+        return image;
+    }
+
+    public void setImage(byte[] image)
+    {
+        this.image = image;
+    }
+    
     public Timestamp getLastUpdate()
     {
         return lastUpdate;
@@ -119,17 +165,7 @@ public class Product
     {
         this.new1 = new1;
     }
-
-    public byte[] getImage()
-    {
-        return image;
-    }
-
-    public void setImage(byte[] image)
-    {
-        this.image = image;
-    }
-
+    
     public boolean getApproved()
     {
         return approved;

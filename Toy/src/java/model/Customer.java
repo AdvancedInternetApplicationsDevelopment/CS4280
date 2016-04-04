@@ -12,35 +12,55 @@ package model;
 public class Customer
 {
     private String email;
-    private String name;
+    private String fname;
+    private String lname;
     private String phone;
-    private String address;
-    private String cityRegion;
+    private String fax;
+    private String address1;
+    private String address2;
+    private String city;
+    private String postal;
+    private String country;
+    private String region;
     private String ccNumber;
+    private CCInfo ccInfo;
     private Login login;
     
     public Customer()
     {
-        email = "";
-        name = "";
-        phone = "";
-        address = "";
-        cityRegion = "";
-        ccNumber = "";
+        this.email = "";
+        this.fname = "";
+        this.lname = "";
+        this.phone = "";
+        this.fax = "";
+        this.address1 = "";
+        this.address2 = "";
+        this.city = "";
+        this.postal = "";
+        this.country = "";
+        this.region = "";
     }
 
     public Customer(String email)
     {
         this.email = email;
     }
-
-    public Customer(String email, String name, String phone, String address, String cityRegion, String ccNumber)
+    
+    public Customer(String email, String fname, String lname, String phone,
+            String fax, String address1, String address2, String city, String postal,
+            String country, String region, String ccNumber)
     {
         this.email = email;
-        this.name = name;
+        this.fname = fname;
+        this.lname = lname;
         this.phone = phone;
-        this.address = address;
-        this.cityRegion = cityRegion;
+        this.fax = fax;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.city = city;
+        this.postal = postal;
+        this.country = country;
+        this.region = region;
         this.ccNumber = ccNumber;
     }
 
@@ -54,14 +74,24 @@ public class Customer
         this.email = email;
     }
 
-    public String getName()
+    public String getFname()
     {
-        return name;
+        return fname;
     }
 
-    public void setName(String name)
+    public void setFname(String fname)
     {
-        this.name = name;
+        this.fname = fname;
+    }
+
+    public String getLname()
+    {
+        return lname;
+    }
+
+    public void setLname(String lname)
+    {
+        this.lname = lname;
     }
 
     public String getPhone()
@@ -74,24 +104,74 @@ public class Customer
         this.phone = phone;
     }
 
-    public String getAddress()
+    public String getFax()
     {
-        return address;
+        return fax;
     }
 
-    public void setAddress(String address)
+    public void setFax(String fax)
     {
-        this.address = address;
+        this.fax = fax;
     }
 
-    public String getCityRegion()
+    public String getAddress1()
     {
-        return cityRegion;
+        return address1;
     }
 
-    public void setCityRegion(String cityRegion)
+    public void setAddress1(String address1)
     {
-        this.cityRegion = cityRegion;
+        this.address1 = address1;
+    }
+
+    public String getAddress2()
+    {
+        return address2;
+    }
+
+    public void setAddress2(String address2)
+    {
+        this.address2 = address2;
+    }
+
+    public String getCity()
+    {
+        return city;
+    }
+
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+
+    public String getPostal()
+    {
+        return postal;
+    }
+
+    public void setPostal(String postal)
+    {
+        this.postal = postal;
+    }
+
+    public String getCountry()
+    {
+        return country;
+    }
+
+    public void setCountry(String country)
+    {
+        this.country = country;
+    }
+
+    public String getRegion()
+    {
+        return region;
+    }
+
+    public void setRegion(String region)
+    {
+        this.region = region;
     }
 
     public String getCcNumber()
@@ -102,6 +182,16 @@ public class Customer
     public void setCcNumber(String ccNumber)
     {
         this.ccNumber = ccNumber;
+    }
+    
+    public CCInfo getCcInfo()
+    {
+        return ccInfo;
+    }
+
+    public void setCcInfo(CCInfo ccInfo)
+    {
+        this.ccInfo = ccInfo;
     }
 
     public Login getLogin()
