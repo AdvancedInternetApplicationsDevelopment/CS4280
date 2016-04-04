@@ -9,6 +9,10 @@
         <servlet-class>controller.adminControllerServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>clientSideServlet</servlet-name>
+        <servlet-class>controller.clientSideServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreateCategoryList</servlet-name>
         <url-pattern>/CreateCategoryList</url-pattern>
@@ -24,6 +28,10 @@
         <url-pattern>/adminRecycledProducts</url-pattern>
         <url-pattern>/adminTransactions</url-pattern>
         <url-pattern>/adminViewRecycled</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>clientSideServlet</servlet-name>
+        <url-pattern>/productDetails</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

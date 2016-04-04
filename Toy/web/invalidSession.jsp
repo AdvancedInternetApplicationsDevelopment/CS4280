@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login
-    Created on : Apr 3, 2016, 3:27:03 PM
+    Document   : invalidSession
+    Created on : Apr 4, 2016, 2:57:24 PM
     Author     : suhag
 --%>
 
@@ -17,7 +17,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Toy Store login</title>
+	<title>Toy Store</title>
 
 	<!-- Bootstrap Core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -27,6 +27,9 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
 	<!-- CSS Files -->
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
 	<!-- JavaScript Files -->
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery-migrate-1.2.1.min.js"></script>
@@ -35,55 +38,6 @@
 	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/custom.js"></script>
-	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
-	<link href="css/responsive.css" rel="stylesheet">
-	<script src="js/formValidation.js"></script>
-	<link href="css/formValidation.css" rel="stylesheet">
-	<script type="text/javascript" src="js/framework/bootstrap.js"></script>
-
-
-	<script type="text/javascript">
-	$(document).ready(function() {
-	    $('#loginForm')
-	        .formValidation({
-	            message: 'This value is not valid',
-	            //live: 'submitted',
-	            icon: {
-	                valid: 'glyphicon glyphicon-ok',
-	                invalid: 'glyphicon glyphicon-remove',
-	                validating: 'glyphicon glyphicon-refresh'
-	            },
-	            fields: {
-	                userName: {
-	                    validators: {
-	                        notEmpty: {
-	                            message: 'The email address is required and can\'t be empty'
-	                        },
-	                        emailAddress: {
-	                            message: 'The input is not a valid email address'
-	                        }
-	                    }
-	                },
-	                password: {
-	                    validators: {
-	                        notEmpty: {
-	                            message: 'The password is required and can\'t be empty'
-	                        }
-	                    }
-	                }
-	            }
-	        })
-	        .on('success.form.fv', function(e) {
-	            // Prevent submit form
-	            e.preventDefault();
-
-	            var $form     = $(e.target),
-	                validator = $form.data('formValidation');
-	            $form.find('.alert').html('Thanks for signing up. Now you can sign in as ' + validator.getFieldElements('username').val()).show();
-	        });
-	});
-	</script>
 
 	<!--[if lt IE 9]>
 		<script src="js/ie8-responsive-file-warning.js"></script>
@@ -96,11 +50,17 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+	<!-- Fav and touch icons -->
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/fav-144.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/fav-114.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/fav-72.png">
+	<link rel="apple-touch-icon-precomposed" href="images/fav-57.png">
+	<link rel="shortcut icon" href="images/fav.png">
 
 </head>
 <body>
 <!-- Wrapper Starts -->
-	<div id="wrapper" class="container" style="margin-top: 50px;">
+	<div id="wrapper" class="container">
 	<!-- Header Section Starts -->
 		<header id="header-area">
 		<!-- Nested Row Starts -->
@@ -111,74 +71,42 @@
 						<a href="index.html"><img src="images/logo.png" title="Grocery Shoppe" alt="Grocery Shoppe" class="img-responsive" /></a>
 					</div>
 				</div>
-			<!-- Logo Ends -->
-
 			</div>
 		<!-- Nested Row Ends -->
 		</header>
 	<!-- Header Section Ends -->
-
+	<!-- Main Menu Starts -->
+		<nav id="main-menu" class="navbar" role="navigation">
+		<!-- Nav Header Starts -->
+			<div class="navbar-header">
+				<button type="button" class="btn btn-navbar navbar-toggle" data-toggle="collapse" data-target=".navbar-cat-collapse">
+					<span class="sr-only">Toggle Navigation</span>
+					<i class="fa fa-bars"></i>
+				</button>
+			</div>
+		<!-- Nav Header Ends -->
+		<!-- Navbar Cat collapse Starts -->
+		</nav>
+	<!-- Main Menu Ends -->
 	<!-- Main Container Starts -->
 		<div id="main-container">
 		<!-- Main Heading Starts -->
 			<h2 class="main-heading text-center">
-				Login or create new account
+				Invalid Session
 			</h2>
 		<!-- Main Heading Ends -->
-		<!-- Login Form Section Starts -->
-			<section class="login-area">
-				<div class="row">
-					<div class="col-sm-6">
-					<!-- Login Panel Starts -->
-						<div class="panel panel-smart">
-							<div class="panel-heading">
-								<h3 class="panel-title">Login</h3>
-							</div>
-							<div class="panel-body">
-								<p>
-									Please login using your existing account
-								</p>
-							<!-- Login Form Starts -->
-								<form class="form-inline" role="form" id="loginForm" novalidate='novalidate'>
-									<div class="form-group">
-										<label class="sr-only" for="exampleInputEmail2">Username</label>
-										<input type="text" class="form-control" id="exampleInputEmail2" placeholder="Username" name="userName">
-									</div>
-									<div class="form-group">
-										<label class="sr-only" for="exampleInputPassword2">Password</label>
-										<input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" name="password">
-									</div>
-									<button type="submit" class="btn btn-danger disabled" disabled="disabled">
-										Login
-									</button>
-								</form>
-							<!-- Login Form Ends -->
-							</div>
-						</div>
-					<!-- Login Panel Ends -->
-					</div>
-					<div class="col-sm-6">
-					<!-- Account Panel Starts -->
-						<div class="panel panel-smart">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									Create new account
-								</h3>
-							</div>
-							<div class="panel-body">
-								<p>
-									Registration allows you to explore the store with better experience
-								</p>
-								<a href="/ToyStore/register.jsp" class="btn btn-danger">
-									Register
-								</a>
-							</div>
-						</div>
-					<!-- Account Panel Ends -->
-					</div>
-				</div>
-			</section>
-		<!-- Login Form Section Ends -->
+		<!-- Content Starts -->
+			<div class="content-box text-center">
+				<h4 class="special-heading">oops !</h4>
+				<h5>
+					Session has expired or breach in session error
+				</h5>
+				<br />
+				<p>
+					<a href="/ToyStore/login.jsp" class="btn btn-danger text-uppercase">Back to login</a>
+				</p>
+			</div>
+		<!-- Content Ends -->
 		</div>
 	<!-- Main Container Ends -->
 	<!-- Footer Section Starts -->
@@ -241,13 +169,13 @@
 		</footer>
 	<!-- Footer Section Ends -->
 	</div>
-<!-- Wrapper Ends -->
-<!-- Copyright Area Starts -->
+	<!-- Wrapper Ends -->
+	<!-- Copyright Area Starts -->
 	<div class="copyright container">
 		<div class="clearfix">
 		<!-- Starts -->
 			<p class="pull-left">
-				&copy; 2016 Toy Store. designed By <a href=#>Suhag Byaravalli Arun</a> and <a href=#>Ninand Tungare</a>
+				© 2016 Toy Store. designed By <a href="#">Suhag Byaravalli Arun</a> and <a href="#">Ninand Tungare</a>
 			</p>
 		<!-- Ends -->
 		</div>

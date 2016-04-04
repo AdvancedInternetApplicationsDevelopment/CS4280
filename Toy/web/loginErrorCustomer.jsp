@@ -155,7 +155,7 @@
 					<ul>
 						<li>My Company</li>
 						<li>
-							1247 LB Nagar Road, Hyderabad, Telangana - 35
+							22 cornwall Street, Kowloon Tong City University
 						</li>
 						<li>
 							Email: <a href="#">info@demolink.com</a>
