@@ -102,4 +102,25 @@ public class OrderedProductDAO
         }
         return ret;
     }
+    
+    public int getTotalQuantityFromProductID(String product_id)
+    {
+        int ret = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("SELECT SUM(quantity)"
+                    + "FROM mydb.ordered_product WHERE product_id = ?;");
+            ps.setString(1, product_id);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getInt("SUM(quantity)");
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
 }

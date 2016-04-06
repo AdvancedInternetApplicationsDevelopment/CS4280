@@ -102,4 +102,25 @@ public class ReviewDAO
         }
         return ret;
     }
+    
+    public int getAvgStarFromProductID(String product_id)
+    {
+        int ret = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("SELECT AVG(star)"
+                    + "from mydb.review WHERE product_id = ?;");
+            ps.setString(1, product_id);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getInt("AVG(star)");
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
 }

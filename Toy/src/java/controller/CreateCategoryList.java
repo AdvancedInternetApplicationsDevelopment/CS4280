@@ -6,7 +6,7 @@ package controller;
  * and open the template in the editor.
  */
 
-import dbaccessor.CategoryDAO;
+import dbaccessor.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -38,28 +38,21 @@ public class CreateCategoryList extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         //String product = (String)request.getAttribute("product");
-        CategoryDAO dao = new CategoryDAO();
-        List<Category> allCategories = dao.getAll();
+        OrderedProductDAO dao = new OrderedProductDAO();
+        int ret = dao.getTotalQuantityFromProductID("1");
         //request.setAttribute("RelatedList", bean);
         out.print("<table border = '2' width = 'auto'>");
         out.print("<tr>");
         out.print("<td>");
         out.print("ID");
         out.print("</td>");
-        out.print("<td>");
-        out.print("Name");
-        out.print("</td>");
         out.print("</tr>");
-        for(Category cat: allCategories)
         {
             out.print("<tr>");
             out.print("<td>");
-            out.print(cat.getId());
+            out.print(ret);
             out.print("</td>");
-            out.print("<td>");
-            out.print(cat.getName());
-            out.print("</td>");
-            out.print("<tr>");
+            out.print("</tr>");
         }
         out.print("</table>");
         out.close();
