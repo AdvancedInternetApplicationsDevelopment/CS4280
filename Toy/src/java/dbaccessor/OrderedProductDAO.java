@@ -64,7 +64,6 @@ public class OrderedProductDAO
                 order.setOrderHistory(orderHistoryDAO.getOrderHistoryFromID(this.rs.getString("order_id")));
                 ProductDAO productDAO = new ProductDAO();
                 order.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
-                order.setDateCreated(this.rs.getTimestamp("date_created"));
                 order.setQuantity(this.rs.getInt("quantity"));
                 ret.add(order);
             }
@@ -93,7 +92,6 @@ public class OrderedProductDAO
                 order.setOrderHistory(orderHistoryDAO.getOrderHistoryFromID(this.rs.getString("order_id")));
                 ProductDAO productDAO = new ProductDAO();
                 order.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
-                order.setDateCreated(this.rs.getTimestamp("date_created"));
                 order.setQuantity(this.rs.getInt("quantity"));
                 ret = order;
             }

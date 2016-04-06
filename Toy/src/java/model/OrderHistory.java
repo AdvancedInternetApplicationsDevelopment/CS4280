@@ -14,13 +14,16 @@ import java.sql.Timestamp;
 public class OrderHistory
 {
     private String id;
+    private Customer customerId;
     private Integer amount;
     private Timestamp dateCreated;
-    private Customer customerId;
+    private int discount;
+    
     public OrderHistory()
     {
-        id = "";
-        amount = 0;
+        this.id = "";
+        this.amount = 0;
+        this.discount = 0;
     }
 
     public OrderHistory(String id)
@@ -28,12 +31,13 @@ public class OrderHistory
         this.id = id;
     }
 
-    public OrderHistory(String id, Integer amount, Timestamp dateCreated, Customer customerId)
+    public OrderHistory(String id, Customer customerId, Integer amount, Timestamp dateCreated, int discount)
     {
         this.id = id;
+        this.customerId = customerId;
         this.amount = amount;
         this.dateCreated = dateCreated;
-        this.customerId = customerId;
+        this.discount = discount;
     }
 
     public String getId()
@@ -46,6 +50,16 @@ public class OrderHistory
         this.id = id;
     }
 
+    public Customer getCustomerId()
+    {
+        return customerId;
+    }
+
+    public void setCustomerId(Customer customerId)
+    {
+        this.customerId = customerId;
+    }
+    
     public Integer getAmount()
     {
         return amount;
@@ -61,21 +75,21 @@ public class OrderHistory
         return dateCreated;
     }
 
+    public int getDiscount()
+    {
+        return discount;
+    }
+
+    public void setDiscount(int discount)
+    {
+        this.discount = discount;
+    }
+
     public void setDateCreated(Timestamp dateCreated)
     {
         this.dateCreated = dateCreated;
     }
-
-    public Customer getCustomerId()
-    {
-        return customerId;
-    }
-
-    public void setCustomerId(Customer customerId)
-    {
-        this.customerId = customerId;
-    }
-
+    
     @Override
     public int hashCode()
     {

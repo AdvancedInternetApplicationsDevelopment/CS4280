@@ -60,10 +60,11 @@ public class OrderHistoryDAO
             {
                 OrderHistory order = new OrderHistory();
                 order.setId(this.rs.getString("id"));
-                order.setAmount(this.rs.getInt("amount"));
-                order.setDateCreated(this.rs.getTimestamp("date_created"));
                 CustomerDAO dao = new CustomerDAO();
                 order.setCustomerId(dao.getCustomerFromID(this.rs.getString("customer_id")));
+                order.setAmount(this.rs.getInt("amount"));
+                order.setDateCreated(this.rs.getTimestamp("date_created"));
+                order.setDiscount(this.rs.getInt("discount"));
                 ret.add(order);
             }
         }
@@ -86,10 +87,11 @@ public class OrderHistoryDAO
             {
                 OrderHistory order = new OrderHistory();
                 order.setId(this.rs.getString("id"));
-                order.setAmount(this.rs.getInt("amount"));
-                order.setDateCreated(this.rs.getTimestamp("date_created"));
                 CustomerDAO dao = new CustomerDAO();
                 order.setCustomerId(dao.getCustomerFromID(this.rs.getString("customer_id")));
+                order.setAmount(this.rs.getInt("amount"));
+                order.setDateCreated(this.rs.getTimestamp("date_created"));
+                order.setDiscount(this.rs.getInt("discount"));
                 ret = order;
             }
         }

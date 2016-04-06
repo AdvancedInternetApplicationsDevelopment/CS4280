@@ -5,8 +5,6 @@
  */
 package model;
 
-import java.sql.Timestamp;
-
 /**
  *
  * @author Ninad
@@ -16,18 +14,16 @@ public class OrderedProduct
     private OrderHistory orderHistory;
     private Product product;
     private int quantity;
-    private Timestamp dateCreated;
 
     public OrderedProduct()
     {
     }
 
-    public OrderedProduct(OrderHistory orderHistory, Product product, int quantity, Timestamp dateCreated)
+    public OrderedProduct(OrderHistory orderHistory, Product product, int quantity)
     {
         this.orderHistory = orderHistory;
         this.product = product;
         this.quantity = quantity;
-        this.dateCreated = dateCreated;
     }
 
     public OrderedProduct(String orderId, String productId)
@@ -64,16 +60,6 @@ public class OrderedProduct
     public void setQuantity(int quantity)
     {
         this.quantity = quantity;
-    }
-
-    public Timestamp getDateCreated()
-    {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Timestamp dateCreated)
-    {
-        this.dateCreated = dateCreated;
     }
     
     @Override

@@ -23,6 +23,7 @@ public class Customer
     private String country;
     private String region;
     private String ccNumber;
+    private int credits;
     private CCInfo ccInfo;
     private Login login;
     
@@ -39,16 +40,17 @@ public class Customer
         this.postal = "";
         this.country = "";
         this.region = "";
+        this.credits = 0;
     }
 
     public Customer(String email)
     {
         this.email = email;
     }
-    
+
     public Customer(String email, String fname, String lname, String phone,
             String fax, String address1, String address2, String city, String postal,
-            String country, String region, String ccNumber)
+            String country, String region, String ccNumber, int credits)
     {
         this.email = email;
         this.fname = fname;
@@ -62,8 +64,9 @@ public class Customer
         this.country = country;
         this.region = region;
         this.ccNumber = ccNumber;
+        this.credits = credits;
     }
-
+    
     public String getEmail()
     {
         return email;
@@ -182,6 +185,16 @@ public class Customer
     public void setCcNumber(String ccNumber)
     {
         this.ccNumber = ccNumber;
+    }
+
+    public int getCredits()
+    {
+        return credits;
+    }
+
+    public void setCredits(int credits)
+    {
+        this.credits = credits;
     }
     
     public CCInfo getCcInfo()

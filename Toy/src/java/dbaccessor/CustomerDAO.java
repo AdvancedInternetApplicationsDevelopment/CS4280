@@ -71,6 +71,7 @@ public class CustomerDAO
                 cus.setCountry(this.rs.getString("country"));
                 cus.setRegion(this.rs.getString("region"));
                 cus.setCcNumber(this.rs.getString("cc_number"));
+                cus.setCredits(this.rs.getInt("credits"));
                 CCInfoDAO ccInfoDAO = new CCInfoDAO();
                 cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
                 LoginDAO loginDAO = new LoginDAO();
@@ -109,6 +110,7 @@ public class CustomerDAO
                 cus.setCountry(this.rs.getString("country"));
                 cus.setRegion(this.rs.getString("region"));
                 cus.setCcNumber(this.rs.getString("cc_number"));
+                cus.setCredits(this.rs.getInt("credits"));
                 CCInfoDAO ccInfoDAO = new CCInfoDAO();
                 cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
                 LoginDAO loginDAO = new LoginDAO();

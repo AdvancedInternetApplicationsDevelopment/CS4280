@@ -68,6 +68,7 @@ CREATE TABLE `cc_info` (
 
 LOCK TABLES `cc_info` WRITE;
 /*!40000 ALTER TABLE `cc_info` DISABLE KEYS */;
+INSERT INTO `cc_info` VALUES ('1','email3@yahoo.com','2020-05-04',1),('2','email1@yahoo.com','2020-05-04',1),('3','email2@yahoo.com','2020-05-04',1);
 /*!40000 ALTER TABLE `cc_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,6 +92,7 @@ CREATE TABLE `customer` (
   `country` varchar(10) NOT NULL,
   `region` varchar(10) DEFAULT NULL,
   `cc_number` varchar(19) NOT NULL,
+  `credits` int(11) DEFAULT '0',
   PRIMARY KEY (`email`),
   UNIQUE KEY `unique` (`email`,`cc_number`),
   KEY `index` (`email`,`fname`,`lname`,`cc_number`),
@@ -105,7 +107,31 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` VALUES ('email1@yahoo.com','cus','one','1',NULL,'a','a','a','a','a','a','2',0),('email2@gmail.com','cus','two','1',NULL,'a','a','a','a','a','a','3',0),('email3@yahoo.com','cus','three','1',NULL,'a','a','a','a','a','a','1',0);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `discount`
+--
+
+DROP TABLE IF EXISTS `discount`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `discount` (
+  `discount_code` varchar(15) NOT NULL,
+  `amount` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`discount_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `discount`
+--
+
+LOCK TABLES `discount` WRITE;
+/*!40000 ALTER TABLE `discount` DISABLE KEYS */;
+/*!40000 ALTER TABLE `discount` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -129,6 +155,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
+INSERT INTO `login` VALUES ('email1@yahoo.com','a'),('email2@gmail.com','n'),('email3@yahoo.com','123');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,9 +168,10 @@ DROP TABLE IF EXISTS `order_history`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `order_history` (
   `id` varchar(40) NOT NULL,
+  `customer_id` varchar(25) NOT NULL,
   `amount` decimal(8,2) NOT NULL,
   `date_created` datetime NOT NULL,
-  `customer_id` varchar(25) NOT NULL,
+  `discount` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique` (`id`),
   KEY `index` (`id`,`customer_id`),
@@ -158,6 +186,7 @@ CREATE TABLE `order_history` (
 
 LOCK TABLES `order_history` WRITE;
 /*!40000 ALTER TABLE `order_history` DISABLE KEYS */;
+INSERT INTO `order_history` VALUES ('1','email3@yahoo.com',2000.00,'2016-07-04 00:00:00',0),('2','email1@yahoo.com',2000.00,'2016-07-04 00:00:00',0),('3','email2@gmail.com',5000.00,'2016-07-04 00:00:00',0);
 /*!40000 ALTER TABLE `order_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,11 +201,10 @@ CREATE TABLE `ordered_product` (
   `order_id` varchar(40) NOT NULL,
   `product_id` varchar(40) NOT NULL,
   `quantity` int(10) unsigned NOT NULL,
-  `date_created` datetime NOT NULL,
   PRIMARY KEY (`order_id`,`product_id`),
   KEY `fk_ordered_product_order_id_idx` (`order_id`),
   KEY `fk_ordered_product_product_idx` (`product_id`),
-  KEY `index` (`order_id`,`product_id`,`date_created`),
+  KEY `index` (`order_id`,`product_id`),
   CONSTRAINT `fk_ordered_product_order` FOREIGN KEY (`order_id`) REFERENCES `order_history` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ordered_product_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -188,6 +216,7 @@ CREATE TABLE `ordered_product` (
 
 LOCK TABLES `ordered_product` WRITE;
 /*!40000 ALTER TABLE `ordered_product` DISABLE KEYS */;
+INSERT INTO `ordered_product` VALUES ('1','1',5),('1','14',100),('1','16',15),('1','2',10),('2','1',7),('2','10',100),('2','12',20),('2','16',50),('2','7',25),('2','9',100),('3','1',15),('3','15',20),('3','16',23);
 /*!40000 ALTER TABLE `ordered_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,6 +285,7 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
+INSERT INTO `review` VALUES ('email1@yahoo.com','1','v',4),('email1@yahoo.com','15','hhhj',5),('email2@gmail.com','15','hjj',3),('email3@yahoo.com','1','A',5),('email3@yahoo.com','12','c',3),('email3@yahoo.com','15','b',4),('email3@yahoo.com','2','bb',3);
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -268,4 +298,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-04 20:50:03
+-- Dump completed on 2016-04-06 19:46:09
