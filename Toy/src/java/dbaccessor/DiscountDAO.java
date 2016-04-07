@@ -55,7 +55,7 @@ public class DiscountDAO
         List<Discount> ret = new ArrayList<Discount>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.discount;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM discount;").executeQuery();
             while(this.rs.next())
             {
                 Discount discount = new Discount();
@@ -76,8 +76,8 @@ public class DiscountDAO
         Discount ret = new Discount();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.discount"
-                    + "WHERE discount_code = ?;");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM discount"
+                    + " WHERE discount_code = ?;");
             ps.setString(1, code);
             while(this.rs.next())
             {

@@ -55,7 +55,7 @@ public class OrderedProductDAO
         List<OrderedProduct> ret = new ArrayList<OrderedProduct>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.ordered_product;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM ordered_product;").executeQuery();
             while(this.rs.next())
             {
                 OrderedProduct order = new OrderedProduct();
@@ -80,8 +80,8 @@ public class OrderedProductDAO
         OrderedProduct ret = new OrderedProduct();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.ordered_product"
-                    + "WHERE order_id = ? AND product_id = ?;");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM ordered_product"
+                    + " WHERE order_id = ? AND product_id = ?;");
             ps.setString(1, order_id);
             ps.setString(2, product_id);
             while(this.rs.next())
@@ -109,7 +109,7 @@ public class OrderedProductDAO
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT SUM(quantity)"
-                    + "FROM mydb.ordered_product WHERE product_id = ?;");
+                    + " FROM ordered_product WHERE product_id = ?;");
             ps.setString(1, product_id);
             this.rs = ps.executeQuery();
             while(this.rs.next())

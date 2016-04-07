@@ -55,7 +55,7 @@ public class OrderHistoryDAO
         List<OrderHistory> ret = new ArrayList<OrderHistory>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.order_history;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM order_history;").executeQuery();
             while(this.rs.next())
             {
                 OrderHistory order = new OrderHistory();
@@ -80,8 +80,8 @@ public class OrderHistoryDAO
         OrderHistory ret = new OrderHistory();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.order_history"
-                    + "WHERE id = ?;");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM order_history"
+                    + " WHERE id = ?;");
             ps.setString(1, id);
             while(this.rs.next())
             {

@@ -55,7 +55,7 @@ public class CategoryDAO
         List<Category> ret = new ArrayList<Category>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.category;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM category;").executeQuery();
             while(this.rs.next())
             {
                 Category cat = new Category();
@@ -76,8 +76,8 @@ public class CategoryDAO
         Category ret = new Category();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.category"
-                    + "WHERE id = ?;");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM category"
+                    + " WHERE id = ?;");
             ps.setInt(1, id);
             this.rs = ps.executeQuery();
             while(this.rs.next())

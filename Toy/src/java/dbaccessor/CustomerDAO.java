@@ -55,7 +55,7 @@ public class CustomerDAO
         List<Customer> ret = new ArrayList<Customer>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.customer;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM customer;").executeQuery();
             while(this.rs.next())
             {
                 Customer cus = new Customer();
@@ -91,8 +91,8 @@ public class CustomerDAO
         Customer ret = new Customer();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.customer"
-                    + "WHERE email = ?;");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM customer"
+                    + " WHERE email = ?;");
             ps.setString(1, email);
             this.rs = ps.executeQuery();
             while(this.rs.next())

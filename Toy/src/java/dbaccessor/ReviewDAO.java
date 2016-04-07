@@ -55,7 +55,7 @@ public class ReviewDAO
         List<Review> ret = new ArrayList<Review>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.review;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM review;").executeQuery();
             while(this.rs.next())
             {
                 Review review = new Review();
@@ -79,8 +79,8 @@ public class ReviewDAO
         Review ret = new Review();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.review"
-                    + "WHERE customer_id = ? AND product_id = ?;");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM review"
+                    + " WHERE customer_id = ? AND product_id = ?;");
             ps.setString(1, customer_id);
             ps.setString(2, product_id);
             this.rs = ps.executeQuery();
@@ -109,7 +109,7 @@ public class ReviewDAO
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT AVG(star)"
-                    + "from mydb.review WHERE product_id = ?;");
+                    + " FROM review WHERE product_id = ?;");
             ps.setString(1, product_id);
             this.rs = ps.executeQuery();
             while(this.rs.next())

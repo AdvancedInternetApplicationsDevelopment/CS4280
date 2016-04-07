@@ -54,7 +54,7 @@ class CCInfoDAO
         List<CCInfo> ret = new ArrayList<CCInfo>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.cc_info;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM cc_info;").executeQuery();
             while(this.rs.next())
             {
                 CCInfo ccInfo = new CCInfo();
@@ -77,8 +77,8 @@ class CCInfoDAO
         CCInfo ret = new CCInfo();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.cc_info"
-                    + "WHERE cc_email = ?;");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM cc_info"
+                    + " WHERE cc_email = ?;");
             ps.setString(1, email);
             this.rs = ps.executeQuery();
             while(this.rs.next())

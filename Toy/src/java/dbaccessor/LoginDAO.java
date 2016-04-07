@@ -55,7 +55,7 @@ public class LoginDAO
         List<Login> ret = new ArrayList<Login>();
         try
         {
-            this.rs = conn.prepareStatement("SELECT * FROM mydb.login;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM login;").executeQuery();
             while(this.rs.next())
             {
                 Login login = new Login();
@@ -76,8 +76,8 @@ public class LoginDAO
         Login ret = new Login();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM mydb.login"
-                    + "WHERE idlogin = ?;");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM login"
+                    + " WHERE idlogin = ?;");
             ps.setString(1, idlogin);
             while(this.rs.next())
             {

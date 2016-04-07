@@ -38,8 +38,8 @@ public class CreateCategoryList extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         //String product = (String)request.getAttribute("product");
-        OrderedProductDAO dao = new OrderedProductDAO();
-        int ret = dao.getTotalQuantityFromProductID("1");
+        ProductDAO dao = new ProductDAO();
+        String ret = dao.getProductFromName("mil").getName();
         //request.setAttribute("RelatedList", bean);
         out.print("<table border = '2' width = 'auto'>");
         out.print("<tr>");
