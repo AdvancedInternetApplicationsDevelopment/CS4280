@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.sql.Blob;
+
 /**
  *
  * @author Ninad
@@ -12,9 +14,9 @@ package model;
 public class ProductImage
 {
     private String id;
-    private byte[] image;
+    private Blob image;
 
-    public ProductImage(String id, byte[] image)
+    public ProductImage(String id, Blob image)
     {
         this.id = id;
         this.image = image;
@@ -35,14 +37,13 @@ public class ProductImage
         this.id = id;
     }
 
-    public byte[] getImage()
+    public Blob getImage()
     {
         return image;
     }
 
-    public void setImage(byte[] image)
+    public void setImage(Blob image)
     {
         this.image = image;
     }
-    
 }

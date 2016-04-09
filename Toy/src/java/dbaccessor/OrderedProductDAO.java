@@ -50,6 +50,18 @@ public class OrderedProductDAO
         }
     }
     
+    public void closeDB()
+    {
+        try
+        {
+            conn.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public List<OrderedProduct> getAll()
     {
         List<OrderedProduct> ret = new ArrayList<OrderedProduct>();

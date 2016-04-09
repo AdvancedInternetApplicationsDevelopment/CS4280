@@ -50,6 +50,18 @@ public class DiscountDAO
         }
     }
     
+    public void closeDB()
+    {
+        try
+        {
+            conn.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public List<Discount> getAll()
     {
         List<Discount> ret = new ArrayList<Discount>();

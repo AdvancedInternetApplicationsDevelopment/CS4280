@@ -50,6 +50,18 @@ public class CategoryDAO
         }
     }
     
+    public void closeDB()
+    {
+        try
+        {
+            conn.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public List<Category> getAll()
     {
         List<Category> ret = new ArrayList<Category>();

@@ -50,6 +50,18 @@ public class LoginDAO
         }
     }
     
+    public void closeDB()
+    {
+        try
+        {
+            conn.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public List<Login> getAll()
     {
         List<Login> ret = new ArrayList<Login>();

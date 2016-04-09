@@ -49,6 +49,18 @@ class CCInfoDAO
         }
     }
     
+    public void closeDB()
+    {
+        try
+        {
+            conn.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public List<CCInfo> getAll()
     {
         List<CCInfo> ret = new ArrayList<CCInfo>();

@@ -50,6 +50,18 @@ public class ReviewDAO
         }
     }
     
+    public void closeDB()
+    {
+        try
+        {
+            conn.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public List<Review> getAll()
     {
         List<Review> ret = new ArrayList<Review>();

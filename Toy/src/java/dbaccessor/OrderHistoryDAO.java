@@ -50,6 +50,18 @@ public class OrderHistoryDAO
         }
     }
     
+    public void closeDB()
+    {
+        try
+        {
+            conn.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public List<OrderHistory> getAll()
     {
         List<OrderHistory> ret = new ArrayList<OrderHistory>();
