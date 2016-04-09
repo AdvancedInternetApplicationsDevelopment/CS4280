@@ -16,15 +16,17 @@ public class Product
     private String id;
     private String name;
     private String modelNum;
-    private String description;
+    private Category categoryId;
+    private int quantity;
     private boolean available;
     private double price;
+    private String brand;
+    private String description;
     private String addInfo;
-    private byte[] image;
     private Timestamp lastUpdate;
     private boolean new1;
     private boolean approved;
-    private Category categoryId;
+    private String owner;
     
     public Product()
     {
@@ -43,27 +45,26 @@ public class Product
     {
         this.id = id;
     }
-    
-    public Product(String id, String name, int price, Timestamp lastUpdate)
+
+    public Product(String id, String name, String modelNum, Category categoryId,
+            int quantity, boolean available, double price, String brand,
+            String description, String addInfo, Timestamp lastUpdate, boolean new1,
+            boolean approved, String owner)
     {
         this.id = id;
         this.name = name;
+        this.modelNum = modelNum;
+        this.categoryId = categoryId;
+        this.quantity = quantity;
+        this.available = available;
         this.price = price;
-        this.lastUpdate = lastUpdate;
-    }
-    
-    public Product(String id, String name, int price, String description,
-            Timestamp lastUpdate, boolean new1, byte[] image, boolean approved, Category categoryId)
-    {
-        this.id = id;
-        this.name = name;
-        this.price = price;
+        this.brand = brand;
         this.description = description;
+        this.addInfo = addInfo;
         this.lastUpdate = lastUpdate;
         this.new1 = new1;
-        this.image = image;
         this.approved = approved;
-        this.categoryId = categoryId;
+        this.owner = owner;
     }
 
     public String getId()
@@ -85,7 +86,7 @@ public class Product
     {
         this.name = name;
     }
-    
+
     public String getModelNum()
     {
         return modelNum;
@@ -94,86 +95,6 @@ public class Product
     public void setModelNum(String modelNum)
     {
         this.modelNum = modelNum;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-    
-    public boolean isAvailable()
-    {
-        return available;
-    }
-
-    public void setAvailable(boolean available)
-    {
-        this.available = available;
-    }
-    
-    public double getPrice()
-    {
-        return price;
-    }
-
-    public void setPrice(double price)
-    {
-        this.price = price;
-    }
-    
-    public String getAddInfo()
-    {
-        return addInfo;
-    }
-
-    public void setAddInfo(String addInfo)
-    {
-        this.addInfo = addInfo;
-    }
-    
-    public byte[] getImage()
-    {
-        return image;
-    }
-
-    public void setImage(byte[] image)
-    {
-        this.image = image;
-    }
-    
-    public Timestamp getLastUpdate()
-    {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Timestamp lastUpdate)
-    {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public boolean getNew1()
-    {
-        return new1;
-    }
-
-    public void setNew1(boolean new1)
-    {
-        this.new1 = new1;
-    }
-    
-    public boolean getApproved()
-    {
-        return approved;
-    }
-
-    public void setApproved(boolean approved)
-    {
-        this.approved = approved;
     }
 
     public Category getCategoryId()
@@ -185,6 +106,108 @@ public class Product
     {
         this.categoryId = categoryId;
     }
+
+    public int getQuantity()
+    {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity)
+    {
+        this.quantity = quantity;
+    }
+
+    public boolean isAvailable()
+    {
+        return available;
+    }
+
+    public void setAvailable(boolean available)
+    {
+        this.available = available;
+    }
+
+    public double getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(double price)
+    {
+        this.price = price;
+    }
+
+    public String getBrand()
+    {
+        return brand;
+    }
+
+    public void setBrand(String brand)
+    {
+        this.brand = brand;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public String getAddInfo()
+    {
+        return addInfo;
+    }
+
+    public void setAddInfo(String addInfo)
+    {
+        this.addInfo = addInfo;
+    }
+
+    public Timestamp getLastUpdate()
+    {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Timestamp lastUpdate)
+    {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public boolean isNew1()
+    {
+        return new1;
+    }
+
+    public void setNew1(boolean new1)
+    {
+        this.new1 = new1;
+    }
+
+    public boolean isApproved()
+    {
+        return approved;
+    }
+
+    public void setApproved(boolean approved)
+    {
+        this.approved = approved;
+    }
+
+    public String getOwner()
+    {
+        return owner;
+    }
+
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+    }
+    
+    
     
     @Override
     public int hashCode()

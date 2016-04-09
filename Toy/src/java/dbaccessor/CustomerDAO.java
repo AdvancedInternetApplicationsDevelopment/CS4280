@@ -124,4 +124,23 @@ public class CustomerDAO
         }
         return ret;
     }
+    
+    public int getNoOfUsers()
+    {
+        int ret = 0;
+        try
+        {
+            this.rs = conn.prepareStatement("SELECT COUNT(*)"
+                    + " as num FROM customer;").executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getInt("num");
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
 }

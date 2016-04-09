@@ -123,4 +123,23 @@ public class OrderedProductDAO
         }
         return ret;
     }
+    
+    public int getTotalQuantityOfProductSold()
+    {
+        int ret = 0;
+        try
+        {
+            this.rs = conn.prepareStatement("SELECT SUM(quantity) as total"
+                    + " FROM ordered_product;").executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getInt("total");
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
 }

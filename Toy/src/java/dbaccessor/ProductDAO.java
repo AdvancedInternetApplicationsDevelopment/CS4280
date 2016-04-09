@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Product;
+import model.ProductImage;
 
 /**
  *
@@ -62,16 +63,19 @@ public class ProductDAO
                 product.setId(this.rs.getString("id"));
                 product.setName(this.rs.getString("name"));
                 product.setModelNum(this.rs.getString("model_num"));
-                product.setDescription(this.rs.getString("description"));
-                product.setAvailable(this.rs.getBoolean("available"));
-                product.setPrice(this.rs.getInt("price"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getInt("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
                 product.setAddInfo(this.rs.getString("add_info"));
-                product.setImage(this.rs.getBytes("image"));
                 product.setLastUpdate(this.rs.getTimestamp("last_update"));
                 product.setNew1(this.rs.getBoolean("new"));
                 product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
+                
                 ret.add(product);
             }
         }
@@ -97,16 +101,18 @@ public class ProductDAO
                 product.setId(this.rs.getString("id"));
                 product.setName(this.rs.getString("name"));
                 product.setModelNum(this.rs.getString("model_num"));
-                product.setDescription(this.rs.getString("description"));
-                product.setAvailable(this.rs.getBoolean("available"));
-                product.setPrice(this.rs.getInt("price"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getInt("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
                 product.setAddInfo(this.rs.getString("add_info"));
-                product.setImage(this.rs.getBytes("image"));
                 product.setLastUpdate(this.rs.getTimestamp("last_update"));
                 product.setNew1(this.rs.getBoolean("new"));
                 product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
                 ret = product;
             }
         }
@@ -156,16 +162,115 @@ public class ProductDAO
                 product.setId(this.rs.getString("id"));
                 product.setName(this.rs.getString("name"));
                 product.setModelNum(this.rs.getString("model_num"));
-                product.setDescription(this.rs.getString("description"));
-                product.setAvailable(this.rs.getBoolean("available"));
-                product.setPrice(this.rs.getInt("price"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getInt("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
                 product.setAddInfo(this.rs.getString("add_info"));
-                product.setImage(this.rs.getBytes("image"));
                 product.setLastUpdate(this.rs.getTimestamp("last_update"));
                 product.setNew1(this.rs.getBoolean("new"));
                 product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
+                ret = product;
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public ProductImage getImageByID(String id)
+    {
+        ProductImage ret = new ProductImage();
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM product"
+                        + " WHERE id = ?;");
+                ps.setString(1, id);
+                this.rs = ps.executeQuery();
+                while(this.rs.next())
+                {
+                    ProductImage product = new ProductImage();
+                    product.setId(this.rs.getString("id"));
+                    product.setImage(this.rs.getBytes("image"));
+                    ret = product;
+                }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public List<Product> getAllPending()
+    {
+        List<Product> ret = new ArrayList<Product>();
+        try
+        {
+            this.rs = conn.prepareStatement("SELECT * FROM product"
+                    + " WHERE product.new = 0;").executeQuery();
+            while(this.rs.next())
+            {
+                Product product = new Product();
+                product.setId(this.rs.getString("id"));
+                product.setName(this.rs.getString("name"));
+                product.setModelNum(this.rs.getString("model_num"));
+                CategoryDAO categoryDAO = new CategoryDAO();
+                product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getInt("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
+                product.setAddInfo(this.rs.getString("add_info"));
+                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setNew1(this.rs.getBoolean("new"));
+                product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
+                
+                ret.add(product);
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public Product getLatestPending()
+    {
+        Product ret = new Product();
+        try
+        {
+            this.rs = conn.prepareStatement("SELECT * FROM product"
+                    + " WHERE product.new = 1"
+                    + " ORDER BY last_update DESC"
+                    + " LIMIT 1;").executeQuery();
+            while(this.rs.next())
+            {
+                Product product = new Product();
+                product.setId(this.rs.getString("id"));
+                product.setName(this.rs.getString("name"));
+                product.setModelNum(this.rs.getString("model_num"));
+                CategoryDAO categoryDAO = new CategoryDAO();
+                product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getInt("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
+                product.setAddInfo(this.rs.getString("add_info"));
+                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setNew1(this.rs.getBoolean("new"));
+                product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
                 ret = product;
             }
         }

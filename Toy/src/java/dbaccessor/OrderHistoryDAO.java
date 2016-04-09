@@ -65,6 +65,7 @@ public class OrderHistoryDAO
                 order.setAmount(this.rs.getInt("amount"));
                 order.setDateCreated(this.rs.getTimestamp("date_created"));
                 order.setDiscount(this.rs.getInt("discount"));
+                order.setCredit(this.rs.getInt("credit"));
                 ret.add(order);
             }
         }
@@ -92,12 +93,40 @@ public class OrderHistoryDAO
                 order.setAmount(this.rs.getInt("amount"));
                 order.setDateCreated(this.rs.getTimestamp("date_created"));
                 order.setDiscount(this.rs.getInt("discount"));
+                order.setCredit(this.rs.getInt("credit"));
                 ret = order;
             }
         }
         catch (SQLException ex)
         {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public List<OrderHistory> getLatest()
+    {
+        List<OrderHistory> ret = new ArrayList<OrderHistory>();
+        try
+        {
+            this.rs = conn.prepareStatement("SELECT * FROM order_history"
+                    + " ORDER BY date_created DESC LIMIT 8;").executeQuery();
+            while(this.rs.next())
+            {
+                OrderHistory order = new OrderHistory();
+                order.setId(this.rs.getString("id"));
+                CustomerDAO dao = new CustomerDAO();
+                order.setCustomerId(dao.getCustomerFromID(this.rs.getString("customer_id")));
+                order.setAmount(this.rs.getInt("amount"));
+                order.setDateCreated(this.rs.getTimestamp("date_created"));
+                order.setDiscount(this.rs.getInt("discount"));
+                order.setCredit(this.rs.getInt("credit"));
+                ret.add(order);
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(OrderHistoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }

@@ -18,12 +18,14 @@ public class OrderHistory
     private Integer amount;
     private Timestamp dateCreated;
     private int discount;
+    private int credit;
     
     public OrderHistory()
     {
         this.id = "";
         this.amount = 0;
         this.discount = 0;
+        this.credit = 0;
     }
 
     public OrderHistory(String id)
@@ -31,13 +33,15 @@ public class OrderHistory
         this.id = id;
     }
 
-    public OrderHistory(String id, Customer customerId, Integer amount, Timestamp dateCreated, int discount)
+    public OrderHistory(String id, Customer customerId, Integer amount,
+            Timestamp dateCreated, int discount, int credit)
     {
         this.id = id;
         this.customerId = customerId;
         this.amount = amount;
         this.dateCreated = dateCreated;
         this.discount = discount;
+        this.credit = credit;
     }
 
     public String getId()
@@ -88,6 +92,16 @@ public class OrderHistory
     public void setDateCreated(Timestamp dateCreated)
     {
         this.dateCreated = dateCreated;
+    }
+
+    public int getCredit()
+    {
+        return credit;
+    }
+
+    public void setCredit(int credit)
+    {
+        this.credit = credit;
     }
     
     @Override
