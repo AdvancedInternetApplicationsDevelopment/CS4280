@@ -96,6 +96,7 @@ public class OrderedProductDAO
                     + " WHERE order_id = ? AND product_id = ?;");
             ps.setString(1, order_id);
             ps.setString(2, product_id);
+            this.rs = ps.executeQuery();
             while(this.rs.next())
             {
                 OrderedProduct order = new OrderedProduct();

@@ -96,6 +96,7 @@ public class OrderHistoryDAO
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM order_history"
                     + " WHERE id = ?;");
             ps.setString(1, id);
+            this.rs = ps.executeQuery();
             while(this.rs.next())
             {
                 OrderHistory order = new OrderHistory();

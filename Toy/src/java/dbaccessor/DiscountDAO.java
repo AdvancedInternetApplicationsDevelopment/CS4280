@@ -83,7 +83,7 @@ public class DiscountDAO
         return ret;
     }
     
-    public Discount getLoginFromID(String code)
+    public Discount getDiscountFromID(String code)
     {
         Discount ret = new Discount();
         try
@@ -91,6 +91,7 @@ public class DiscountDAO
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM discount"
                     + " WHERE discount_code = ?;");
             ps.setString(1, code);
+            this.rs = ps.executeQuery();
             while(this.rs.next())
             {
                 Discount discount = new Discount();

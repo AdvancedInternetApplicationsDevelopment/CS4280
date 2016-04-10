@@ -91,6 +91,7 @@ public class LoginDAO
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM login"
                     + " WHERE idlogin = ?;");
             ps.setString(1, idlogin);
+            this.rs = ps.executeQuery();
             while(this.rs.next())
             {
                 Login login = new Login();
