@@ -124,9 +124,9 @@ public class CustomerDAO
                 cus.setCcNumber(this.rs.getString("cc_number"));
                 cus.setCredits(this.rs.getInt("credits"));
                 CCInfoDAO ccInfoDAO = new CCInfoDAO();
-                cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
-                LoginDAO loginDAO = new LoginDAO();
-                cus.setLogin(loginDAO.getLoginFromID(this.rs.getString("email")));
+//                cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
+//                LoginDAO loginDAO = new LoginDAO();
+//                cus.setLogin(loginDAO.getLoginFromID(this.rs.getString("email")));
                 ret = cus;
             }
         }

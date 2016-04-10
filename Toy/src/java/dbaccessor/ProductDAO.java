@@ -282,7 +282,7 @@ public class ProductDAO
         try
         {
             this.rs = conn.prepareStatement("SELECT * FROM product"
-                    + " WHERE product.new = 1"
+                    + " WHERE product.new = 0"
                     + " ORDER BY last_update DESC"
                     + " LIMIT 1;").executeQuery();
             while(this.rs.next())

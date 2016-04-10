@@ -13,6 +13,10 @@
         <servlet-name>clientSideServlet</servlet-name>
         <servlet-class>controller.clientSideServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getImage</servlet-name>
+        <servlet-class>controller.getImage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreateCategoryList</servlet-name>
         <url-pattern>/CreateCategoryList</url-pattern>
@@ -28,6 +32,7 @@
         <url-pattern>/adminRecycledProducts</url-pattern>
         <url-pattern>/adminTransactions</url-pattern>
         <url-pattern>/adminViewRecycled</url-pattern>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>clientSideServlet</servlet-name>
@@ -41,6 +46,10 @@
         <url-pattern>/accountDetails</url-pattern>
         <url-pattern>/orderConfirmation</url-pattern>
         <url-pattern>/orderHistory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getImage</servlet-name>
+        <url-pattern>/getImage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

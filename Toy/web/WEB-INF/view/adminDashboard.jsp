@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.lang.String, java.lang.StringBuffer" %> 
+<%@page import="javax.naming.Context, javax.naming.InitialContext" %> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,7 +63,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Admin Console</a>
+                <a class="navbar-brand" href="/ToyStore/adminDashboard">Admin Console</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -79,7 +81,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="/ToyStore/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -139,12 +141,12 @@
                                         <i class="fa fa-fw fa-user fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">26</div>
+                                        <div class="huge">${noOfUsers}</div>
                                         <div>Number of Users</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="adminCustomer.html">
+                            <a href="/ToyStore/adminCustomer">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -161,12 +163,12 @@
                                         <i class="fa fa-tasks fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
+                                        <div class="huge">${pendingApprovals}</div>
                                         <div>Pending Approvals</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="adminApprovals.html">
+                            <a href="/ToyStore/adminApprovals">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -183,12 +185,12 @@
                                         <i class="fa fa-shopping-cart fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
+                                        <div class="huge">${productsSold}</div>
                                         <div>Products sold</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="adminTransactions.html">
+                            <a href="/ToyStore/adminTransactions">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -205,12 +207,12 @@
                                         <i class="fa fa-support fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">10</div>
+                                        <div class="huge">${totalNoOfProducts}</div>
                                         <div>Total Number of Products</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="adminProducts.html">
+                            <a href="/ToyStore/adminProducts">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -232,33 +234,35 @@
                                     <!-- Product #1 Starts -->
                                         <div class="col-xs-12">
                                             <div class="product-col list clearfix" style=" padding: 15px 15px 10px;  margin-bottom: 20px; background: #fff; border: 1px solid #e8e8e8;">
-                                                <div class="image" style="float: left; padding: 20px 30px 10px 0;">
-                                                    <img src="images/product-images/2.jpg" alt="product" class="img-responsive" />
-                                                </div>
-                                                <div class="caption" style="color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif;padding: 20px 0;">
-                                                    <h4 style="color: #252a2f; font-weight: bold; font-size: 16px; text-transform: uppercase;"><a style= "color: #252a2f;"href="product-full.html">Simply Organic Seeds</a></h4>
-                                                    <div class="description" style=" padding-right: 20px; padding: 5px 0;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; line-height: 18px; text-align: justify;">
-                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                                <c:if test="${!empty latestApprovalItem}">
+                                                    <div class="image" style="float: left; padding: 20px 30px 10px 0;">
+                                                        <img src="/ToyStore/getImage?productId=${latestApprovalItem.id}" alt="product" class="img-responsive" />
                                                     </div>
-                                                    <div class="price" style=" color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; padding: 10px 0;">
-                                                        <p class="product-owner" style=" font-size: 14px; color: #2f353b;">Product Owner: suhagba@gmail.com</p>
-                                                        <span class="price-new" style=" color: #ef4135; font-size: 24px;padding-right: 5px;">$199.50</span>
-                                                        <span class="price-old" style =" font-size: 18px; color: #808080;text-decoration: line-through;">$249.50</span>
+                                                    <div class="caption" style="color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif;padding: 20px 0;">
+                                                        <h4 style="color: #252a2f; font-weight: bold; font-size: 16px; text-transform: uppercase;"><a style= "color: #252a2f;"href="product-full.html">${latestApprovalItem.name}</a></h4>
+                                                        <div class="description" style=" padding-right: 20px; padding: 5px 0;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; line-height: 18px; text-align: justify;">
+                                                            ${latestApprovalItem.description}
+                                                        </div>
+                                                        <div class="price" style=" color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; padding: 10px 0;">
+                                                            <p class="product-owner" style=" font-size: 14px; color: #2f353b;">Product Owner: ${latestApprovalItem.owner}</p>
+                                                            <span class="price-new" style=" color: #ef4135; font-size: 24px;padding-right: 5px;">${latestApprovalItem.price}</span>
+                                                        </div>
+                                                        <div class="cart-button button-group" style="padding-top:10px">
+                                                            
+                                                            <button type="button" class="btn btn-cart" style="font-size: 14px;color: #fff;text-transform: uppercase;">
+                                                                approve
+                                                                <i class="fa fa-check" style="margin-right: 5px;"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <div class="cart-button button-group" style="padding-top:10px">
-                                                        <button type="button" class="btn btn-cart" style="font-size: 14px;color: #fff;text-transform: uppercase;">
-                                                            approve
-                                                            <i class="fa fa-check" style="margin-right: 5px;"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                                </c:if>
                                             </div>
                                         </div>
                                     <!-- Product #1 Ends -->
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <a href="adminApprovals.html">View All Approvals <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="/ToyStore/adminApprovals">View All Approvals <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -414,7 +418,7 @@
                                     </table>
                                 </div>
                                 <div class="text-right">
-                                    <a href="adminTransactions.html">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="/ToyStore/adminTransactions">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>

@@ -5,20 +5,68 @@
  */
 package controller;
 
+import dbaccessor.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.OrderHistory;
+import model.Product;
 
 /**
  *
  * @author suhag
  */
 public class adminControllerServlet extends HttpServlet {
-
-
+    private String userPath;
+    private int noOfUsers;
+    private int pendingApprovals;
+    private int productsSold;
+    private int totalNoOfProducts;
+    private Product latestApprovalItem;
+    private List<OrderHistory> transactions; 
+    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        userPath = request.getServletPath();
+        
+        if (userPath.equals("/adminDashboard")) {
+            
+            noOfUsers = (new CustomerDAO()).getNoOfUsers();
+            pendingApprovals = (new ProductDAO()).getAllPending().size();
+            productsSold = (new OrderedProductDAO()).getTotalQuantityOfProductSold();
+            totalNoOfProducts = (new ProductDAO()).getNoOfProducts();
+            latestApprovalItem = (new ProductDAO()).getLatestPending();
+            if(latestApprovalItem.getId().equalsIgnoreCase(""))
+            {
+                latestApprovalItem=null;
+            }
+            transactions = (new OrderHistoryDAO()).getLatest();
+                        
+            request.setAttribute("noOfUsers", noOfUsers);
+            request.setAttribute("pendingApprovals", pendingApprovals);
+            request.setAttribute("productsSold", productsSold);
+            request.setAttribute("totalNoOfProducts", totalNoOfProducts);
+            request.setAttribute("latestApprovalItem", latestApprovalItem);
+            request.setAttribute("transactions", transactions);
+        }
+        
+        String url = "/WEB-INF/view" + userPath + ".jsp";
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (ServletException ex) {
+            String urlNotFound = "/WEB-INF/view/admin404.jsp";
+            request.getRequestDispatcher(urlNotFound).forward(request, response);
+        } catch (IOException ex) {
+            String urlNotFound = "/WEB-INF/view/admin404.jsp";
+            request.getRequestDispatcher(urlNotFound).forward(request, response);
+        }
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -31,13 +79,8 @@ public class adminControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userPath = request.getServletPath();
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        processRequest(request,response);
+        
         
     }
 
