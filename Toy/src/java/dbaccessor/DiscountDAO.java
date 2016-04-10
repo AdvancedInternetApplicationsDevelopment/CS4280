@@ -72,7 +72,7 @@ public class DiscountDAO
             {
                 Discount discount = new Discount();
                 discount.setDiscountCode(this.rs.getString("discount_code"));
-                discount.setAmount(this.rs.getInt("amount"));
+                discount.setAmount(this.rs.getDouble("amount"));
                 ret.add(discount);
             }
         }
@@ -90,13 +90,13 @@ public class DiscountDAO
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM discount"
                     + " WHERE discount_code = ?;");
-            ps.setString(1, code);
+            ps.setString(1, "%" + code + "%");
             this.rs = ps.executeQuery();
             while(this.rs.next())
             {
                 Discount discount = new Discount();
                 discount.setDiscountCode(this.rs.getString("discount_code"));
-                discount.setAmount(this.rs.getInt("amount"));
+                discount.setAmount(this.rs.getDouble("amount"));
                 ret = discount;
             }
         }
@@ -105,5 +105,41 @@ public class DiscountDAO
             Logger.getLogger(DiscountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
+    }
+    
+    public boolean addDiscount(Discount discount)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO discount "
+                    + "(discount_code, amount) "
+                    + "VALUES(?, ?)");
+            ps.setString(1, discount.getDiscountCode());
+            ps.setDouble(2, discount.getAmount());
+            rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DiscountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
+    
+    public boolean deleteDiscount(Discount discount)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("DELETE discount "
+                    + " WHERE discount_code = ?");
+            ps.setString(1, discount.getDiscountCode());
+            rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DiscountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
     }
 }

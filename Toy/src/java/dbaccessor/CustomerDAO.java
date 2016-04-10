@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.CCInfo;
 import model.Customer;
 
 /**
@@ -83,11 +84,13 @@ public class CustomerDAO
                 cus.setCountry(this.rs.getString("country"));
                 cus.setRegion(this.rs.getString("region"));
                 cus.setCcNumber(this.rs.getString("cc_number"));
-                cus.setCredits(this.rs.getInt("credits"));
+                cus.setCredits(this.rs.getDouble("credits"));
                 CCInfoDAO ccInfoDAO = new CCInfoDAO();
                 cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
+                ccInfoDAO.closeDB();
                 LoginDAO loginDAO = new LoginDAO();
                 cus.setLogin(loginDAO.getLoginFromID(this.rs.getString("email")));
+                loginDAO.closeDB();
                 ret.add(cus);
             }
         }
@@ -122,7 +125,7 @@ public class CustomerDAO
                 cus.setCountry(this.rs.getString("country"));
                 cus.setRegion(this.rs.getString("region"));
                 cus.setCcNumber(this.rs.getString("cc_number"));
-                cus.setCredits(this.rs.getInt("credits"));
+                cus.setCredits(this.rs.getDouble("credits"));
                 CCInfoDAO ccInfoDAO = new CCInfoDAO();
                 cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
                 LoginDAO loginDAO = new LoginDAO();
@@ -183,7 +186,7 @@ public class CustomerDAO
                 cus.setCountry(this.rs.getString("country"));
                 cus.setRegion(this.rs.getString("region"));
                 cus.setCcNumber(this.rs.getString("cc_number"));
-                cus.setCredits(this.rs.getInt("credits"));
+                cus.setCredits(this.rs.getDouble("credits"));
                 CCInfoDAO ccInfoDAO = new CCInfoDAO();
                 cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
                 LoginDAO loginDAO = new LoginDAO();
@@ -259,5 +262,103 @@ public class CustomerDAO
         ret += query.get(query.size() - 1);
         
         return ret;
+    }
+    
+    public boolean addCustomer(Customer customer, CCInfo ccinfo)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO customer "
+                    + "(email, fname, lname, phone, fax, address1, address2, "
+                    + "city, postal, country, region, cc_number, credits) "
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            ps.setString(1, customer.getEmail());
+            ps.setString(2, customer.getFname());
+            ps.setString(3, customer.getLname());
+            ps.setString(4, customer.getPhone());
+            ps.setString(5, customer.getFax());
+            ps.setString(6, customer.getAddress1());
+            ps.setString(7, customer.getAddress2());
+            ps.setString(8, customer.getCity());
+            ps.setString(9, customer.getPostal());
+            ps.setString(10, customer.getCountry());
+            ps.setString(11, customer.getRegion());
+            ps.setString(12, customer.getCcNumber());
+            ps.setDouble(13, customer.getCredits());
+            
+            rows = ps.executeUpdate();
+            
+            CCInfoDAO ccinfoDAO = new CCInfoDAO();
+            ccinfoDAO.addCcInfo(ccinfo);
+            ccinfoDAO.closeDB();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
+    
+    public boolean updateCustomer(Customer customer)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("UPDATE customer SET "
+                    + "fname = ?, "
+                    + "lname = ?, "
+                    + "phone = ?, "
+                    + "fax = ?, "
+                    + "address1 = ?, "
+                    + "address2 = ?, "
+                    + "city = ?, "
+                    + "postal = ?, "
+                    + "country = ?, "
+                    + "region = ?, "
+                    + "cc_number = ?, "
+                    + "credits = ? "
+                    + " WHERE email = ?;");
+            ps.setString(1, customer.getFname());
+            ps.setString(2, customer.getLname());
+            ps.setString(3, customer.getPhone());
+            ps.setString(4, customer.getFax());
+            ps.setString(5, customer.getAddress1());
+            ps.setString(6, customer.getAddress2());
+            ps.setString(7, customer.getCity());
+            ps.setString(8, customer.getPostal());
+            ps.setString(9, customer.getCountry());
+            ps.setString(10, customer.getRegion());
+            ps.setString(11, customer.getCcNumber());
+            ps.setDouble(12, customer.getCredits());
+            ps.setString(13, customer.getEmail());
+            
+            rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
+    
+    public boolean updateCredits(String email, double credit)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("UPDATE customer SET "
+                    + "credits = ? "
+                    + "WHERE email = ?;");
+            ps.setDouble(1, credit);
+            ps.setString(2, email);
+            
+            rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
     }
 }

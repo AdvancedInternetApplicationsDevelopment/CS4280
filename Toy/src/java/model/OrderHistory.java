@@ -15,10 +15,10 @@ public class OrderHistory
 {
     private String id;
     private Customer customerId;
-    private Integer amount;
+    private double amount;
     private Timestamp dateCreated;
-    private int discount;
-    private int credit;
+    private double discount;
+    private double credit;
     
     public OrderHistory()
     {
@@ -64,12 +64,12 @@ public class OrderHistory
         this.customerId = customerId;
     }
     
-    public Integer getAmount()
+    public double getAmount()
     {
         return amount;
     }
 
-    public void setAmount(Integer amount)
+    public void setAmount(double amount)
     {
         this.amount = amount;
     }
@@ -79,12 +79,12 @@ public class OrderHistory
         return dateCreated;
     }
 
-    public int getDiscount()
+    public double getDiscount()
     {
         return discount;
     }
 
-    public void setDiscount(int discount)
+    public void setDiscount(double discount)
     {
         this.discount = discount;
     }
@@ -94,12 +94,12 @@ public class OrderHistory
         this.dateCreated = dateCreated;
     }
 
-    public int getCredit()
+    public double getCredit()
     {
         return credit;
     }
 
-    public void setCredit(int credit)
+    public void setCredit(double credit)
     {
         this.credit = credit;
     }

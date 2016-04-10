@@ -78,6 +78,7 @@ public class ProductDAO
                 product.setModelNum(this.rs.getString("model_num"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                categoryDAO.closeDB();
                 product.setQuantity(this.rs.getInt("quantity"));
                 product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
@@ -135,6 +136,7 @@ public class ProductDAO
                 product.setModelNum(this.rs.getString("model_num"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                categoryDAO.closeDB();
                 product.setQuantity(this.rs.getInt("quantity"));
                 product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
@@ -196,6 +198,7 @@ public class ProductDAO
                 product.setModelNum(this.rs.getString("model_num"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                categoryDAO.closeDB();
                 product.setQuantity(this.rs.getInt("quantity"));
                 product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
@@ -246,7 +249,7 @@ public class ProductDAO
         try
         {
             this.rs = conn.prepareStatement("SELECT * FROM product"
-                    + " WHERE product.new = 0;").executeQuery();
+                    + " WHERE new = '0';").executeQuery();
             while(this.rs.next())
             {
                 Product product = new Product();
@@ -255,6 +258,7 @@ public class ProductDAO
                 product.setModelNum(this.rs.getString("model_num"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                categoryDAO.closeDB();
                 product.setQuantity(this.rs.getInt("quantity"));
                 product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
@@ -282,7 +286,7 @@ public class ProductDAO
         try
         {
             this.rs = conn.prepareStatement("SELECT * FROM product"
-                    + " WHERE product.new = 0"
+                    + " WHERE product.new = '0'"
                     + " ORDER BY last_update DESC"
                     + " LIMIT 1;").executeQuery();
             while(this.rs.next())
@@ -293,6 +297,7 @@ public class ProductDAO
                 product.setModelNum(this.rs.getString("model_num"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                categoryDAO.closeDB();
                 product.setQuantity(this.rs.getInt("quantity"));
                 product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
@@ -315,7 +320,7 @@ public class ProductDAO
     
     public List<Product> getByFilter(String name, String modelNum, int categoryId)
     {
-        String query = getQueryFromFilter(name, modelNum, categoryId);
+        String query = getQueryFromFilter(name, modelNum, categoryId, false);
         
         List<Product> ret = new ArrayList<Product>();
         try
@@ -329,6 +334,7 @@ public class ProductDAO
                 product.setModelNum(this.rs.getString("model_num"));
                 CategoryDAO categoryDAO = new CategoryDAO();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                categoryDAO.closeDB();
                 product.setQuantity(this.rs.getInt("quantity"));
                 product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
@@ -350,11 +356,50 @@ public class ProductDAO
         return ret;
     }
     
-    public String getQueryFromFilter(String name, String modelNum, int categoryId)
+    public List<Product> getRecycledByFilter(String name, String modelNum, int categoryId)
+    {
+        String query = getQueryFromFilter(name, modelNum, categoryId, true);
+        
+        List<Product> ret = new ArrayList<Product>();
+        try
+        {
+            this.rs = conn.prepareStatement(query).executeQuery();
+            while(this.rs.next())
+            {
+                Product product = new Product();
+                product.setId(this.rs.getString("id"));
+                product.setName(this.rs.getString("name"));
+                product.setModelNum(this.rs.getString("model_num"));
+                CategoryDAO categoryDAO = new CategoryDAO();
+                product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                categoryDAO.closeDB();
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getDouble("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
+                product.setAddInfo(this.rs.getString("add_info"));
+                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setNew1(this.rs.getBoolean("new"));
+                product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
+                
+                ret.add(product);
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    private String getQueryFromFilter(String name, String modelNum, int categoryId, boolean recycled)
     {
         List<String> query = new ArrayList<String>();
         query.add("SELECT * FROM product");
         query.add(" WHERE");
+        
         if(!name.equalsIgnoreCase(""))
         {
             query.add(" name LIKE '%" + name + "%'");
@@ -373,6 +418,10 @@ public class ProductDAO
         String ret = "";
         
         ret += query.get(0) + query.get(1);
+        if(recycled)
+        {
+            ret += " new = '0'";
+        }
         
         for(int i = 2; i < (query.size() - 2); i++)
         {
@@ -484,6 +533,88 @@ public class ProductDAO
         return (rows > 0);
     }
     
+    public int getQuantityById(String id)
+    {
+        int ret = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("SELECT quantity FROM product"
+                    + " WHERE id = ?;");
+            ps.setString(1, id);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getInt("quantity");
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public String getNameById(String id)
+    {
+        String ret = "";
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("SELECT name FROM product"
+                    + " WHERE id = ?;");
+            ps.setString(1, id);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getString("name");
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public double getPriceById(String id)
+    {
+        double ret = 0.0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("SELECT price FROM product"
+                    + " WHERE id = ?;");
+            ps.setString(1, id);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getDouble("price");
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    
+    public boolean updateQuantity(String productID, int quantity)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("UPDATE product SET"
+                        + " quantity = ? WHERE id = ?;");
+                ps.setInt(1, quantity);
+                ps.setString(2, productID);
+                rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
+    
     public String[] getRelated(String productId)
     {
         /*SELECT DISTINCT(product_id) FROM ordered_product WHERE order_id IN
@@ -494,4 +625,5 @@ public class ProductDAO
         String[] related = {"", "", "", ""};
         return related;
     }
+
 }

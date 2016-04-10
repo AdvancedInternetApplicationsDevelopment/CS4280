@@ -109,4 +109,50 @@ class CCInfoDAO
         }
         return ret;
     }
+    
+    public boolean addCcInfo(CCInfo ccinfo)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO cc_info "
+                    + "(cc_number, cc_email, expiry_date, ccv) "
+                    + "VALUES(?, ?, ?, ?)");
+            ps.setString(1, ccinfo.getCcNumber());
+            ps.setString(2, ccinfo.getCcName());
+            ps.setDate(3, ccinfo.getExpiryDate());
+            ps.setInt(4, ccinfo.getCcv());
+            
+            rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
+    
+    public boolean updateCcInfo(CCInfo ccinfo)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("UPDATE cc_info SET "
+                    + "cc_email = ?, "
+                    + "expiry_date = ?, "
+                    + "ccv = ? "
+                    + " WHERE cc_number = ?;");
+            ps.setString(1, ccinfo.getCcName());
+            ps.setDate(2, ccinfo.getExpiryDate());
+            ps.setInt(3, ccinfo.getCcv());
+            ps.setString(4, ccinfo.getCcNumber());
+            
+            rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
 }

@@ -23,7 +23,7 @@ public class Customer
     private String country;
     private String region;
     private String ccNumber;
-    private int credits;
+    private double credits;
     private CCInfo ccInfo;
     private Login login;
     
@@ -187,12 +187,12 @@ public class Customer
         this.ccNumber = ccNumber;
     }
 
-    public int getCredits()
+    public double getCredits()
     {
         return credits;
     }
 
-    public void setCredits(int credits)
+    public void setCredits(double credits)
     {
         this.credits = credits;
     }

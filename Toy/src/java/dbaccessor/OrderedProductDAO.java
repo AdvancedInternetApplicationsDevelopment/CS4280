@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Order;
 import model.OrderedProduct;
 
 /**
@@ -74,8 +75,10 @@ public class OrderedProductDAO
                 OrderHistoryDAO orderHistoryDAO;
                 orderHistoryDAO = new OrderHistoryDAO();
                 order.setOrderHistory(orderHistoryDAO.getOrderHistoryFromID(this.rs.getString("order_id")));
+                orderHistoryDAO.closeDB();
                 ProductDAO productDAO = new ProductDAO();
                 order.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
+                productDAO.closeDB();
                 order.setQuantity(this.rs.getInt("quantity"));
                 ret.add(order);
             }
@@ -103,8 +106,10 @@ public class OrderedProductDAO
                 OrderHistoryDAO orderHistoryDAO;
                 orderHistoryDAO = new OrderHistoryDAO();
                 order.setOrderHistory(orderHistoryDAO.getOrderHistoryFromID(this.rs.getString("order_id")));
+                orderHistoryDAO.closeDB();
                 ProductDAO productDAO = new ProductDAO();
                 order.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
+                productDAO.closeDB();
                 order.setQuantity(this.rs.getInt("quantity"));
                 ret = order;
             }
@@ -154,5 +159,36 @@ public class OrderedProductDAO
             Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
+    }
+
+    public int addOrder(String orderID, List<Order> order)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps;
+            for(Order ordered: order)
+            {
+                ps = conn.prepareStatement("INSERT INTO ordered_product "
+                        + "(order_id, product_id, quantity) "
+                        + "VALUES(?, ?, ?)");
+                ps.setString(1, orderID);
+                ps.setString(2, ordered.getProductID());
+                ps.setInt(3, ordered.getQuantity());
+                
+                ProductDAO productDAO = new ProductDAO();
+                int quantity = productDAO.getQuantityById(ordered.getProductID())
+                        - ordered.getQuantity();
+                productDAO.updateQuantity(ordered.getProductID(), quantity);
+                productDAO.closeDB();
+
+                rows = ps.executeUpdate();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rows;
     }
 }
