@@ -276,150 +276,40 @@
                                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions/order Panel</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
+                                <c:choose>
+                                    <c:when test="${transactions == null}">
+                                        <div><p>No transactions available</p></div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="table-responsive">
+                                             <table class="table table-bordered table-hover table-striped">
+                                                <thead>
                                             <tr>
                                                 <th>Product ID #</th>
-                                                <th>Order Number</th>
-                                                <th>Date/ Time </th>
-                                                <th>Quantity</th>
-                                                <th>Product brought by</th>
-                                                <th></th>
+                                                <th>Customer ID</th>
+                                                <th>Total amount</th>
+                                                <th>date </th>
+                                                <th>Discount Item</th>
+                                                <th>credit amount used</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>3326</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:29 PM</td>
-                                                <td>$321.33</td>
-                                                <td>$321.33</td>
-                                                <td>
-                                                    <a href="#">
-                                                        <div>
-                                                            <span class="pull-left">Edit</span>
-                                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3325</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:20 PM</td>
-                                                <td>$234.34</td>
-                                                <td>$321.33</td>
-                                                <td>
-                                                    <a href="#">
-                                                        <div>
-                                                            <span class="pull-left">Edit</span>
-                                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3324</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:03 PM</td>
-                                                <td>$724.17</td>
-                                                <td>$321.33</td>
-                                                <td>
-                                                    <a href="#">
-                                                        <div>
-                                                            <span class="pull-left">Edit</span>
-                                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3323</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:00 PM</td>
-                                                <td>$23.71</td>
-                                                <td>$321.33</td>
-                                                <td>
-                                                    <a href="#">
-                                                        <div>
-                                                            <span class="pull-left">Edit</span>
-                                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3322</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:49 PM</td>
-                                                <td>$8345.23</td>
-                                                <td>$321.33</td>
-                                                <td>
-                                                    <a href="#">
-                                                        <div>
-                                                            <span class="pull-left">Edit</span>
-                                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3321</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:23 PM</td>
-                                                <td>$245.12</td>
-                                                <td>$321.33</td>
-                                                <td>
-                                                    <a href="#">
-                                                        <div>
-                                                            <span class="pull-left">Edit</span>
-                                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3320</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:15 PM</td>
-                                                <td>$5663.54</td>
-                                                <td>$321.33</td>
-                                                <td>
-                                                    <a href="#">
-                                                        <div >
-                                                            <span class="pull-left">Edit</span>
-                                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3319</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:13 PM</td>
-                                                <td>$943.45</td>
-                                                <td>$321.33</td>
-                                                <td>
-                                                    <a href="#">
-                                                        <div>
-                                                            <span class="pull-left">Edit</span>
-                                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                <tbody>
+                                                    <c:forEach items="${transactions}" var="item">
+                                                        <tr>
+                                                            <td>${item.id}</td>
+                                                            <td>${item.customerId.email}</td>
+                                                            <td>${item.amount}M</td>
+                                                            <td>${item.dateCreated}</td>
+                                                            <td>${item.discount}</td>
+                                                            <td>${item.credit}</td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                                
                                 <div class="text-right">
                                     <a href="/ToyStore/adminTransactions">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
