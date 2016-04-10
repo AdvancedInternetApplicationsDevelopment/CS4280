@@ -250,7 +250,7 @@ public class CustomerDAO
         
         ret += query.get(0) + query.get(1);
         
-        for(int i = 2; i < (query.size() - 2); i++)
+        for(int i = 2; i <= (query.size() - 2); i++)
         {
             ret += query.get(i);
             if(!(query.get(i + 1).equalsIgnoreCase(";")))

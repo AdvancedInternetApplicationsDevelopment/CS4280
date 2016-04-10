@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Customer;
 import model.OrderHistory;
 import model.Product;
 
@@ -30,45 +31,6 @@ public class adminControllerServlet extends HttpServlet {
     private Product latestApprovalItem;
     private List<OrderHistory> transactions; 
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        userPath = request.getServletPath();
-        
-        if (userPath.equals("/adminDashboard")) {
-            
-            noOfUsers = (new CustomerDAO()).getNoOfUsers();
-            pendingApprovals = (new ProductDAO()).getAllPending().size();
-            productsSold = (new OrderedProductDAO()).getTotalQuantityOfProductSold();
-            totalNoOfProducts = (new ProductDAO()).getNoOfProducts();
-            latestApprovalItem = (new ProductDAO()).getLatestPending();
-            System.out.println(latestApprovalItem);
-            if(latestApprovalItem.getId() == null)
-            {
-                System.out.println("its null bro ");
-                latestApprovalItem=null;
-            }
-            transactions = (new OrderHistoryDAO()).getLatest();
-                        
-            request.setAttribute("noOfUsers", noOfUsers);
-            request.setAttribute("pendingApprovals", pendingApprovals);
-            request.setAttribute("productsSold", productsSold);
-            request.setAttribute("totalNoOfProducts", totalNoOfProducts);
-            request.setAttribute("latestApprovalItem", latestApprovalItem);
-            request.setAttribute("transactions", transactions);
-        }
-        
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (ServletException ex) {
-            String urlNotFound = "/WEB-INF/view/admin404.jsp";
-            request.getRequestDispatcher(urlNotFound).forward(request, response);
-        } catch (IOException ex) {
-            String urlNotFound = "/WEB-INF/view/admin404.jsp";
-            request.getRequestDispatcher(urlNotFound).forward(request, response);
-        }
-    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -81,7 +43,64 @@ public class adminControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request,response);
+        HttpSession session = request.getSession(true);
+        userPath = request.getServletPath();
+        
+        if (userPath.equals("/adminDashboard")) {
+            
+            CustomerDAO customerDAO = new CustomerDAO();
+            ProductDAO productDAO = new ProductDAO();
+            OrderedProductDAO orderedProductDAO = new OrderedProductDAO();
+            OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
+            noOfUsers = (customerDAO).getNoOfUsers();
+            pendingApprovals = (productDAO).getAllPending().size();
+            productsSold = (orderedProductDAO).getTotalQuantityOfProductSold();
+            totalNoOfProducts = (productDAO).getNoOfProducts();
+            latestApprovalItem = (productDAO).getLatestPending();
+            if(latestApprovalItem.getId() == null)
+            {
+                latestApprovalItem=null;
+            }
+            transactions = (orderHistoryDAO).getLatest();
+                        
+            request.setAttribute("noOfUsers", noOfUsers);
+            request.setAttribute("pendingApprovals", pendingApprovals);
+            request.setAttribute("productsSold", productsSold);
+            request.setAttribute("totalNoOfProducts", totalNoOfProducts);
+            request.setAttribute("latestApprovalItem", latestApprovalItem);
+            request.setAttribute("transactions", transactions);
+            customerDAO.closeDB();
+            productDAO.closeDB();
+            orderHistoryDAO.closeDB();
+            orderedProductDAO.closeDB();
+        }
+        
+        else if (userPath.equals("/adminCustomer")) {
+            List<Customer> customerSearchList = null;
+            request.setAttribute("FName", "");
+            request.setAttribute("LName", "");
+            request.setAttribute("emailID", "");
+            request.setAttribute("phone", "");
+            request.setAttribute("fax", "");
+            request.setAttribute("city", "");
+            request.setAttribute("postalCode", "");
+            request.setAttribute("country", "");
+            request.setAttribute("region", "");
+            request.setAttribute("customerSearchList", customerSearchList);
+        }
+        
+        String url = "/WEB-INF/view" + userPath + ".jsp";
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (ServletException ex) {
+//            String urlNotFound = "/WEB-INF/view/admin404.jsp";
+//            request.getRequestDispatcher(urlNotFound).forward(request, response);
+              ex.printStackTrace();
+        } catch (IOException ex) {
+//            String urlNotFound = "/WEB-INF/view/admin404.jsp";
+//            request.getRequestDispatcher(urlNotFound).forward(request, response);
+                ex.printStackTrace();
+        }
         
         
     }
@@ -97,7 +116,46 @@ public class adminControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        userPath = request.getServletPath();
+        if (userPath.equals("/adminCustomer")) {
+            
+            String FName = (String) request.getParameter("FName");
+            String LName = (String) request.getParameter("LName");
+            String emailID = (String) request.getParameter("emailID");
+            String phone = (String) request.getParameter("phone");
+            String fax = (String) request.getParameter("fax");
+            String city = (String) request.getParameter("city");
+            String postalCode = (String) request.getParameter("postalCode");
+            String country = (String) request.getParameter("country");
+            String region = (String) request.getParameter("region");
+            System.out.print(emailID+FName+ LName+ phone+ fax+ city+ postalCode+ country+ region);
+            List<Customer> customerSearchList = null;
+            if(!( FName.equalsIgnoreCase("") && LName.equalsIgnoreCase("") && emailID.equalsIgnoreCase("") && phone.equalsIgnoreCase("") && fax.equalsIgnoreCase("") && city.equalsIgnoreCase("") && country.equalsIgnoreCase("") && region.equalsIgnoreCase("") && postalCode.equalsIgnoreCase(""))){
+                CustomerDAO customerDAO = new CustomerDAO();
+                customerSearchList = customerDAO.getByFilter(emailID, FName, LName, phone, fax, city, postalCode, country, region);
+                customerDAO.closeDB();
+            }
+            request.setAttribute("FName", FName);
+            request.setAttribute("LName", LName);
+            request.setAttribute("emailID",emailID);
+            request.setAttribute("phone", phone);
+            request.setAttribute("fax",fax);
+            request.setAttribute("city",city);
+            request.setAttribute("postalCode", postalCode);
+            request.setAttribute("country",country);
+            request.setAttribute("region", region);
+            request.setAttribute("customerSearchList", customerSearchList);
+        }
+        
+        
+        String url = "/WEB-INF/view" + userPath + ".jsp";
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (ServletException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**

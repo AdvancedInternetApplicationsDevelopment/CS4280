@@ -4,6 +4,7 @@
     Author     : suhag
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -134,36 +135,36 @@
                             <!-- Delivery Information Starts -->
                             <div class="panel-body">
                             <!-- Registration Form Starts -->
-                                <form class="form-horizontal" role="form">
+                            <form  action="/ToyStore/adminCustomer" method="post" class="form-horizontal" role="form">
                                 <!-- Personal Information Starts -->
                                     <div class="form-group">
                                         <label for="inputFname" class="col-sm-3 control-label">First Name :</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputFname" placeholder="First Name">
+                                            <input type="text" class="form-control" id="inputFname" name="FName" value="${FName}" placeholder="First Name">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputLname" class="col-sm-3 control-label">Last Name :</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputLname" placeholder="Last Name">
+                                            <input type="text" class="form-control" id="inputLname" name="LName" value="${LName}"placeholder="Last Name">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputEmail" class="col-sm-3 control-label">Email :</label>
                                         <div class="col-sm-9">
-                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                            <input type="email" class="form-control" id="inputEmail" name="emailID" value="${emailID}" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputPhone" placeholder="Phone">
+                                            <input type="text" class="form-control" id="inputPhone" name="phone" value="${phone}" placeholder="Phone">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputFax" class="col-sm-3 control-label">Fax :</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputFax" placeholder="Fax">
+                                            <input type="text" class="form-control" id="inputFax" name="fax" value="${fax}" placeholder="Fax">
                                         </div>
                                     </div>
                                 <!-- Personal Information Ends -->
@@ -171,31 +172,31 @@
                                     <div class="form-group">
                                         <label for="inputCity" class="col-sm-3 control-label">City :</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputCity" placeholder="City">
+                                            <input type="text" class="form-control" id="inputCity" name="city" value="${city}" placeholder="City">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPostCode" class="col-sm-3 control-label">Postal Code :</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputPostCode" placeholder="Postal Code">
+                                            <input type="text" class="form-control" id="inputPostCode" name="postalCode" value="${postalCode}" placeholder="Postal Code">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputCountry" class="col-sm-3 control-label">Country :</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputCountry" placeholder="Country">
+                                            <input type="text" class="form-control" id="inputCountry" name="country" value="${country}" placeholder="Country">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputRegion" class="col-sm-3 control-label">Region :</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputRegion" placeholder="Region">
+                                            <input type="text" class="form-control" id="inputRegion" name="region" value="${region}" placeholder="Region">
                                         </div>
                                     </div>
                                 <!-- Delivery Information Ends -->
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="submit" class="btn btn-danger">
+                                        <button type="submit" class="btn btn-danger" value="/ToyStore/adminCustomer">
                                             Search
                                         </button>
                                     </div>
@@ -214,148 +215,48 @@
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Customer #</th>
-                                                <th>Email ID</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Phone</th>
-                                                <th>Fax</th>
-                                                <th>Address/ 1</th>
-                                                <th>Address/2</th>
-                                                <th>City</th>
-                                                <th>Postal Code</th>
-                                                <th>Country</th>
-                                                <th>Region</th>
-                                                <th>Credit Card Number</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Customer #</td>
-                                                <td>Email ID</td>
-                                                <td>First Name</td>
-                                                <td>Last Name</td>
-                                                <td>Phone</td>
-                                                <td>Fax</td>
-                                                <td>Address/ 1</td>
-                                                <td>Address/2</td>
-                                                <td>City</td>
-                                                <td>Postal Code</td>
-                                                <td>Country</td>
-                                                <td>Region</td>
-                                                <td>Credit Card Number</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Customer #</td>
-                                                <td>Email ID</td>
-                                                <td>First Name</td>
-                                                <td>Last Name</td>
-                                                <td>Phone</td>
-                                                <td>Fax</td>
-                                                <td>Address/ 1</td>
-                                                <td>Address/2</td>
-                                                <td>City</td>
-                                                <td>Postal Code</td>
-                                                <td>Country</td>
-                                                <td>Region</td>
-                                                <td>Credit Card Number</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Customer #</td>
-                                                <td>Email ID</td>
-                                                <td>First Name</td>
-                                                <td>Last Name</td>
-                                                <td>Phone</td>
-                                                <td>Fax</td>
-                                                <td>Address/ 1</td>
-                                                <td>Address/2</td>
-                                                <td>City</td>
-                                                <td>Postal Code</td>
-                                                <td>Country</td>
-                                                <td>Region</td>
-                                                <td>Credit Card Number</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Customer #</td>
-                                                <td>Email ID</td>
-                                                <td>First Name</td>
-                                                <td>Last Name</td>
-                                                <td>Phone</td>
-                                                <td>Fax</td>
-                                                <td>Address/ 1</td>
-                                                <td>Address/2</td>
-                                                <td>City</td>
-                                                <td>Postal Code</td>
-                                                <td>Country</td>
-                                                <td>Region</td>
-                                                <td>Credit Card Number</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Customer #</td>
-                                                <td>Email ID</td>
-                                                <td>First Name</td>
-                                                <td>Last Name</td>
-                                                <td>Phone</td>
-                                                <td>Fax</td>
-                                                <td>Address/ 1</td>
-                                                <td>Address/2</td>
-                                                <td>City</td>
-                                                <td>Postal Code</td>
-                                                <td>Country</td>
-                                                <td>Region</td>
-                                                <td>Credit Card Number</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Customer #</td>
-                                                <td>Email ID</td>
-                                                <td>First Name</td>
-                                                <td>Last Name</td>
-                                                <td>Phone</td>
-                                                <td>Fax</td>
-                                                <td>Address/ 1</td>
-                                                <td>Address/2</td>
-                                                <td>City</td>
-                                                <td>Postal Code</td>
-                                                <td>Country</td>
-                                                <td>Region</td>
-                                                <td>Credit Card Number</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Customer #</td>
-                                                <td>Email ID</td>
-                                                <td>First Name</td>
-                                                <td>Last Name</td>
-                                                <td>Phone</td>
-                                                <td>Fax</td>
-                                                <td>Address/ 1</td>
-                                                <td>Address/2</td>
-                                                <td>City</td>
-                                                <td>Postal Code</td>
-                                                <td>Country</td>
-                                                <td>Region</td>
-                                                <td>Credit Card Number</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Customer #</td>
-                                                <td>Email ID</td>
-                                                <td>First Name</td>
-                                                <td>Last Name</td>
-                                                <td>Phone</td>
-                                                <td>Fax</td>
-                                                <td>Address/ 1</td>
-                                                <td>Address/2</td>
-                                                <td>City</td>
-                                                <td>Postal Code</td>
-                                                <td>Country</td>
-                                                <td>Region</td>
-                                                <td>Credit Card Number</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <c:choose>
+                                        <c:when test="${customerSearchList == null}">
+                                            <div><p>No customers to display</p></div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <table class="table table-bordered table-hover table-striped">
+                                                <thead>
+                                                     <tr>
+                                                        <th>Email ID</th>
+                                                        <th>First Name</th>
+                                                        <th>Last Name</th>
+                                                        <th>Phone</th>
+                                                        <th>Fax</th>
+                                                        <th>Address/ 1</th>
+                                                        <th>Address/2</th>
+                                                        <th>City</th>
+                                                        <th>Postal Code</th>
+                                                        <th>Country</th>
+                                                        <th>Region</th>
+                                                     </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="customer" items="${customerSearchList}">
+                                                        <tr>
+                                                            <td>${customer.email}</td>
+                                                            <td>${customer.fname}</td>
+                                                            <td>${customer.lname}</td>
+                                                            <td>${customer.phone}</td>
+                                                            <td>${customer.fax}</td>
+                                                            <td>${customer.address1}</td>
+                                                            <td>${customer.address2}</td>
+                                                            <td>${customer.city}</td>
+                                                            <td>${customer.postal}</td>
+                                                            <td>${customer.country}</td>
+                                                            <td>${customer.region}</td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                 </tbody>
+                                            </table>
+                                        </c:otherwise>
+                                        
+                                    </c:choose>
                                 </div>
                             </div>
                         </div>
