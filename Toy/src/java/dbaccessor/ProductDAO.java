@@ -5,8 +5,6 @@
  */
 package dbaccessor;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -97,6 +95,25 @@ public class ProductDAO
         catch (SQLException ex)
         {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public int getNoOfProducts()
+    {
+        int ret = 0;
+        try
+        {
+            this.rs = conn.prepareStatement("SELECT COUNT(*)"
+                    + " as num FROM product;").executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getInt("num");
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }
@@ -465,5 +482,16 @@ public class ProductDAO
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return (rows > 0);
+    }
+    
+    public String[] getRelated(String productId)
+    {
+        /*SELECT DISTINCT(product_id) FROM ordered_product WHERE order_id IN
+            (SELECT order_id FROM order_history WHERE customer_id IN
+            (SELECT customer_id FROM order_history WHERE order_id IN
+            (SELECT order_id FROM ordered_product WHERE product_id = "1"))) LIMIT 4;
+           */
+        String[] related = {"", "", "", ""};
+        return related;
     }
 }
