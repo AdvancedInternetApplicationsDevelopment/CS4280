@@ -1,12 +1,8 @@
-<%-- 
-    Document   : adminDashboard
-    Created on : Apr 3, 2016, 3:00:08 PM
-    Author     : suhag
---%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.lang.String, java.lang.StringBuffer" %> 
-<%@page import="javax.naming.Context, javax.naming.InitialContext" %> 
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -234,7 +230,13 @@
                                     <!-- Product #1 Starts -->
                                         <div class="col-xs-12">
                                             <div class="product-col list clearfix" style=" padding: 15px 15px 10px;  margin-bottom: 20px; background: #fff; border: 1px solid #e8e8e8;">
-                                                <c:if test="${!empty latestApprovalItem}">
+                                                <c:choose>
+                                                    <c:when test="${ latestApprovalItem == null}">
+                                                        <div class="caption" style="color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif;padding: 20px 0;">
+                                                            <p>No pending approvals</p>
+                                                        </div>
+                                                    </c:when>
+                                                <c:otherwise>
                                                     <div class="image" style="float: left; padding: 20px 30px 10px 0;">
                                                         <img src="/ToyStore/getImage?productId=${latestApprovalItem.id}" alt="product" class="img-responsive" />
                                                     </div>
@@ -245,7 +247,7 @@
                                                         </div>
                                                         <div class="price" style=" color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; padding: 10px 0;">
                                                             <p class="product-owner" style=" font-size: 14px; color: #2f353b;">Product Owner: ${latestApprovalItem.owner}</p>
-                                                            <span class="price-new" style=" color: #ef4135; font-size: 24px;padding-right: 5px;">${latestApprovalItem.price}</span>
+                                                            <span class="price-new" style=" color: #ef4135; font-size: 24px;padding-right: 5px;">$ ${latestApprovalItem.price}</span>
                                                         </div>
                                                         <div class="cart-button button-group" style="padding-top:10px">
                                                             
@@ -255,7 +257,8 @@
                                                             </button>
                                                         </div>
                                                     </div>
-                                                </c:if>
+                                                </c:otherwise>
+                                                </c:choose>
                                             </div>
                                         </div>
                                     <!-- Product #1 Ends -->

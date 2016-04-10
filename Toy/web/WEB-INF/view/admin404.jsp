@@ -91,7 +91,7 @@
                     <li>
                         <a href="/ToyStore/adminApprovals"><i class="fa fa-fw fa-edit"></i>Approvals</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="/ToyStore/adminAddProducts"><i class="fa fa-plus-square-o"></i> Add products</a>
                     </li>
                     <li>
