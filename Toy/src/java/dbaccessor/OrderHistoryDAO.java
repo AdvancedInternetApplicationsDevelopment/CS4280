@@ -58,7 +58,7 @@ public class OrderHistoryDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderHistoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -111,7 +111,7 @@ public class OrderHistoryDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderHistoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }

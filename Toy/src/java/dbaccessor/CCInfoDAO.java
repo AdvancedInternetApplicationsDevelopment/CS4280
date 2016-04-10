@@ -33,19 +33,19 @@ class CCInfoDAO
         }
         catch (ClassNotFoundException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (InstantiationException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (IllegalAccessException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -57,7 +57,7 @@ class CCInfoDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -79,7 +79,7 @@ class CCInfoDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }
@@ -105,7 +105,7 @@ class CCInfoDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }

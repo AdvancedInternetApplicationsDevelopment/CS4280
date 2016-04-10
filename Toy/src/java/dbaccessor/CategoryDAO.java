@@ -58,7 +58,7 @@ public class CategoryDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -102,7 +102,7 @@ public class CategoryDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }

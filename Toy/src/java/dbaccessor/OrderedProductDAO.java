@@ -58,7 +58,7 @@ public class OrderedProductDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -110,7 +110,7 @@ public class OrderedProductDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }
@@ -131,7 +131,7 @@ public class OrderedProductDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }
@@ -150,7 +150,7 @@ public class OrderedProductDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }
