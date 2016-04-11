@@ -57,10 +57,6 @@ public class adminControllerServlet extends HttpServlet {
             productsSold = (orderedProductDAO).getTotalQuantityOfProductSold();
             totalNoOfProducts = (productDAO).getNoOfProducts();
             latestApprovalItem = (productDAO).getLatestPending();
-            if(latestApprovalItem.getId() == null)
-            {
-                latestApprovalItem=null;
-            }
             transactions = (orderHistoryDAO).getLatest();
                         
             request.setAttribute("noOfUsers", noOfUsers);

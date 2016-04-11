@@ -30,7 +30,7 @@ public class Product
     
     public Product()
     {
-        id = null;
+        id = "";
         name = "";
         modelNum = "";
         description = "";
