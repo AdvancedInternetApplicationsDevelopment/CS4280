@@ -83,7 +83,7 @@ class CCInfoDAO
     
     public CCInfo getCcInfoFromID(String email)
     {
-        CCInfo ret = new CCInfo();
+        CCInfo ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM cc_info"

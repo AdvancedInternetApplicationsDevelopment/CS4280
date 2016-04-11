@@ -39,11 +39,11 @@ public class LoginDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (NamingException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -82,7 +82,7 @@ public class LoginDAO
     
     public Login getLoginFromID(String idlogin)
     {
-        Login ret = new Login();
+        Login ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM login"
@@ -102,5 +102,44 @@ public class LoginDAO
             Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
+    }
+    
+    public boolean addLogin(Login login)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO login "
+                    + "(idlogin, idpass) "
+                    + "VALUES(?, ?);");
+            ps.setString(1, login.getIdlogin());
+            ps.setString(2, login.getIdpass());
+            
+            rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
+    
+    public boolean updatePass(String idLogin)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("UPDATE login SET "
+                    + "idpass = ? "
+                    + " WHERE idlogin = ?;");
+            ps.setString(1, idLogin);
+            
+            rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
     }
 }

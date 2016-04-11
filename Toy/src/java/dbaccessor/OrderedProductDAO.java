@@ -40,11 +40,11 @@ public class OrderedProductDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (NamingException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -89,7 +89,7 @@ public class OrderedProductDAO
     
     public OrderedProduct getOrderHistoryFromID(String order_id, String product_id)
     {
-        OrderedProduct ret = new OrderedProduct();
+        OrderedProduct ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM ordered_product"
@@ -187,5 +187,69 @@ public class OrderedProductDAO
             Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rows;
+    }
+    
+    public List<OrderedProduct> getByFilter(String productId, String orderId)
+    {
+        String query = getQueryFromFilter(productId, orderId);
+        
+        List<OrderedProduct> ret = new ArrayList<OrderedProduct>();
+        try
+        {
+            this.rs = conn.prepareStatement(query).executeQuery();
+            while(this.rs.next())
+            {
+                OrderedProduct order = new OrderedProduct();
+                OrderHistoryDAO orderHistoryDAO;
+                orderHistoryDAO = new OrderHistoryDAO();
+                order.setOrderHistory(orderHistoryDAO.getOrderHistoryFromID(this.rs.getString("order_id")));
+                orderHistoryDAO.closeDB();
+                ProductDAO productDAO = new ProductDAO();
+                order.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
+                productDAO.closeDB();
+                order.setQuantity(this.rs.getInt("quantity"));
+                ret.add(order);
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(OrderedProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    private String getQueryFromFilter(String productId, String orderId)
+    {
+        List<String> query = new ArrayList<String>();
+        query.add("SELECT * FROM order_id");
+        query.add(" WHERE");
+        
+        if(!productId.equalsIgnoreCase(""))
+        {
+            query.add(" product_id LIKE '%" + productId + "%'");
+        }
+        if(!orderId.equalsIgnoreCase(""))
+        {
+            query.add(" order_id LIKE '%" + orderId + "%'");
+        }
+        
+        query.add(";");
+        
+        String ret = "";
+        
+        ret += query.get(0) + query.get(1);
+        
+        for(int i = 2; i <= (query.size() - 2); i++)
+        {
+            ret += query.get(i);
+            if(!(query.get(i + 1).equalsIgnoreCase(";")))
+            {
+                ret += " AND";
+            }
+        }
+        
+        ret += query.get(query.size() - 1);
+        
+        return ret;
     }
 }

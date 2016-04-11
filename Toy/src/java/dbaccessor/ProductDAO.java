@@ -41,11 +41,11 @@ public class ProductDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (NamingException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -118,7 +118,7 @@ public class ProductDAO
     
     public Product getProductFromID(String id)
     {
-        Product ret = new Product();
+        Product ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM product"
@@ -156,7 +156,7 @@ public class ProductDAO
     
     public Product getBestSelling()
     {
-        Product ret = new Product();
+        Product ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT product.id,"
@@ -279,7 +279,7 @@ public class ProductDAO
     
     public Product getLatestPending()
     {
-        Product ret = new Product();
+        Product ret = null;
         try
         {
             this.rs = conn.prepareStatement("SELECT * FROM product"
@@ -420,7 +420,7 @@ public class ProductDAO
             ret += " new = '0'";
         }
         
-        for(int i = 2; i < (query.size() - 2); i++)
+        for(int i = 2; i <= (query.size() - 2); i++)
         {
             ret += query.get(i);
             if(!(query.get(i + 1).equalsIgnoreCase(";")))
@@ -434,19 +434,31 @@ public class ProductDAO
         return ret;
     }
     
-    public boolean addProduct(Product product, Blob image)
+    //if recycled enter owner, else if new, owner input can be anything
+    public boolean addProduct(Product product, Blob image, String category, 
+            boolean recycled, String owner)
     {
         int rows = 0;
         try
         {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO product "
-                    + "(id, name, modelNum, categoryId, quantity, available, price, "
-                    + "brand, description, addInfo, image, lastUpdate, new, approved) "
+                    + "(id, name, model_num, category_id, quantity, available, price, "
+                    + "brand, description, add_info, image, last_update, new, approved, owner) "
                     + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, UUID.randomUUID().toString());
             ps.setString(2, product.getName());
             ps.setString(3, product.getModelNum());
-            ps.setInt(4, product.getCategoryId().getId());
+            CategoryDAO categoryDAO = new CategoryDAO();
+            if(categoryDAO.categoryExists(category))
+            {
+                ps.setInt(4, categoryDAO.getCategoryIDFromName(category));
+            }
+            else
+            {
+                categoryDAO.addCategory(category);
+                ps.setInt(4, categoryDAO.getCategoryIDFromName(category));
+            }
+            categoryDAO.closeDB();
             ps.setInt(5, product.getQuantity());
             ps.setBoolean(6, product.isAvailable());
             ps.setDouble(7, product.getPrice());
@@ -455,9 +467,18 @@ public class ProductDAO
             ps.setString(10, product.getAddInfo());
             ps.setBlob(11, image);
             ps.setTimestamp(12, product.getLastUpdate());
-            ps.setBoolean(13, product.isNew1());
-            ps.setBoolean(14, product.isApproved());
-            ps.setString(15, product.getOwner());
+            if(recycled)
+            {
+                ps.setBoolean(13, false);
+                ps.setBoolean(14, false);
+                ps.setString(15, owner);
+            }
+            else
+            {
+                ps.setBoolean(13, true);
+                ps.setBoolean(14, true);
+                ps.setString(15, "shop");
+            }
             
             rows = ps.executeUpdate();
         }
@@ -475,15 +496,15 @@ public class ProductDAO
         {
             PreparedStatement ps = conn.prepareStatement("UPDATE product SET "
                     + "name = ?, "
-                    + "modelNum = ?, "
-                    + "categoryId = ?, "
+                    + "model_num = ?, "
+                    + "category_id = ?, "
                     + "quantity = ?, "
                     + "available = ?, "
                     + "price = ?, "
                     + "brand = ?, "
                     + "description = ?, "
-                    + "addInfo = ?, "
-                    + "lastUpdate = ?, "
+                    + "add_info = ?, "
+                    + "last_update = ?, "
                     + "new = ?, "
                     + "approved = ?, "
                     + "owner = ?"
@@ -632,13 +653,48 @@ public class ProductDAO
     
     public String[] getRelated(String productId)
     {
-        /*SELECT DISTINCT(product_id) FROM ordered_product WHERE order_id IN
-            (SELECT order_id FROM order_history WHERE customer_id IN
-            (SELECT customer_id FROM order_history WHERE order_id IN
-            (SELECT order_id FROM ordered_product WHERE product_id = "1"))) LIMIT 4;
-           */
+        String query = "SELECT DISTINCT(product_id) FROM ordered_product WHERE order_id IN "
+                    + "(SELECT order_id FROM order_history WHERE customer_id IN "
+                    + "(SELECT customer_id FROM order_history WHERE order_id IN "
+                    + "(SELECT order_id FROM ordered_product WHERE product_id = ?)))"
+                    + "LIMIT 4;";
         String[] related = {"", "", "", ""};
+        
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, productId);
+            this.rs = ps.executeQuery();
+            int i = 0;
+            while(this.rs.next())
+            {
+                related[i] = this.rs.getString("product_id");
+                i++;
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return related;
     }
-
+    
+    public List<String> listAllBrands()
+    {
+        List<String> ret = new ArrayList<String>();
+        try
+        {
+            this.rs = conn.prepareStatement("SELECT DISTINCT(brand) FROM product;").executeQuery();
+            while(this.rs.next())
+            {
+                ret.add(this.rs.getString("brand"));
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
 }

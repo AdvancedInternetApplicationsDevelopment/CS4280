@@ -39,11 +39,11 @@ public class CategoryDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (NamingException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -82,7 +82,7 @@ public class CategoryDAO
     
     public Category getCategoryFromID(int id)
     {
-        Category ret = new Category();
+        Category ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM category"
@@ -123,5 +123,44 @@ public class CategoryDAO
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
+    }
+
+    public boolean categoryExists(String category)
+    {
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM category"
+                    + " WHERE name LIKE ?;");
+            ps.setString(1, "%" + category + "%");
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                return true;
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean addCategory(String category)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO category "
+                    + "(name) "
+                    + "VALUES(?)");
+            ps.setString(1, category);
+            
+            rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
     }
 }

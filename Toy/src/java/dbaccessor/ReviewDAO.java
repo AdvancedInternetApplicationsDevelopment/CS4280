@@ -39,11 +39,11 @@ public class ReviewDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (NamingException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -85,7 +85,7 @@ public class ReviewDAO
     
     public Review getReviewFromID(String customer_id, String product_id)
     {
-        Review ret = new Review();
+        Review ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM review"
@@ -131,5 +131,46 @@ public class ReviewDAO
             Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
+    }
+    
+    public boolean addReview(Review review)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO review "
+                        + "(customer_id, product_id, comments, star) "
+                        + "VALUES(?, ?, ?, ?)");
+                ps.setString(1, review.getCustomer().getEmail());
+                ps.setString(2, review.getProduct().getId());
+                ps.setString(3, review.getComments());
+                ps.setInt(4, review.getStar());
+                
+                rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
+    
+    public boolean deleteReview(Review review)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("DELETE review "
+                        + " WHERE customer_id = ? AND product_id = ? ;");
+                ps.setString(1, review.getCustomer().getEmail());
+                ps.setString(2, review.getProduct().getId());
+                
+                rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
     }
 }

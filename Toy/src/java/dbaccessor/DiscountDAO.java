@@ -39,11 +39,11 @@ public class DiscountDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DiscountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (NamingException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DiscountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -82,7 +82,7 @@ public class DiscountDAO
     
     public Discount getDiscountFromID(String code)
     {
-        Discount ret = new Discount();
+        Discount ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM discount"

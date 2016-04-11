@@ -40,11 +40,11 @@ public class CustomerDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (NamingException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -100,7 +100,7 @@ public class CustomerDAO
     
     public Customer getCustomerFromID(String email)
     {
-        Customer ret = new Customer();
+        Customer ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM customer"
@@ -269,7 +269,7 @@ public class CustomerDAO
             PreparedStatement ps = conn.prepareStatement("INSERT INTO customer "
                     + "(email, fname, lname, phone, fax, address1, address2, "
                     + "city, postal, country, region, cc_number, credits) "
-                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
             ps.setString(1, customer.getEmail());
             ps.setString(2, customer.getFname());
             ps.setString(3, customer.getLname());

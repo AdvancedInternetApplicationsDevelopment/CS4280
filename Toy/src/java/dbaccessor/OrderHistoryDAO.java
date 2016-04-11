@@ -42,11 +42,11 @@ public class OrderHistoryDAO
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderHistoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (NamingException ex)
         {
-            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderHistoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -91,7 +91,7 @@ public class OrderHistoryDAO
     
     public OrderHistory getOrderHistoryFromID(String id)
     {
-        OrderHistory ret = new OrderHistory();
+        OrderHistory ret = null;
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM order_history"
@@ -147,10 +147,9 @@ public class OrderHistoryDAO
         return ret;
     }
     
-    //TODO: not done yet
-    public List<OrderHistory> getByFilter(String customerId, String productId)
+    public List<OrderHistory> getByFilter(String customerId, String orderId)
     {
-        String query = "";
+        String query = getQueryFromFilter(customerId, orderId);
         
         List<OrderHistory> ret = new ArrayList<OrderHistory>();
         try
@@ -178,9 +177,44 @@ public class OrderHistoryDAO
         return ret;
     }
     
+    private String getQueryFromFilter(String customerId, String orderId)
+    {
+        List<String> query = new ArrayList<String>();
+        query.add("SELECT * FROM order_history");
+        query.add(" WHERE");
+        
+        if(!customerId.equalsIgnoreCase(""))
+        {
+            query.add(" customer_id LIKE '%" + customerId + "%'");
+        }
+        if(!orderId.equalsIgnoreCase(""))
+        {
+            query.add(" id LIKE '%" + orderId + "%'");
+        }
+        
+        query.add(";");
+        
+        String ret = "";
+        
+        ret += query.get(0) + query.get(1);
+        
+        for(int i = 2; i <= (query.size() - 2); i++)
+        {
+            ret += query.get(i);
+            if(!(query.get(i + 1).equalsIgnoreCase(";")))
+            {
+                ret += " AND";
+            }
+        }
+        
+        ret += query.get(query.size() - 1);
+        
+        return ret;
+    }
+    
     public synchronized String checkout(List<Order> order, String discountCode, double credit, String customerId)
     {
-        int rows = 0;
+        int rows;
         try
         {
             PreparedStatement ps;
