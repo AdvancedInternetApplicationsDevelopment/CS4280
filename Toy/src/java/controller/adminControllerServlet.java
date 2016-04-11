@@ -150,7 +150,8 @@ public class adminControllerServlet extends HttpServlet {
         if(userPath.equals("/approveProduct"))
         {
             ProductDAO productDAO = new ProductDAO();
-//            productDAO.approveProduct(request.getParameter("productId"));
+            productDAO.approveRecycled(request.getParameter("productId"));
+            productDAO.closeDB();
             userPath = "/adminDashboard";
         }
         

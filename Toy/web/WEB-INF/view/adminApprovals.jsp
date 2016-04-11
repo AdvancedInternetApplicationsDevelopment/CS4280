@@ -4,6 +4,7 @@
     Author     : suhag
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -143,32 +144,55 @@
                     					<div class="row">
                     					<!-- Product #1 Starts -->
                     						<div class="col-xs-12">
-                    							<div class="product-col list clearfix" style=" padding: 15px 15px 10px;  margin-bottom: 20px; background: #fff; border: 1px solid #e8e8e8;">
-                    								<div class="image" style="float: left; padding: 20px 30px 10px 0;">
-                    									<img src="images/product-images/2.jpg" alt="product" class="img-responsive" />
-                    								</div>
-                    								<div class="caption" style="color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif;padding: 20px 0;">
-                    									<h4 style="color: #252a2f; font-weight: bold; font-size: 16px; text-transform: uppercase;"><a style= "color: #252a2f;"href="product-full.html">Simply Organic Seeds</a></h4>
-                    									<div class="description" style=" padding-right: 20px; padding: 5px 0;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; line-height: 18px; text-align: justify;">
-                    										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                    									</div>
-                    									<div class="price" style=" color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; padding: 10px 0;">
-                    										<p class="product-owner" style=" font-size: 14px; color: #2f353b;">Product Owner: suhagba@gmail.com</p>
-                    										<span class="price-new" style=" color: #ef4135; font-size: 24px;padding-right: 5px;">$199.50</span>
-                    										<span class="price-old" style =" font-size: 18px; color: #808080;text-decoration: line-through;">$249.50</span>
-                    									</div>
-                    									<div class="cart-button button-group" style="padding-top:10px">
-                    										<button type="button" class="btn btn-cart" style="font-size: 14px;color: #fff;text-transform: uppercase;">
-                    											approve
-                    											<i class="fa fa-check" style="margin-right: 5px;"></i>
-                    										</button>
-                    									</div>
-                    								</div>
-                    							</div>
+                                                                    <c:choose>
+                                                                        <c:when test="${approveProducts == null}">
+                                                                            <div><p>No pending approvals</p></div>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <c:forEach var="approveProduct" items="${approveProducts}">
+                                                                                <div class="product-col list clearfix" style=" padding: 15px 15px 10px;  margin-bottom: 20px; background: #fff; border: 1px solid #e8e8e8;">
+                                                                                        <div class="image" style="float: left; padding: 20px 30px 10px 0;">
+                                                                                                <img src="/ToyStore/getImage?productId=${approveProduct.id}" alt="product" class="img-responsive" />
+                                                                                        </div>
+                                                                                        <div class="caption" style="color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif;padding: 20px 0;">
+                                                                                                <h4 style="color: #252a2f; font-weight: bold; font-size: 16px; text-transform: uppercase;"><a style= "color: #252a2f;"href="/ToyStore/adminViewRecycled?productId=${approveProduct.name}">${approveProduct.name}</a></h4>
+                                                                                                <div class="description" style=" padding-right: 20px; padding: 5px 0;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; line-height: 18px; text-align: justify;">
+                                                                                                     ${approveProduct.description}  
+                                                                                                </div>
+                                                                                                <div class="price" style=" color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; padding: 10px 0;">
+                                                                                                        <p class="product-owner" style=" font-size: 14px; color: #2f353b;">Product Owner: ${approveProduct.owner}</p>
+                                                                                                        <span class="price-new" style=" color: #ef4135; font-size: 24px;padding-right: 5px;">$199.50</span>
+                                                                                                        <span class="price-old" style =" font-size: 18px; color: #808080;text-decoration: line-through;">$ ${approveProduct.price}</span>
+                                                                                                </div>
+                                                                                                <div class="cart-button button-group" style="padding-top:10px">
+                                                                                                        <c:choose>
+                                                                                                            <c:when test="${approveProduct.approved == false}">
+                                                                                                                <form action="/ToyStore/approveProduct" method="post">
+                                                                                                                    <input type="hidden" name="productId" value="${approveProduct.id}">
+                                                                                                                    <button type="submit" class="btn btn-cart" style="font-size: 14px;color: #fff;text-transform: uppercase;" value="/ToyStore/approveProduct">
+                                                                                                                        approve
+                                                                                                                        <i class="fa fa-check" style="margin-right: 5px;"></i>
+                                                                                                                    </button>
+                                                                                                                </form>
+                                                                                                            </c:when>
+                                                                                                            <c:otherwise>
+                                                                                                                <button type="button" class="btn btn-cart disabled" style="font-size: 14px;color: #fff;text-transform: uppercase;" disabled="disabled">
+                                                                                                                    approved
+                                                                                                                    <i class="fa fa-check" style="margin-right: 5px;"></i>
+                                                                                                                </button>
+                                                                                                            </c:otherwise>
+                                                                                                        </c:choose>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                            </c:forEach>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                    							
                     						</div>
                     					<!-- Product #1 Ends -->
                     					</div>
-                    				<!-- Product List Display Ends -->
+                                    <!-- Product List Display Ends -->
                                 </div>
                             </div>
                         </div>
