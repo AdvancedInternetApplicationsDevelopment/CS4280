@@ -512,6 +512,24 @@ public class ProductDAO
         return (rows > 0);
     }
     
+    public boolean approveRecycled(String id)
+    {
+        int rows = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("UPDATE product SET"
+                        + " approved = ? WHERE id = ?;");
+                ps.setBoolean(1, true);
+                ps.setString(2, id);
+                rows = ps.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
+    
     public boolean updateImageByID(String id, Blob image)
     {
         int rows = 0;
