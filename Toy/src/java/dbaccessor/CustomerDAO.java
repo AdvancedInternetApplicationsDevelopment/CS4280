@@ -189,6 +189,7 @@ public class CustomerDAO
                 LoginDAO loginDAO = new LoginDAO();
                 cus.setLogin(loginDAO.getLoginFromID(this.rs.getString("email")));
                 ret.add(cus);
+                loginDAO.closeDB();
             }
         }
         catch (SQLException ex)

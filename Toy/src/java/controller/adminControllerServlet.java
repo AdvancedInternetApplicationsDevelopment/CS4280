@@ -85,6 +85,14 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("customerSearchList", customerSearchList);
         }
         
+        else if(userPath.equals("/adminViewRecycled"))
+        {
+            String productId = request.getParameter("productId");
+            ProductDAO productDAO = new ProductDAO();
+            Product product = productDAO.getProductFromID(productId);
+            request.setAttribute("product", product);
+        }
+        
         String url = "/WEB-INF/view" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
