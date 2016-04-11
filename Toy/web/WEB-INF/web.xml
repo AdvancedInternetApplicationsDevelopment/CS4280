@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
-        <servlet-name>CreateCategoryList</servlet-name>
-        <servlet-class>controller.CreateCategoryList</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>adminControllerServlet</servlet-name>
         <servlet-class>controller.adminControllerServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -18,10 +14,6 @@
         <servlet-class>controller.getImage</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>CreateCategoryList</servlet-name>
-        <url-pattern>/CreateCategoryList</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>adminControllerServlet</servlet-name>
         <url-pattern>/adminAddProducts</url-pattern>
         <url-pattern>/adminApprovals</url-pattern>
@@ -32,6 +24,7 @@
         <url-pattern>/adminRecycledProducts</url-pattern>
         <url-pattern>/adminTransactions</url-pattern>
         <url-pattern>/adminViewRecycled</url-pattern>
+        <url-pattern>/approveProduct</url-pattern>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

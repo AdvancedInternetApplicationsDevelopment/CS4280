@@ -147,6 +147,13 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("customerSearchList", customerSearchList);
         }
         
+        if(userPath.equals("/approveProduct"))
+        {
+            ProductDAO productDAO = new ProductDAO();
+//            productDAO.approveProduct(request.getParameter("productId"));
+            userPath = "/adminDashboard";
+        }
+        
         
         String url = "/WEB-INF/view" + userPath + ".jsp";
         try {

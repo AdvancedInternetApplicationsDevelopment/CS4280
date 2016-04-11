@@ -250,11 +250,23 @@
                                                             <span class="price-new" style=" color: #ef4135; font-size: 24px;padding-right: 5px;">$ ${latestApprovalItem.price}</span>
                                                         </div>
                                                         <div class="cart-button button-group" style="padding-top:10px">
-                                                            
-                                                            <button type="button" class="btn btn-cart" style="font-size: 14px;color: #fff;text-transform: uppercase;">
-                                                                approve
-                                                                <i class="fa fa-check" style="margin-right: 5px;"></i>
-                                                            </button>
+                                                            <c:choose>
+                                                                <c:when test="${ latestApprovalItem.approved == false}">
+                                                                    <form action="/ToyStore/approveProduct" method="post">
+                                                                        <input type="hidden" name="productId" value="${latestApprovalItem.id}">
+                                                                        <button type="submit" class="btn btn-cart" style="font-size: 14px;color: #fff;text-transform: uppercase;" value="/ToyStore/approveProduct">
+                                                                            approve
+                                                                            <i class="fa fa-check" style="margin-right: 5px;"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <button type="button" class="btn btn-cart disabled" style="font-size: 14px;color: #fff;text-transform: uppercase;" disabled="disabled">
+                                                                        approved
+                                                                        <i class="fa fa-check" style="margin-right: 5px;"></i>
+                                                                    </button>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </div>
                                                     </div>
                                                 </c:otherwise>

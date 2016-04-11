@@ -149,6 +149,12 @@
                                             <input type="text" class="form-control" id="inputModelNumber" placeholder="Model Number">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                           <label for="inputCategory" class="col-sm-3 control-label">Category :</label>
+                                           <div class="col-sm-9">
+                                               <input type="text" class="form-control" id="inputCategory" placeholder="Category">
+                                           </div>
+                                       </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
                                         <button type="submit" class="btn btn-danger">
