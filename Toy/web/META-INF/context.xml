@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/ToyStore"/>
+<Context antiJARLocking="true" path="/ToyStore">
+  <Resource name="jdbc/toy" auth="Container" type="javax.sql.DataSource"
+    maxActive="20" maxIdle="5" maxWait="3000" removeAbandoned="true"
+    username="localdb" password="Localdb123"
+    driverClassName="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://127.0.0.1:3306/mydb" />
+</Context>
+

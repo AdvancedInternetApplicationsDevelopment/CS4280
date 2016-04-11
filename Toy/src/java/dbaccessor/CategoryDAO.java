@@ -6,13 +6,16 @@
 package dbaccessor;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import model.Category;
 
 /**
@@ -29,24 +32,18 @@ public class CategoryDAO
     {
         try
         {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb","localdb","Localdb123");
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (InstantiationException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (IllegalAccessException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context)initCtx.lookup("java:comp/env");
+            DataSource ds = (DataSource)envCtx.lookup("jdbc/toy");
+            this.conn = ds.getConnection();
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (NamingException ex)
+        {
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -98,6 +95,27 @@ public class CategoryDAO
                 cat.setId(this.rs.getInt("id"));
                 cat.setName(this.rs.getString("name"));
                 ret = cat;
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public int getCategoryIDFromName(String name)
+    {
+        int ret = 0;
+        try
+        {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM category"
+                    + " WHERE name LIKE ?;");
+            ps.setString(1, "%" + name + "%");
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getInt("id");
             }
         }
         catch (SQLException ex)

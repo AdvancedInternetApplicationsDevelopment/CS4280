@@ -7,13 +7,16 @@ package dbaccessor;
 
 import java.sql.Blob;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import model.Product;
 import model.ProductImage;
 
@@ -31,24 +34,18 @@ public class ProductDAO
     {
         try
         {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb","localdb","Localdb123");
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (InstantiationException ex)
-        {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (IllegalAccessException ex)
-        {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context)initCtx.lookup("java:comp/env");
+            DataSource ds = (DataSource)envCtx.lookup("jdbc/toy");
+            this.conn = ds.getConnection();
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (NamingException ex)
+        {
+            Logger.getLogger(CCInfoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -162,7 +159,7 @@ public class ProductDAO
         Product ret = new Product();
         try
         {
-            PreparedStatement ps = conn.prepareStatement("SELECT product.name,"
+            PreparedStatement ps = conn.prepareStatement("SELECT product.id,"
                     + " SUM(ordered_product.quantity) AS totquantity"
                     + " FROM product, ordered_product"
                     + " WHERE  product.id = ordered_product.product_id"
@@ -170,8 +167,8 @@ public class ProductDAO
             this.rs = ps.executeQuery();
             while(this.rs.next())
             {
-                String name = rs.getString("name");
-                ret = getProductFromName(name);
+                String id = rs.getString("id");
+                ret = getProductFromID(id);
             }
         }
         catch (SQLException ex)
@@ -181,9 +178,9 @@ public class ProductDAO
         return ret;
     }
 
-    public Product getProductFromName(String name)
+    public List<Product> getProductFromName(String name)
     {
-        Product ret = new Product();
+        List<Product> ret = new ArrayList<Product>();
         try
         {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM product"
@@ -209,7 +206,7 @@ public class ProductDAO
                 product.setNew1(this.rs.getBoolean("new"));
                 product.setApproved(this.rs.getBoolean("approved"));
                 product.setOwner(this.rs.getString("owner"));
-                ret = product;
+                ret.add(product);
             }
         }
         catch (SQLException ex)
