@@ -216,7 +216,7 @@
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <c:choose>
-                                        <c:when test="${customerSearchList == null}">
+                                        <c:when test="${customerSearchList[0] == null}">
                                             <div><p>No customers to display</p></div>
                                         </c:when>
                                         <c:otherwise>
