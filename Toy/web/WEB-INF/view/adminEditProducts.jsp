@@ -4,6 +4,7 @@
     Author     : suhag
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -182,7 +183,11 @@
                                     <div class="form-group">
                                         <label for="inputCategory" class="col-sm-3 control-label">Category:</label>
                                         <div class="col-sm-9">
-                                            <select></select>
+                                            <select name="category">
+                                                <c:forEach items="${categories}" var="cat">
+                                                    <option value="${cat.id}"> ${cat.name}}</option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
                                     </div>
                                 <div class="form-group">

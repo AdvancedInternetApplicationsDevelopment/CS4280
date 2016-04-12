@@ -254,7 +254,7 @@
                                                                 <c:when test="${ latestApprovalItem.approved == false}">
                                                                     <form action="/ToyStore/approveProduct" method="post">
                                                                         <input type="hidden" name="productId" value="${latestApprovalItem.id}">
-                                                                        <button type="submit" class="btn btn-cart" style="font-size: 14px;color: #fff;text-transform: uppercase;" value="/ToyStore/approveProduct">
+                                                                        <button type="submit" class="btn btn-success" style="font-size: 14px;text-transform: uppercase;" value="/ToyStore/approveProduct">
                                                                             approve
                                                                             <i class="fa fa-check" style="margin-right: 5px;"></i>
                                                                         </button>
@@ -297,11 +297,11 @@
                                              <table class="table table-bordered table-hover table-striped">
                                                 <thead>
                                             <tr>
-                                                <th>Product ID #</th>
+                                                <th>Order number</th>
                                                 <th>Customer ID</th>
                                                 <th>Total amount</th>
                                                 <th>date </th>
-                                                <th>Discount Item</th>
+                                                <th>Discount</th>
                                                 <th>credit amount used</th>
                                             </tr>
                                         </thead>

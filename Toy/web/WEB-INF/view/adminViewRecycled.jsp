@@ -4,6 +4,7 @@
     Author     : suhag
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -140,57 +141,70 @@
                                     <div class="form-group">
                                         <label for="inputPname" class="col-sm-3 control-label" >Product Name :</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputPname" placeholder="Product Name">
+                                            <input type="text" class="form-control" id="inputPname" placeholder="Product Name" value="${product.name}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputModelNumber" class="col-sm-3 control-label">Model Number:</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputModelNumber" placeholder="Model Number">
+                                            <input type="text" class="form-control" id="inputModelNumber" placeholder="Model Number" value="${product.modelNum}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputBrand" class="col-sm-3 control-label">Brand:</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputBrand" placeholder="Brand">
+                                            <input type="text" class="form-control" id="inputBrand" placeholder="Brand" value="${product.brand}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputDescription" class="col-sm-3 control-label">Description:</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputDescription" placeholder="Description">
+                                            <input type="text" class="form-control" id="inputDescription" placeholder="Description" value="${product.description}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputAvailability" class="col-sm-3 control-label">Availability:</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputAvailability" placeholder="Availability">
+                                            <input type="text" class="form-control" id="inputAvailability" placeholder="Availability" value="${product.quantity}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPrice" class="col-sm-3 control-label">Price:</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputDescription" placeholder="Price">
+                                            <input type="text" class="form-control" id="inputDescription" placeholder="Price" value="$ ${product.price}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputAdditionalInfo" class="col-sm-3 control-label">Additional Information:</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputAdditionalInfo" placeholder="Additional Information">
+                                            <input type="text" class="form-control" id="inputAdditionalInfo" placeholder="Additional Information" value="${product.addInfo}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputCategory" class="col-sm-3 control-label">Category:</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputCategory" placeholder="Category">
+                                            <input type="text" class="form-control" id="inputCategory" placeholder="Category" value="${product.categoryId.name}">
                                         </div>
                                     </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="button" class="btn btn-success disabled" style="font-size: 14px;color: #fff;text-transform: uppercase;" disabled="disabled" >
-                                            approved
-                                            <i class="fa fa-check" style="margin-right: 5px;"></i>
-                    			</button>
+                                        <c:choose>
+                                            <c:when test="${!( product.approved)}">
+                                                <form action="/ToyStore/approveProduct" method="post">
+                                                    <input type="hidden" name="productId" value="${product.id}">
+                                                    <button type="button" class="btn btn-success" style="font-size: 14px;text-transform: uppercase;" value="/ToyStore/approveProduct">
+                                                        approve
+                                                        <i class="fa fa-check" style="margin-right: 5px;"></i>
+                                                    </button>
+                                                </form>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button type="button" class="btn btn-cart disabled" style="font-size: 14px;color: #fff;text-transform: uppercase;" disabled="disabled">
+                                                    approved
+                                                    <i class="fa fa-check" style="margin-right: 5px;"></i>
+                                                </button>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             <!-- Payment Area Ends -->
@@ -199,8 +213,8 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <a href="images/product-images/pimg3.jpg">
-                            <img src="images/product-images/pimg3.jpg" alt="Image" class="img-responsive thumbnail" />
+                        <a href="/ToyStore/getImage?productId=${product.id}">
+                            <img src="/ToyStore/getImage?productId=${product.id}" alt="Image" class="img-responsive thumbnail" />
                         </a>
                     </div>
                 </div>

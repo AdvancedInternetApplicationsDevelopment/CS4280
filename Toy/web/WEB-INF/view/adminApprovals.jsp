@@ -169,7 +169,7 @@
                                                                                                             <c:when test="${approveProduct.approved == false}">
                                                                                                                 <form action="/ToyStore/approveProduct" method="post">
                                                                                                                     <input type="hidden" name="productId" value="${approveProduct.id}">
-                                                                                                                    <button type="submit" class="btn btn-cart" style="font-size: 14px;color: #fff;text-transform: uppercase;" value="/ToyStore/approveProduct">
+                                                                                                                    <button type="submit" class="btn btn-success" style="font-size: 14px;;text-transform: uppercase;" value="/ToyStore/approveProduct">
                                                                                                                         approve
                                                                                                                         <i class="fa fa-check" style="margin-right: 5px;"></i>
                                                                                                                     </button>

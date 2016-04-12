@@ -9,11 +9,13 @@ import dbaccessor.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Category;
 import model.Customer;
 import model.OrderHistory;
 import model.Product;
@@ -83,6 +85,14 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("country", "");
             request.setAttribute("region", "");
             request.setAttribute("customerSearchList", customerSearchList);
+        }
+        
+        else if(userPath.equals("/adminTransactions"))
+        {
+            List<OrderHistory> orderHistorys = null;
+            request.setAttribute("transactions", orderHistorys);
+            request.setAttribute("orderNo", "");
+            request.setAttribute("userId", "");
         }
         
         else if(userPath.equals("/adminViewRecycled"))
@@ -159,6 +169,18 @@ public class adminControllerServlet extends HttpServlet {
             userPath = "/adminDashboard";
         }
         
+        if(userPath.equals("/adminTransactions"))
+        {
+            String customerId = request.getParameter("userId");
+            String orderNo = request.getParameter("orderNo");
+            OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
+            List<OrderHistory> orderHistory = orderHistoryDAO.getByFilter(customerId, orderNo);
+            orderHistoryDAO.closeDB();
+            request.setAttribute("transactions", orderHistory);
+            request.setAttribute("orderNo", orderNo);
+            request.setAttribute("userId", customerId);
+        }
+        
         
         String url = "/WEB-INF/view" + userPath + ".jsp";
         try {
@@ -179,5 +201,16 @@ public class adminControllerServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        ServletContext application = getServletContext();
+        CategoryDAO categoryDAO = new CategoryDAO();
+        List<Category> categories = categoryDAO.getAll();
+        categoryDAO.closeDB();
+        application.setAttribute("categories", categories);
+    }
+    
 
 }
