@@ -168,7 +168,7 @@ CREATE TABLE `order_history` (
   `id` varchar(40) NOT NULL,
   `customer_id` varchar(25) NOT NULL,
   `amount` decimal(8,2) NOT NULL,
-  `date_created` datetime NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `discount` decimal(8,2) DEFAULT '0.00',
   `credit` decimal(8,2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
@@ -238,7 +238,7 @@ CREATE TABLE `product` (
   `description` mediumtext,
   `add_info` varchar(50) DEFAULT NULL,
   `image` blob,
-  `last_update` datetime NOT NULL,
+  `last_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `new` bit(1) NOT NULL DEFAULT b'1',
   `approved` bit(1) NOT NULL DEFAULT b'1',
   `owner` varchar(25) DEFAULT 'shop',
@@ -256,7 +256,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES ('1','milk','',1,NULL,NULL,1.70,'brand1','semi skimmed (1L)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('10','sesame seed bagel','',3,NULL,NULL,1.19,'brand2','4 bagels',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('11','pumpkin seed bun','',3,NULL,NULL,1.15,'brand3','4 buns',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('12','chocolate cookies','',3,NULL,NULL,2.39,'brand3','contain peanuts<br>(3 cookies)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('13','corn on the cob','',4,NULL,NULL,1.59,'brand2','2 pieces',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('14','red currants','',4,NULL,NULL,2.49,'brand6','150g',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('15','broccoli','',4,NULL,NULL,1.29,'brand2','500g',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('16','seedless watermelon','',4,NULL,NULL,1.49,'brand4','250g',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('2','cheese','',1,NULL,NULL,2.39,'brand5','mild cheddar (330g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('3','butter','',1,NULL,NULL,1.09,'brand3','unsalted (250g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('4','free range eggs','',1,NULL,NULL,1.76,'brand1','medium-sized (6 eggs)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('5','organic meat patties','',2,NULL,NULL,2.29,'brand4','rolled in fresh herbs<br>2 patties (250g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('6','parma ham','',2,NULL,NULL,3.49,'brand5','matured, organic (70g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('7','chicken leg','',2,NULL,NULL,2.59,'brand6','free range (250g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('8','sausages','',2,NULL,NULL,3.55,'brand7','reduced fat, pork<br>3 sausages (350g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('9','sunflower seed loaf','',3,NULL,NULL,1.89,'brand9','600g',NULL,NULL,'2016-12-31 00:00:00','','','Shop');
+INSERT INTO `product` VALUES ('1','milk','8',1,NULL,NULL,1.70,'brand1','semi skimmed (1L)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('10','sesame seed bagel','modelnum2',3,NULL,NULL,1.19,'brand2','4 bagels',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('11','pumpkin seed bun','modelnum3',3,NULL,NULL,1.15,'brand3','4 buns',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('12','chocolate cookies','modelnum4',3,NULL,NULL,2.39,'brand3','contain peanuts<br>(3 cookies)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('13','corn on the cob','modelnum5',4,NULL,NULL,1.59,'brand2','2 pieces',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('14','red currants','modelnum6',4,NULL,NULL,2.49,'brand6','150g',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('15','broccoli','modelnum7',4,NULL,NULL,1.29,'brand2','500g',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('16','seedless watermelon','modelnum8',4,NULL,NULL,1.49,'brand4','250g',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('2','cheese','modelnum9',1,NULL,NULL,2.39,'brand5','mild cheddar (330g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('3','butter','modelnum10',1,NULL,NULL,1.09,'brand3','unsalted (250g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('4','free range eggs','modelnum11',1,NULL,NULL,1.76,'brand1','medium-sized (6 eggs)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('5','organic meat patties','modelnum12',2,NULL,NULL,2.29,'brand4','rolled in fresh herbs<br>2 patties (250g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('6','parma ham','modelnum13',2,NULL,NULL,3.49,'brand5','matured, organic (70g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('7','chicken leg','modelnum14',2,NULL,NULL,2.59,'brand6','free range (250g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('8','sausages','modelnum15',2,NULL,NULL,3.55,'brand7','reduced fat, pork<br>3 sausages (350g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('9','sunflower seed loaf','modelnum16',3,NULL,NULL,1.89,'brand9','600g',NULL,NULL,'2016-04-12 23:52:10','','','Shop');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,4 +300,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-12 23:46:02
+-- Dump completed on 2016-04-13  0:00:25
