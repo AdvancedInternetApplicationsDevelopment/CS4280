@@ -193,7 +193,7 @@
                                                             <tr>
                                                                 <td>${item.id}</td>
                                                                 <td>${item.customerId.email}</td>
-                                                                <td>${item.amount}M</td>
+                                                                <td>${item.amount}</td>
                                                                 <td>${item.dateCreated}</td>
                                                                 <td>${item.discount}</td>
                                                                 <td>${item.credit}</td>

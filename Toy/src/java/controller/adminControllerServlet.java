@@ -95,6 +95,32 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("userId", "");
         }
         
+        else if(userPath.equals("/adminProducts"))
+        {
+            List<Product> products = null;
+            request.setAttribute("pName", "");
+            request.setAttribute("mNo", "");
+            request.setAttribute("categoryId", -1);
+            request.setAttribute("products", products);
+        }
+        else if(userPath.equals("/adminRecycledProducts"))
+        {
+            List<Product> products = null;
+            request.setAttribute("pName", "");
+            request.setAttribute("mNo", "");
+            request.setAttribute("categoryId", -1);
+            request.setAttribute("owner", "");
+            request.setAttribute("products", products);
+        }
+        
+        else if(userPath.equals("/adminApprovals"))
+        {
+            ProductDAO productDAO = new ProductDAO();
+            List<Product> approveProducts = productDAO.getAllPending();
+            request.setAttribute("approveProducts", approveProducts);
+            
+        }
+        
         else if(userPath.equals("/adminViewRecycled"))
         {
             String productId = request.getParameter("productId");
@@ -161,7 +187,7 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("customerSearchList", customerSearchList);
         }
         
-        if(userPath.equals("/approveProduct"))
+        else if(userPath.equals("/approveProduct"))
         {
             ProductDAO productDAO = new ProductDAO();
             productDAO.approveRecycled(request.getParameter("productId"));
@@ -169,7 +195,7 @@ public class adminControllerServlet extends HttpServlet {
             userPath = "/adminDashboard";
         }
         
-        if(userPath.equals("/adminTransactions"))
+        else if(userPath.equals("/adminTransactions"))
         {
             String customerId = request.getParameter("userId");
             String orderNo = request.getParameter("orderNo");
@@ -179,6 +205,37 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("transactions", orderHistory);
             request.setAttribute("orderNo", orderNo);
             request.setAttribute("userId", customerId);
+        }
+        
+        else if(userPath.equals("/adminProducts"))
+        {
+            List<Product> products = null;
+            String pName = request.getParameter("pName");
+            String mNo = request.getParameter("mNo");
+            int categoryId = Integer.parseInt(request.getParameter("category"));
+            ProductDAO productDAO = new ProductDAO();
+            products = productDAO.getByFilter(pName, mNo, categoryId);
+            request.setAttribute("pName", pName);
+            request.setAttribute("mNo", mNo);
+            request.setAttribute("categoryId", categoryId);
+            request.setAttribute("products", products);
+            
+        }
+        else if(userPath.equals("/adminRecycledProducts"))
+        {
+            List<Product> products = null;
+            String pName = request.getParameter("pName");
+            String mNo = request.getParameter("mNo");
+            String owner = request.getParameter("owner");
+            int categoryId = Integer.parseInt(request.getParameter("category"));
+            ProductDAO productDAO = new ProductDAO();
+            products = productDAO.getRecycledByFilter(pName, owner, categoryId);
+            request.setAttribute("pName", pName);
+            request.setAttribute("mNo", mNo);
+            request.setAttribute("owner", owner);
+            request.setAttribute("categoryId", categoryId);
+            request.setAttribute("products", products);
+            
         }
         
         

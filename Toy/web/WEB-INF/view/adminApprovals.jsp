@@ -145,7 +145,7 @@
                     					<!-- Product #1 Starts -->
                     						<div class="col-xs-12">
                                                                     <c:choose>
-                                                                        <c:when test="${approveProducts == null}">
+                                                                        <c:when test="${approveProducts[0] == null}">
                                                                             <div><p>No pending approvals</p></div>
                                                                         </c:when>
                                                                         <c:otherwise>
