@@ -70,8 +70,10 @@ public class ReviewDAO
                 Review review = new Review();
                 CustomerDAO customerDAO = new CustomerDAO();
                 review.setCustomer(customerDAO.getCustomerFromID(this.rs.getString("customer_id")));
+                customerDAO.closeDB();
                 ProductDAO productDAO = new ProductDAO();
                 review.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
+                productDAO.closeDB();
                 review.setComments(this.rs.getString("comments"));
                 ret.add(review);
             }
@@ -98,8 +100,10 @@ public class ReviewDAO
                 Review review = new Review();
                 CustomerDAO customerDAO = new CustomerDAO();
                 review.setCustomer(customerDAO.getCustomerFromID(this.rs.getString("customer_id")));
+                customerDAO.closeDB();
                 ProductDAO productDAO = new ProductDAO();
                 review.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
+                productDAO.closeDB();
                 review.setComments(this.rs.getString("comments"));
                 review.setStar(this.rs.getInt("star"));
                 ret = review;
