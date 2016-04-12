@@ -23,158 +23,16 @@ import model.Review;
  * @author Ninad
  */
 
-public class ReviewDAO
+public interface ReviewDAO
 {
-    Connection conn;
-    ResultSet rs;
+    public List<Review> getAll();
     
-    public ReviewDAO()
-    {
-        try
-        {
-            Context initCtx = new InitialContext();
-            Context envCtx = (Context)initCtx.lookup("java:comp/env");
-            DataSource ds = (DataSource)envCtx.lookup("jdbc/toy");
-            this.conn = ds.getConnection();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (NamingException ex)
-        {
-            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    public Review getReviewFromID(String customer_id, String product_id);
     
-    public void closeDB()
-    {
-        try
-        {
-            conn.close();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    public int getAvgStarFromProductID(String product_id);
     
-    public List<Review> getAll()
-    {
-        List<Review> ret = new ArrayList<Review>();
-        try
-        {
-            this.rs = conn.prepareStatement("SELECT * FROM review;").executeQuery();
-            while(this.rs.next())
-            {
-                Review review = new Review();
-                CustomerDAO customerDAO = new CustomerDAO();
-                review.setCustomer(customerDAO.getCustomerFromID(this.rs.getString("customer_id")));
-                customerDAO.closeDB();
-                ProductDAO productDAO = new ProductDAO();
-                review.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
-                productDAO.closeDB();
-                review.setComments(this.rs.getString("comments"));
-                ret.add(review);
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
+    public boolean addReview(Review review);
     
-    public Review getReviewFromID(String customer_id, String product_id)
-    {
-        Review ret = null;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM review"
-                    + " WHERE customer_id = ? AND product_id = ?;");
-            ps.setString(1, customer_id);
-            ps.setString(2, product_id);
-            this.rs = ps.executeQuery();
-            while(this.rs.next())
-            {
-                Review review = new Review();
-                CustomerDAO customerDAO = new CustomerDAO();
-                review.setCustomer(customerDAO.getCustomerFromID(this.rs.getString("customer_id")));
-                customerDAO.closeDB();
-                ProductDAO productDAO = new ProductDAO();
-                review.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
-                productDAO.closeDB();
-                review.setComments(this.rs.getString("comments"));
-                review.setStar(this.rs.getInt("star"));
-                ret = review;
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
+    public boolean deleteReview(Review review);
     
-    public int getAvgStarFromProductID(String product_id)
-    {
-        int ret = 0;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("SELECT AVG(star)"
-                    + " FROM review WHERE product_id = ?;");
-            ps.setString(1, product_id);
-            this.rs = ps.executeQuery();
-            while(this.rs.next())
-            {
-                ret = this.rs.getInt("AVG(star)");
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
-    
-    public boolean addReview(Review review)
-    {
-        int rows = 0;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO review "
-                        + "(customer_id, product_id, comments, star) "
-                        + "VALUES(?, ?, ?, ?)");
-                ps.setString(1, review.getCustomer().getEmail());
-                ps.setString(2, review.getProduct().getId());
-                ps.setString(3, review.getComments());
-                ps.setInt(4, review.getStar());
-                
-                rows = ps.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return (rows > 0);
-    }
-    
-    public boolean deleteReview(Review review)
-    {
-        int rows = 0;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("DELETE review "
-                        + " WHERE customer_id = ? AND product_id = ? ;");
-                ps.setString(1, review.getCustomer().getEmail());
-                ps.setString(2, review.getProduct().getId());
-                
-                rows = ps.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return (rows > 0);
-    }
 }

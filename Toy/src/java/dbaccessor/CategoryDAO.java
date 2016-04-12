@@ -5,17 +5,8 @@
  */
 package dbaccessor;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+
 import model.Category;
 
 /**
@@ -23,144 +14,16 @@ import model.Category;
  * @author Ninad
  */
 
-public class CategoryDAO
+public interface CategoryDAO
 {
-    Connection conn;
-    ResultSet rs;
+    public List<Category> getAll();
     
-    public CategoryDAO()
-    {
-        try
-        {
-            Context initCtx = new InitialContext();
-            Context envCtx = (Context)initCtx.lookup("java:comp/env");
-            DataSource ds = (DataSource)envCtx.lookup("jdbc/toy");
-            this.conn = ds.getConnection();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (NamingException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    public Category getCategoryFromID(int id);
     
-    public void closeDB()
-    {
-        try
-        {
-            conn.close();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    public int getCategoryIDFromName(String name);
     
-    public List<Category> getAll()
-    {
-        List<Category> ret = new ArrayList<Category>();
-        try
-        {
-            this.rs = conn.prepareStatement("SELECT * FROM category;").executeQuery();
-            while(this.rs.next())
-            {
-                Category cat = new Category();
-                cat.setId(this.rs.getInt("id"));
-                cat.setName(this.rs.getString("name"));
-                ret.add(cat);
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
+    public boolean categoryExists(String category);
     
-    public Category getCategoryFromID(int id)
-    {
-        Category ret = null;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM category"
-                    + " WHERE id = ?;");
-            ps.setInt(1, id);
-            this.rs = ps.executeQuery();
-            while(this.rs.next())
-            {
-                Category cat = new Category();
-                cat.setId(this.rs.getInt("id"));
-                cat.setName(this.rs.getString("name"));
-                ret = cat;
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
+    public boolean addCategory(String category);
     
-    public int getCategoryIDFromName(String name)
-    {
-        int ret = 0;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM category"
-                    + " WHERE name LIKE ?;");
-            ps.setString(1, "%" + name + "%");
-            this.rs = ps.executeQuery();
-            while(this.rs.next())
-            {
-                ret = this.rs.getInt("id");
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
-
-    public boolean categoryExists(String category)
-    {
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM category"
-                    + " WHERE name LIKE ?;");
-            ps.setString(1, "%" + category + "%");
-            this.rs = ps.executeQuery();
-            while(this.rs.next())
-            {
-                return true;
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public boolean addCategory(String category)
-    {
-        int rows = 0;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO category "
-                    + "(name) "
-                    + "VALUES(?)");
-            ps.setString(1, category);
-            
-            rows = ps.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return (rows > 0);
-    }
 }

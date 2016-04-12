@@ -5,17 +5,8 @@
  */
 package dbaccessor;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+
 import model.Login;
 
 /**
@@ -23,123 +14,14 @@ import model.Login;
  * @author Ninad
  */
 
-public class LoginDAO
+public interface LoginDAO
 {
-    Connection conn;
-    ResultSet rs;
+    public List<Login> getAll();
     
-    public LoginDAO()
-    {
-        try
-        {
-            Context initCtx = new InitialContext();
-            Context envCtx = (Context)initCtx.lookup("java:comp/env");
-            DataSource ds = (DataSource)envCtx.lookup("jdbc/toy");
-            this.conn = ds.getConnection();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (NamingException ex)
-        {
-            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    public Login getLoginFromID(String idlogin);
     
-    public void closeDB()
-    {
-        try
-        {
-            conn.close();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    public boolean addLogin(Login login);
     
-    public List<Login> getAll()
-    {
-        List<Login> ret = new ArrayList<Login>();
-        try
-        {
-            this.rs = conn.prepareStatement("SELECT * FROM login;").executeQuery();
-            while(this.rs.next())
-            {
-                Login login = new Login();
-                login.setIdlogin(this.rs.getString("idlogin"));
-                login.setIdpass(this.rs.getString("idpass"));
-                ret.add(login);
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
+    public boolean updatePass(String idLogin);
     
-    public Login getLoginFromID(String idlogin)
-    {
-        Login ret = null;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM login"
-                    + " WHERE idlogin = ?;");
-            ps.setString(1, idlogin);
-            this.rs = ps.executeQuery();
-            while(this.rs.next())
-            {
-                Login login = new Login();
-                login.setIdlogin(this.rs.getString("idlogin"));
-                login.setIdpass(this.rs.getString("idpass"));
-                ret = login;
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
-    
-    public boolean addLogin(Login login)
-    {
-        int rows = 0;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO login "
-                    + "(idlogin, idpass) "
-                    + "VALUES(?, ?);");
-            ps.setString(1, login.getIdlogin());
-            ps.setString(2, login.getIdpass());
-            
-            rows = ps.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return (rows > 0);
-    }
-    
-    public boolean updatePass(String idLogin)
-    {
-        int rows = 0;
-        try
-        {
-            PreparedStatement ps = conn.prepareStatement("UPDATE login SET "
-                    + "idpass = ? "
-                    + " WHERE idlogin = ?;");
-            ps.setString(1, idLogin);
-            
-            rows = ps.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return (rows > 0);
-    }
 }
