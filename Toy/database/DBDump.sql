@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `mydb` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `mydb`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win32 (AMD64)
 --
 -- Host: 127.0.0.1    Database: mydb
@@ -92,7 +90,7 @@ CREATE TABLE `customer` (
   `country` varchar(10) NOT NULL,
   `region` varchar(10) DEFAULT NULL,
   `cc_number` varchar(19) NOT NULL,
-  `credits` int(11) DEFAULT '0',
+  `credits` decimal(8,2) DEFAULT '0.00',
   PRIMARY KEY (`email`),
   UNIQUE KEY `unique` (`email`,`cc_number`),
   KEY `index` (`email`,`fname`,`lname`,`cc_number`),
@@ -107,7 +105,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES ('email1@yahoo.com','cus','one','1',NULL,'a','a','a','a','a','a','2',0),('email2@gmail.com','cus','two','1',NULL,'a','a','a','a','a','a','3',0),('email3@yahoo.com','cus','three','1',NULL,'a','a','a','a','a','a','1',0);
+INSERT INTO `customer` VALUES ('email1@yahoo.com','cus','one','1',NULL,'a','a','a','a','a','a','2',0.00),('email2@gmail.com','cus','two','1',NULL,'a','a','a','a','a','a','3',0.00),('email3@yahoo.com','cus','three','1',NULL,'a','a','a','a','a','a','1',0.00);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +118,7 @@ DROP TABLE IF EXISTS `discount`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `discount` (
   `discount_code` varchar(15) NOT NULL,
-  `amount` int(11) NOT NULL DEFAULT '0',
+  `amount` decimal(8,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`discount_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -171,7 +169,8 @@ CREATE TABLE `order_history` (
   `customer_id` varchar(25) NOT NULL,
   `amount` decimal(8,2) NOT NULL,
   `date_created` datetime NOT NULL,
-  `discount` int(11) DEFAULT '0',
+  `discount` decimal(8,2) DEFAULT '0.00',
+  `credit` decimal(8,2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique` (`id`),
   KEY `index` (`id`,`customer_id`),
@@ -186,7 +185,7 @@ CREATE TABLE `order_history` (
 
 LOCK TABLES `order_history` WRITE;
 /*!40000 ALTER TABLE `order_history` DISABLE KEYS */;
-INSERT INTO `order_history` VALUES ('1','email3@yahoo.com',2000.00,'2016-07-04 00:00:00',0),('2','email1@yahoo.com',2000.00,'2016-07-04 00:00:00',0),('3','email2@gmail.com',5000.00,'2016-07-04 00:00:00',0);
+INSERT INTO `order_history` VALUES ('1','email3@yahoo.com',2000.00,'2016-07-04 00:00:00',0.00,NULL),('2','email1@yahoo.com',2000.00,'2016-07-04 00:00:00',0.00,NULL),('3','email2@gmail.com',5000.00,'2016-07-04 00:00:00',0.00,NULL);
 /*!40000 ALTER TABLE `order_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,15 +230,18 @@ CREATE TABLE `product` (
   `id` varchar(40) NOT NULL,
   `name` varchar(45) NOT NULL,
   `model_num` varchar(20) NOT NULL,
-  `description` mediumtext,
+  `category_id` int(10) unsigned NOT NULL,
+  `quantity` int(11) DEFAULT NULL,
   `available` bit(1) DEFAULT b'0',
   `price` decimal(6,2) NOT NULL,
-  `category_id` int(10) unsigned NOT NULL,
+  `brand` varchar(10) DEFAULT NULL,
+  `description` mediumtext,
   `add_info` varchar(50) DEFAULT NULL,
   `image` blob,
   `last_update` datetime NOT NULL,
   `new` bit(1) NOT NULL DEFAULT b'1',
   `approved` bit(1) NOT NULL DEFAULT b'1',
+  `owner` varchar(25) DEFAULT 'shop',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_product_category` (`category_id`),
@@ -254,7 +256,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES ('1','milk','','semi skimmed (1L)',NULL,1.70,1,NULL,NULL,'2016-12-31 00:00:00','',''),('10','sesame seed bagel','','4 bagels',NULL,1.19,3,NULL,NULL,'2016-12-31 00:00:00','',''),('11','pumpkin seed bun','','4 buns',NULL,1.15,3,NULL,NULL,'2016-12-31 00:00:00','',''),('12','chocolate cookies','','contain peanuts<br>(3 cookies)',NULL,2.39,3,NULL,NULL,'2016-12-31 00:00:00','',''),('13','corn on the cob','','2 pieces',NULL,1.59,4,NULL,NULL,'2016-12-31 00:00:00','',''),('14','red currants','','150g',NULL,2.49,4,NULL,NULL,'2016-12-31 00:00:00','',''),('15','broccoli','','500g',NULL,1.29,4,NULL,NULL,'2016-12-31 00:00:00','',''),('16','seedless watermelon','','250g',NULL,1.49,4,NULL,NULL,'2016-12-31 00:00:00','',''),('2','cheese','','mild cheddar (330g)',NULL,2.39,1,NULL,NULL,'2016-12-31 00:00:00','',''),('3','butter','','unsalted (250g)',NULL,1.09,1,NULL,NULL,'2016-12-31 00:00:00','',''),('4','free range eggs','','medium-sized (6 eggs)',NULL,1.76,1,NULL,NULL,'2016-12-31 00:00:00','',''),('5','organic meat patties','','rolled in fresh herbs<br>2 patties (250g)',NULL,2.29,2,NULL,NULL,'2016-12-31 00:00:00','',''),('6','parma ham','','matured, organic (70g)',NULL,3.49,2,NULL,NULL,'2016-12-31 00:00:00','',''),('7','chicken leg','','free range (250g)',NULL,2.59,2,NULL,NULL,'2016-12-31 00:00:00','',''),('8','sausages','','reduced fat, pork<br>3 sausages (350g)',NULL,3.55,2,NULL,NULL,'2016-12-31 00:00:00','',''),('9','sunflower seed loaf','','600g',NULL,1.89,3,NULL,NULL,'2016-12-31 00:00:00','','');
+INSERT INTO `product` VALUES ('1','milk','',1,NULL,NULL,1.70,'brand1','semi skimmed (1L)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('10','sesame seed bagel','',3,NULL,NULL,1.19,'brand2','4 bagels',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('11','pumpkin seed bun','',3,NULL,NULL,1.15,'brand3','4 buns',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('12','chocolate cookies','',3,NULL,NULL,2.39,'brand3','contain peanuts<br>(3 cookies)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('13','corn on the cob','',4,NULL,NULL,1.59,'brand2','2 pieces',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('14','red currants','',4,NULL,NULL,2.49,'brand6','150g',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('15','broccoli','',4,NULL,NULL,1.29,'brand2','500g',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('16','seedless watermelon','',4,NULL,NULL,1.49,'brand4','250g',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('2','cheese','',1,NULL,NULL,2.39,'brand5','mild cheddar (330g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('3','butter','',1,NULL,NULL,1.09,'brand3','unsalted (250g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('4','free range eggs','',1,NULL,NULL,1.76,'brand1','medium-sized (6 eggs)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('5','organic meat patties','',2,NULL,NULL,2.29,'brand4','rolled in fresh herbs<br>2 patties (250g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('6','parma ham','',2,NULL,NULL,3.49,'brand5','matured, organic (70g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('7','chicken leg','',2,NULL,NULL,2.59,'brand6','free range (250g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('8','sausages','',2,NULL,NULL,3.55,'brand7','reduced fat, pork<br>3 sausages (350g)',NULL,NULL,'2016-12-31 00:00:00','','','Shop'),('9','sunflower seed loaf','',3,NULL,NULL,1.89,'brand9','600g',NULL,NULL,'2016-12-31 00:00:00','','','Shop');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,4 +300,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-06 19:46:09
+-- Dump completed on 2016-04-12 23:46:02
