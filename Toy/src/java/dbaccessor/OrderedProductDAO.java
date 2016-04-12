@@ -69,8 +69,7 @@ public class OrderedProductDAO
             while(this.rs.next())
             {
                 OrderedProduct order = new OrderedProduct();
-                OrderHistoryDAO orderHistoryDAO;
-                orderHistoryDAO = new OrderHistoryDAO();
+                OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
                 order.setOrderHistory(orderHistoryDAO.getOrderHistoryFromID(this.rs.getString("order_id")));
                 orderHistoryDAO.closeDB();
                 ProductDAO productDAO = new ProductDAO();
@@ -100,8 +99,7 @@ public class OrderedProductDAO
             while(this.rs.next())
             {
                 OrderedProduct order = new OrderedProduct();
-                OrderHistoryDAO orderHistoryDAO;
-                orderHistoryDAO = new OrderHistoryDAO();
+                OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
                 order.setOrderHistory(orderHistoryDAO.getOrderHistoryFromID(this.rs.getString("order_id")));
                 orderHistoryDAO.closeDB();
                 ProductDAO productDAO = new ProductDAO();
@@ -200,8 +198,7 @@ public class OrderedProductDAO
             while(this.rs.next())
             {
                 OrderedProduct order = new OrderedProduct();
-                OrderHistoryDAO orderHistoryDAO;
-                orderHistoryDAO = new OrderHistoryDAO();
+                OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
                 order.setOrderHistory(orderHistoryDAO.getOrderHistoryFromID(this.rs.getString("order_id")));
                 orderHistoryDAO.closeDB();
                 ProductDAO productDAO = new ProductDAO();
