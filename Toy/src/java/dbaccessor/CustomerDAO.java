@@ -125,8 +125,10 @@ public class CustomerDAO
                 cus.setCredits(this.rs.getDouble("credits"));
                 CCInfoDAO ccInfoDAO = new CCInfoDAO();
                 cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
+                ccInfoDAO.closeDB();
                 LoginDAO loginDAO = new LoginDAO();
                 cus.setLogin(loginDAO.getLoginFromID(this.rs.getString("email")));
+                loginDAO.closeDB();
                 ret = cus;
             }
         }
@@ -186,10 +188,11 @@ public class CustomerDAO
                 cus.setCredits(this.rs.getDouble("credits"));
                 CCInfoDAO ccInfoDAO = new CCInfoDAO();
                 cus.setCcInfo(ccInfoDAO.getCcInfoFromID(this.rs.getString("email")));
+                ccInfoDAO.closeDB();
                 LoginDAO loginDAO = new LoginDAO();
                 cus.setLogin(loginDAO.getLoginFromID(this.rs.getString("email")));
-                ret.add(cus);
                 loginDAO.closeDB();
+                ret.add(cus);
             }
         }
         catch (SQLException ex)
