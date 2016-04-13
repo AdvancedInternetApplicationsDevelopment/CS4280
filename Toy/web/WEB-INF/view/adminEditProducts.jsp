@@ -137,7 +137,7 @@
                                 <div class="panel-body">
                                     <!-- Registration Form Starts -->
                                     <form class="form-horizontal" role="form" action="/ToyStore/adminEditProducts" method="post">
-                                        <!-- Personal Information Starts -->
+                                        <!-- Form element Starts -->
                                         <div class="form-group">
                                             <label for="inputPname" class="col-sm-3 control-label" >Product Name :</label>
                                             <div class="col-sm-9">
@@ -205,7 +205,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <!-- Payment Area Ends -->
+                                        <!-- Form ends -->
                                     </form>
                                 </div>
                                 <c:if test="${success == true}">

@@ -7,11 +7,12 @@ package controller;
 
 import dbaccessor.*;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.io.InputStream;
+import javax.servlet.http.Part;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -131,6 +132,13 @@ public class adminControllerServlet extends HttpServlet {
             }
 
         }
+        else if (userPath.equals("/adminAddProducts")) {
+                request.setAttribute("categoryId",1);
+                request.setAttribute("success", false);
+                request.setAttribute("error", false);
+                request.setAttribute("errorMessage", null);
+
+        }
 
         String url = "/WEB-INF/view" + userPath + ".jsp";
         try {
@@ -243,9 +251,70 @@ public class adminControllerServlet extends HttpServlet {
                 double priceDouble = Double.parseDouble(price);
                 int quantityInt = Integer.parseInt(quantity);
                 Category category = (new CategoryDAOImpl()).getCategoryFromID(categoryId);
-                Timestamp lastUpdate = new Timestamp((new Date()).getTime());
-                product = new Product(productId, pName, mNo, category, quantityInt, true, priceDouble, brand, description, addInfo, lastUpdate, true, true, "shop");
-                productDAO.updateProduct(product);
+                product = new Product(productId, pName, mNo, category, quantityInt, true, priceDouble, brand, description, addInfo, true, true, "shop");
+                if (!(productDAO.updateProduct(product))) {
+                    throw new Exception("update unsuccessful");
+                }
+            } catch (Exception e) {
+                request.setAttribute("error", true);
+                request.setAttribute("errorMessage", e.getMessage());
+                success = false;
+            }
+
+            request.setAttribute("pName", pName);
+            request.setAttribute("mNo", mNo);
+            request.setAttribute("brand", brand);
+            request.setAttribute("description", description);
+            request.setAttribute("quantity", quantity);
+            request.setAttribute("price", price);
+            request.setAttribute("addInfo", addInfo);
+            request.setAttribute("categoryId", categoryId);
+            request.setAttribute("productId", productId);
+            request.setAttribute("success", success);
+            if (success == true) {
+                request.setAttribute("error", false);
+                request.setAttribute("errorMessage", null);
+            }
+
+        } else if (userPath.equals("/adminAddProducts")) {
+
+            boolean success = true;
+            ProductDAO productDAO = new ProductDAOImpl();
+            Product product;
+            Part name = request.getPart("productId");
+            String productId = request.getParameter("productId");
+            String pName = request.getParameter("pName");
+            String mNo = request.getParameter("mNo");
+            String brand = request.getParameter("brand");
+            String description = request.getParameter("description");
+            String quantity = request.getParameter("quantity");
+            String price = request.getParameter("price");
+            String addInfo = request.getParameter("addInfo");
+            int categoryId = Integer.parseInt(request.getParameter("category"));
+
+            InputStream inputStream = null; // input stream of the upload file
+
+            // obtains the upload file part in this multipart request
+            Part filePart = request.getPart("image");
+            if (filePart != null) {
+                // prints out some information for debugging
+                System.out.println(filePart.getName());
+                System.out.println(filePart.getSize());
+                System.out.println(filePart.getContentType());
+
+                // obtains input stream of the upload file
+                inputStream = filePart.getInputStream();
+            }
+
+            try {
+                double priceDouble = Double.parseDouble(price);
+                int quantityInt = Integer.parseInt(quantity);
+                Category category = (new CategoryDAOImpl()).getCategoryFromID(categoryId);
+                product = new Product(productId, pName, mNo, category, quantityInt, true, priceDouble, brand, description, addInfo, true, true, "shop");
+
+                if (!(productDAO.addProduct(product, inputStream, category.getName(), false, "shop"))) {
+                    throw new Exception("update unsuccessful");
+                }
             } catch (Exception e) {
                 request.setAttribute("error", true);
                 request.setAttribute("errorMessage", e.getMessage());

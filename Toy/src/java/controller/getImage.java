@@ -5,7 +5,9 @@
  */
 package controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +42,7 @@ public class getImage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 
-        String id = request.getParameter("productId");
+        String productId = request.getParameter("productId");
         if(productId!=null){
              response.setContentType("image/jpeg");
              response.getOutputStream().write( Files.readAllBytes(new File(getServletContext().getRealPath("****.jpg")).toPath()));
@@ -49,9 +51,6 @@ public class getImage extends HttpServlet {
              response.getWriter().println("Sample text");
              response.getWriter().close();
         }
-    }
-
-        
     }
 
     /**

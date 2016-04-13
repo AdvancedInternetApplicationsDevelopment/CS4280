@@ -5,6 +5,7 @@
  */
 package dbaccessor;
 
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -507,7 +508,7 @@ public class ProductDAOImpl implements ProductDAO
     }
     
     //if recycled enter owner, else if new, owner input can be anything
-    public boolean addProduct(Product product, Blob image, String category, 
+    public boolean addProduct(Product product, InputStream image, String category, 
             boolean recycled, String owner)
     {
         int rows = 0;
@@ -522,15 +523,7 @@ public class ProductDAOImpl implements ProductDAO
             ps.setString(2, product.getName());
             ps.setString(3, product.getModelNum());
             CategoryDAO categoryDAO = new CategoryDAOImpl();
-            if(categoryDAO.categoryExists(category))
-            {
-                ps.setInt(4, categoryDAO.getCategoryIDFromName(category));
-            }
-            else
-            {
-                categoryDAO.addCategory(category);
-                ps.setInt(4, categoryDAO.getCategoryIDFromName(category));
-            }
+            ps.setInt(4, categoryDAO.getCategoryIDFromName(category));
             ps.setInt(5, product.getQuantity());
             ps.setBoolean(6, product.isAvailable());
             ps.setDouble(7, product.getPrice());
@@ -540,15 +533,15 @@ public class ProductDAOImpl implements ProductDAO
             ps.setBlob(11, image);
             if(recycled)
             {
+                ps.setBoolean(12, false);
                 ps.setBoolean(13, false);
-                ps.setBoolean(14, false);
-                ps.setString(15, owner);
+                ps.setString(14, owner);
             }
             else
             {
+                ps.setBoolean(12, true);
                 ps.setBoolean(13, true);
-                ps.setBoolean(14, true);
-                ps.setString(15, "shop");
+                ps.setString(14, "shop");
             }
             
             rows = ps.executeUpdate();
@@ -599,10 +592,10 @@ public class ProductDAOImpl implements ProductDAO
             ps.setString(7, product.getBrand());
             ps.setString(8, product.getDescription());
             ps.setString(9, product.getAddInfo());
-            ps.setBoolean(11, product.isNew1());
-            ps.setBoolean(12, product.isApproved());
-            ps.setString(13, product.getOwner());
-            ps.setString(14, product.getId());
+            ps.setBoolean(10, product.isNew1());
+            ps.setBoolean(11, product.isApproved());
+            ps.setString(12, product.getOwner());
+            ps.setString(13, product.getId());
             
             rows = ps.executeUpdate();
             

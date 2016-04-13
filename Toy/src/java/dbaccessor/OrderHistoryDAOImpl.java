@@ -9,11 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Date;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -310,9 +308,8 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
             ps.setString(1, orderID);
             ps.setString(2, customerId);
             ps.setDouble(3, amount);
-            Date date = new Date();
-            ps.setDouble(5, disAmount);
-            ps.setDouble(6, credit);
+            ps.setDouble(4, disAmount);
+            ps.setDouble(5, credit);
             
             rows = ps.executeUpdate();
             
