@@ -516,8 +516,8 @@ public class ProductDAOImpl implements ProductDAO
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO product "
                     + "(id, name, model_num, category_id, quantity, available, price, "
-                    + "brand, description, add_info, image, last_update, new, approved, owner) "
-                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    + "brand, description, add_info, image, new, approved, owner) "
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, UUID.randomUUID().toString());
             ps.setString(2, product.getName());
             ps.setString(3, product.getModelNum());
@@ -538,7 +538,6 @@ public class ProductDAOImpl implements ProductDAO
             ps.setString(9, product.getDescription());
             ps.setString(10, product.getAddInfo());
             ps.setBlob(11, image);
-            ps.setTimestamp(12, product.getLastUpdate());
             if(recycled)
             {
                 ps.setBoolean(13, false);
@@ -587,7 +586,6 @@ public class ProductDAOImpl implements ProductDAO
                     + "brand = ?, "
                     + "description = ?, "
                     + "add_info = ?, "
-                    + "last_update = ?, "
                     + "new = ?, "
                     + "approved = ?, "
                     + "owner = ?"
@@ -601,7 +599,6 @@ public class ProductDAOImpl implements ProductDAO
             ps.setString(7, product.getBrand());
             ps.setString(8, product.getDescription());
             ps.setString(9, product.getAddInfo());
-            ps.setTimestamp(10, product.getLastUpdate());
             ps.setBoolean(11, product.isNew1());
             ps.setBoolean(12, product.isApproved());
             ps.setString(13, product.getOwner());

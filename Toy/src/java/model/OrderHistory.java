@@ -34,12 +34,11 @@ public class OrderHistory
     }
 
     public OrderHistory(String id, Customer customerId, Integer amount,
-            Timestamp dateCreated, int discount, int credit)
+            int discount, int credit)
     {
         this.id = id;
         this.customerId = customerId;
         this.amount = amount;
-        this.dateCreated = dateCreated;
         this.discount = discount;
         this.credit = credit;
     }

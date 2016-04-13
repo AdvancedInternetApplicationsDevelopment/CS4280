@@ -304,14 +304,13 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
             amount = amount - disAmount - credit;
             
             ps = conn.prepareStatement("INSERT INTO order_history"
-                    + " (id, customer_id, amount, date_created, discount, credit)"
-                    + " VALUES (?, ?, ?, ?, ?, ?);");
+                    + " (id, customer_id, amount, discount, credit)"
+                    + " VALUES (?, ?, ?, ?, ?);");
             String orderID = UUID.randomUUID().toString();
             ps.setString(1, orderID);
             ps.setString(2, customerId);
             ps.setDouble(3, amount);
             Date date = new Date();
-            ps.setTimestamp(4, (new Timestamp(date.getTime())));
             ps.setDouble(5, disAmount);
             ps.setDouble(6, credit);
             

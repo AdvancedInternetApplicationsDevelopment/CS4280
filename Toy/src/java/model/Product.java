@@ -48,8 +48,8 @@ public class Product
 
     public Product(String id, String name, String modelNum, Category categoryId,
             int quantity, boolean available, double price, String brand,
-            String description, String addInfo, Timestamp lastUpdate, boolean new1,
-            boolean approved, String owner)
+            String description, String addInfo, boolean new1, boolean approved,
+            String owner)
     {
         this.id = id;
         this.name = name;
@@ -61,7 +61,6 @@ public class Product
         this.brand = brand;
         this.description = description;
         this.addInfo = addInfo;
-        this.lastUpdate = lastUpdate;
         this.new1 = new1;
         this.approved = approved;
         this.owner = owner;
