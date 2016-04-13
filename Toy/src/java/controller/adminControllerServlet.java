@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.servlet.http.Part;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -21,6 +23,11 @@ import model.Category;
 import model.Customer;
 import model.OrderHistory;
 import model.Product;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  *
@@ -131,12 +138,11 @@ public class adminControllerServlet extends HttpServlet {
                 request.setAttribute("errorMessage", null);
             }
 
-        }
-        else if (userPath.equals("/adminAddProducts")) {
-                request.setAttribute("categoryId",1);
-                request.setAttribute("success", false);
-                request.setAttribute("error", false);
-                request.setAttribute("errorMessage", null);
+        } else if (userPath.equals("/adminAddProducts")) {
+            request.setAttribute("categoryId", 1);
+            request.setAttribute("success", false);
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
 
         }
 
@@ -278,6 +284,25 @@ public class adminControllerServlet extends HttpServlet {
 
         } else if (userPath.equals("/adminAddProducts")) {
 
+            try {
+                List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+                for (FileItem item : items) {
+                    if (item.isFormField()) {
+                        // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
+                        String fieldName = item.getFieldName();
+                        String fieldValue = item.getString();
+                        // ... (do your job here)
+                    } else {
+                        // Process form file field (input type="file").
+                        String fieldName = item.getFieldName();
+                        String fileName = FilenameUtils.getName(item.getName());
+                        InputStream fileContent = item.getInputStream();
+                        // ... (do your job here)
+                    }
+                }
+            } catch (FileUploadException e) {
+                throw new ServletException("Cannot parse multipart request.", e);
+            }
             boolean success = true;
             ProductDAO productDAO = new ProductDAOImpl();
             Product product;
