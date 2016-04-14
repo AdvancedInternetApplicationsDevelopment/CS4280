@@ -8,6 +8,8 @@ package controller;
 import dbaccessor.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import javax.servlet.http.Part;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialBlob;
 import model.Category;
 import model.Customer;
 import model.OrderHistory;
@@ -28,11 +31,13 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author suhag
  */
+@MultipartConfig
 public class adminControllerServlet extends HttpServlet {
 
     private String userPath;
@@ -284,30 +289,7 @@ public class adminControllerServlet extends HttpServlet {
 
         } else if (userPath.equals("/adminAddProducts")) {
 
-            try {
-                List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-                for (FileItem item : items) {
-                    if (item.isFormField()) {
-                        // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
-                        String fieldName = item.getFieldName();
-                        String fieldValue = item.getString();
-                        // ... (do your job here)
-                    } else {
-                        // Process form file field (input type="file").
-                        String fieldName = item.getFieldName();
-                        String fileName = FilenameUtils.getName(item.getName());
-                        InputStream fileContent = item.getInputStream();
-                        // ... (do your job here)
-                    }
-                }
-            } catch (FileUploadException e) {
-                throw new ServletException("Cannot parse multipart request.", e);
-            }
-            boolean success = true;
-            ProductDAO productDAO = new ProductDAOImpl();
-            Product product;
-            Part name = request.getPart("productId");
-            String productId = request.getParameter("productId");
+            String productId= null;
             String pName = request.getParameter("pName");
             String mNo = request.getParameter("mNo");
             String brand = request.getParameter("brand");
@@ -316,6 +298,10 @@ public class adminControllerServlet extends HttpServlet {
             String price = request.getParameter("price");
             String addInfo = request.getParameter("addInfo");
             int categoryId = Integer.parseInt(request.getParameter("category"));
+            boolean success = true;
+            ProductDAO productDAO = new ProductDAOImpl();
+            Product product;
+            
 
             InputStream inputStream = null; // input stream of the upload file
 
@@ -330,6 +316,13 @@ public class adminControllerServlet extends HttpServlet {
                 // obtains input stream of the upload file
                 inputStream = filePart.getInputStream();
             }
+            Blob image = null;
+            try {
+                image = new SerialBlob(IOUtils.toByteArray(inputStream));
+            } catch (SQLException ex) {
+                Logger.getLogger(adminControllerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+;
 
             try {
                 double priceDouble = Double.parseDouble(price);
@@ -337,7 +330,7 @@ public class adminControllerServlet extends HttpServlet {
                 Category category = (new CategoryDAOImpl()).getCategoryFromID(categoryId);
                 product = new Product(productId, pName, mNo, category, quantityInt, true, priceDouble, brand, description, addInfo, true, true, "shop");
 
-                if (!(productDAO.addProduct(product, inputStream, category.getName(), false, "shop"))) {
+                if (!(productDAO.addProduct(product, image, category.getName(), false, "shop"))) {
                     throw new Exception("update unsuccessful");
                 }
             } catch (Exception e) {
@@ -354,7 +347,6 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("price", price);
             request.setAttribute("addInfo", addInfo);
             request.setAttribute("categoryId", categoryId);
-            request.setAttribute("productId", productId);
             request.setAttribute("success", success);
             if (success == true) {
                 request.setAttribute("error", false);

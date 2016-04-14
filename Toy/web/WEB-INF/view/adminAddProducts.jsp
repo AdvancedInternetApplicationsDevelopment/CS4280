@@ -199,7 +199,7 @@
                                         <div class="form-group">
                                             <label for="inputPicture" class="col-sm-3 control-label">Picture:</label>
                                             <div class="col-sm-9">
-                                                <input type="file" class="form-control" id="inputPicture" placeholder="Picture" name="image" size="50">
+                                                <input type="file" class="form-control" id="inputPicture" placeholder="Picture" name="image" size="50" m>
                                             </div>
                                         </div>
                                         <div class="form-group">

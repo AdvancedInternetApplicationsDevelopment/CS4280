@@ -508,7 +508,7 @@ public class ProductDAOImpl implements ProductDAO
     }
     
     //if recycled enter owner, else if new, owner input can be anything
-    public boolean addProduct(Product product, InputStream image, String category, 
+    public boolean addProduct(Product product, Blob image, String category, 
             boolean recycled, String owner)
     {
         int rows = 0;
@@ -518,7 +518,7 @@ public class ProductDAOImpl implements ProductDAO
             PreparedStatement ps = conn.prepareStatement("INSERT INTO product "
                     + "(id, name, model_num, category_id, quantity, available, price, "
                     + "brand, description, add_info, image, new, approved, owner) "
-                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, UUID.randomUUID().toString());
             ps.setString(2, product.getName());
             ps.setString(3, product.getModelNum());
