@@ -9,9 +9,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>File Upload Demo</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <center>
+            <form method="post" action="uploadFile" enctype="multipart/form-data">
+                Select file to upload:
+                <input type="file" name="uploadFile" />
+                <br/>
+                <input type="text" name="text" />
+                <br/>
+                <input type="number" name="number" />
+                <br/>
+                <input type="submit" value="Upload" />
+            </form>
+        </center>
     </body>
 </html>
