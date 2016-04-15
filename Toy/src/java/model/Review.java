@@ -14,6 +14,7 @@ public class Review
     private Customer customer;
     private Product product;
     private String comments;
+    private String adminReply;
     private int star;
 
     public Review()
@@ -21,11 +22,12 @@ public class Review
         
     }
     
-    public Review(Customer customer, Product product, String comments)
+    public Review(Customer customer, Product product, String comments, String adminReply)
     {
         this.customer = customer;
         this.product = product;
         this.comments = comments;
+        this.adminReply = adminReply;
     }
     
     public Review(String customerID, String productId)
@@ -62,6 +64,16 @@ public class Review
     public void setComments(String comments)
     {
         this.comments = comments;
+    }
+
+    public String getAdminReply()
+    {
+        return adminReply;
+    }
+
+    public void setAdminReply(String adminReply)
+    {
+        this.adminReply = adminReply;
     }
 
     public int getStar()

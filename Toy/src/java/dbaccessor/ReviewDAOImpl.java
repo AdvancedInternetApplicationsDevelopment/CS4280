@@ -124,7 +124,7 @@ public class ReviewDAOImpl implements ReviewDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT AVG(star)"
-                    + " FROM review WHERE product_id = ?;");
+                    + " FROM review WHERE product_id = ? ;");
             ps.setString(1, product_id);
             this.rs = ps.executeQuery();
             if(this.rs.next())
@@ -157,11 +157,43 @@ public class ReviewDAOImpl implements ReviewDAO
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO review "
                     + "(customer_id, product_id, comments, star) "
-                    + "VALUES(?, ?, ?, ?)");
+                    + "VALUES(?, ?, ?, ?);");
             ps.setString(1, review.getCustomer().getEmail());
             ps.setString(2, review.getProduct().getId());
             ps.setString(3, review.getComments());
             ps.setInt(4, review.getStar());
+            
+            rows = ps.executeUpdate();
+            
+            if (rs != null)
+            {
+                ps.close();
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ReviewDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (rows > 0);
+    }
+    
+    public boolean addAdminReply(Review review)
+    {
+        int rows = 0;
+        try
+        {
+            this.conn = ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE review "
+                    + "SET admin_reply = ? "
+                    + "WHERE customer_id = ? AND product_id = ? ;");
+            ps.setString(1, review.getAdminReply());
+            ps.setString(2, review.getCustomer().getEmail());
+            ps.setString(3, review.getProduct().getId());
             
             rows = ps.executeUpdate();
             
@@ -189,7 +221,7 @@ public class ReviewDAOImpl implements ReviewDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("DELETE review "
-                    + " WHERE customer_id = ? AND product_id = ? ;");
+                    + "WHERE customer_id = ? AND product_id = ? ;");
             ps.setString(1, review.getCustomer().getEmail());
             ps.setString(2, review.getProduct().getId());
             
