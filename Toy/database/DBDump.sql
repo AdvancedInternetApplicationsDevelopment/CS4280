@@ -117,7 +117,7 @@ DROP TABLE IF EXISTS `discount`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `discount` (
-  `discount_code` varchar(15) NOT NULL,
+  `discount_code` varchar(40) NOT NULL,
   `amount` decimal(8,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`discount_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -271,6 +271,7 @@ CREATE TABLE `review` (
   `customer_id` varchar(25) NOT NULL,
   `product_id` varchar(40) NOT NULL,
   `comments` varchar(60) NOT NULL,
+  `admin_reply` varchar(60) DEFAULT NULL,
   `star` int(1) NOT NULL,
   PRIMARY KEY (`customer_id`,`product_id`),
   KEY `fk_review_product_idx` (`product_id`),
@@ -287,7 +288,7 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES ('email1@yahoo.com','1','v',4),('email1@yahoo.com','15','hhhj',5),('email2@gmail.com','15','hjj',3),('email3@yahoo.com','1','A',5),('email3@yahoo.com','12','c',3),('email3@yahoo.com','15','b',4),('email3@yahoo.com','2','bb',3);
+INSERT INTO `review` VALUES ('email1@yahoo.com','1','v',NULL,4),('email1@yahoo.com','15','hhhj',NULL,5),('email2@gmail.com','15','hjj',NULL,3),('email3@yahoo.com','1','A',NULL,5),('email3@yahoo.com','12','c',NULL,3),('email3@yahoo.com','15','b',NULL,4),('email3@yahoo.com','2','bb',NULL,3);
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -300,4 +301,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-13  0:00:25
+-- Dump completed on 2016-04-15 18:19:27

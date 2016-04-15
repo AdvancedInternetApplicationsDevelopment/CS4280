@@ -109,7 +109,7 @@ public class DiscountDAOImpl implements DiscountDAO
             PreparedStatement ps = conn.prepareStatement("INSERT INTO discount "
                     + "(discount_code, amount) "
                     + "VALUES(?, ?)");
-            ps.setString(1, discount.getDiscountCode());
+            ps.setString(1, UUID.randomUUID().toString());
             ps.setDouble(2, discount.getAmount());
             
             rows = ps.executeUpdate();
