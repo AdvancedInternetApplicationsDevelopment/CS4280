@@ -322,7 +322,6 @@ public class adminControllerServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(adminControllerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-;
 
             try {
                 double priceDouble = Double.parseDouble(price);

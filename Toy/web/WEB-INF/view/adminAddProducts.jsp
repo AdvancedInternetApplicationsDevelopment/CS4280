@@ -135,7 +135,7 @@
                                 <!-- Delivery Information Starts -->
                                 <div class="panel-body">
                                     <!-- Registration Form Starts -->
-                                    <form class="form-horizontal" role="form" action="/ToyStore/adminAddProducts" method="post" enctype="multipart/form-data">
+                                    <form class="form-horizontal" role="form" action="/ToyStore/uploadProduct" method="post" enctype="multipart/form-data">
                                         <!-- Form element Starts -->
                                         <div class="form-group">
                                             <label for="inputPname" class="col-sm-3 control-label" >Product Name :</label>
