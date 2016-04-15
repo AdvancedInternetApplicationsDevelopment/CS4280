@@ -141,12 +141,6 @@
                                     <form class="form-horizontal" role="form" action="/ToyStore/adminDiscount" method="post">
                                         <!-- Personal Information Starts -->
                                         <div class="form-group">
-                                            <label for="inputDiscountCode" class="col-sm-3 control-label">Discount code</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputDiscountCode" placeholder="Discount Code" name="discountCode">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="inputAmonut" class="col-sm-3 control-label">Discount Amount</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control" id="inputAmount" placeholder="Amount" name="amount">
@@ -209,7 +203,7 @@
                                                                                    name="discountCode"
                                                                                    value="${item.discountCode}">
                                                                             <button type="submit" class="btn btn-danger" value="delete">
-                                                                               <i class="fa fa-trash"> Delete</i>
+                                                                                <i class="fa fa-trash"> Delete</i>
                                                                             </button>
                                                                         </form>
                                                                     </td>

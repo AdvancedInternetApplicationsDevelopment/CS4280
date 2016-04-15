@@ -304,11 +304,10 @@ public class adminControllerServlet extends HttpServlet {
         else if (userPath.equals("/adminDiscount")) {
             boolean success = true;
             String amount = request.getParameter("amount");
-             String discountCode = request.getParameter("discountCode");
             try {
                 double amountDouble = Double.parseDouble(amount);
                 DiscountDAO discountDAO = new DiscountDAOImpl();
-                Discount discount = new Discount(discountCode,amountDouble);
+                Discount discount = new Discount("",amountDouble);
                 if (!(discountDAO.addDiscount(discount))) {
                     throw new Exception("create discount unsuccessful. database error");
                 }
@@ -322,9 +321,12 @@ public class adminControllerServlet extends HttpServlet {
             List<Discount> discounts = discountDAO.getAll();
             request.setAttribute("discounts", discounts);
             
-            request.setAttribute("success", success);
+            if(success== true){
+                 request.setAttribute("success", success);
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
+            }
+           
         }
         else if (userPath.equals("/adminDiscountDelete")) {
             String discountCode = request.getParameter("discountCode");
