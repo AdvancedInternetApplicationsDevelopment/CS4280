@@ -12,18 +12,25 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import javax.sql.rowset.serial.SerialBlob;
 import model.Category;
 import model.Product;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
@@ -178,6 +185,74 @@ public class uploadProductController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        String userPath = request.getServletPath();
+        if (userPath.equals("/uploadProduct")) {
+
+            String productId= null;
+            String pName = request.getParameter("pName");
+            String mNo = request.getParameter("mNo");
+            String brand = request.getParameter("brand");
+            String description = request.getParameter("description");
+            String quantity = request.getParameter("quantity");
+            String price = request.getParameter("price");
+            String addInfo = request.getParameter("addInfo");
+            int categoryId = Integer.parseInt(request.getParameter("category"));
+            boolean success = true;
+            ProductDAO productDAO = new ProductDAOImpl();
+            Product product;
+            
+
+            InputStream inputStream = null; // input stream of the upload file
+
+            // obtains the upload file part in this multipart request
+            Part filePart = request.getPart("image");
+            if (filePart != null) {
+                // prints out some information for debugging
+                System.out.println(filePart.getName());
+                System.out.println(filePart.getSize());
+                System.out.println(filePart.getContentType());
+
+                // obtains input stream of the upload file
+                inputStream = filePart.getInputStream();
+            }
+            Blob image = null;
+            try {
+                image = new SerialBlob(IOUtils.toByteArray(inputStream));
+            } catch (SQLException ex) {
+                Logger.getLogger(adminControllerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                double priceDouble = Double.parseDouble(price);
+                int quantityInt = Integer.parseInt(quantity);
+                Category category = (new CategoryDAOImpl()).getCategoryFromID(categoryId);
+                product = new Product(productId, pName, mNo, category, quantityInt, true, priceDouble, brand, description, addInfo, true, true, "shop");
+
+                if (!(productDAO.addProduct(product, image, category.getName(), false, "shop"))) {
+                    throw new Exception("update unsuccessful");
+                }
+            } catch (Exception e) {
+                request.setAttribute("error", true);
+                request.setAttribute("errorMessage", e.getMessage());
+                success = false;
+            }
+
+            request.setAttribute("pName", pName);
+            request.setAttribute("mNo", mNo);
+            request.setAttribute("brand", brand);
+            request.setAttribute("description", description);
+            request.setAttribute("quantity", quantity);
+            request.setAttribute("price", price);
+            request.setAttribute("addInfo", addInfo);
+            request.setAttribute("categoryId", categoryId);
+            request.setAttribute("success", success);
+            if (success == true) {
+                request.setAttribute("error", false);
+                request.setAttribute("errorMessage", null);
+            }
+
+        }
     }
 
     /**

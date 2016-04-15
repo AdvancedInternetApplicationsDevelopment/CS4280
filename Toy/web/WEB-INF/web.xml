@@ -29,6 +29,8 @@
         <url-pattern>/adminTransactions</url-pattern>
         <url-pattern>/adminViewRecycled</url-pattern>
         <url-pattern>/approveProduct</url-pattern>
+        <url-pattern>/adminDiscount</url-pattern>
+        <url-pattern>/adminDiscountDelete</url-pattern>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 import model.Category;
 import model.Customer;
+import model.Discount;
 import model.OrderHistory;
 import model.Product;
 import org.apache.commons.fileupload.FileItem;
@@ -148,6 +149,17 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("success", false);
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
+
+        }
+        else if (userPath.equals("/adminDiscount")) {
+            request.setAttribute("success", false);
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+            
+            DiscountDAO discountDAO = new DiscountDAOImpl();
+            List<Discount> discounts = discountDAO.getAll();
+            request.setAttribute("discounts", discounts);
+            
 
         }
 
@@ -287,71 +299,54 @@ public class adminControllerServlet extends HttpServlet {
                 request.setAttribute("errorMessage", null);
             }
 
-        } else if (userPath.equals("/adminAddProducts")) {
-
-            String productId= null;
-            String pName = request.getParameter("pName");
-            String mNo = request.getParameter("mNo");
-            String brand = request.getParameter("brand");
-            String description = request.getParameter("description");
-            String quantity = request.getParameter("quantity");
-            String price = request.getParameter("price");
-            String addInfo = request.getParameter("addInfo");
-            int categoryId = Integer.parseInt(request.getParameter("category"));
+        } 
+        
+        else if (userPath.equals("/adminDiscount")) {
             boolean success = true;
-            ProductDAO productDAO = new ProductDAOImpl();
-            Product product;
-            
-
-            InputStream inputStream = null; // input stream of the upload file
-
-            // obtains the upload file part in this multipart request
-            Part filePart = request.getPart("image");
-            if (filePart != null) {
-                // prints out some information for debugging
-                System.out.println(filePart.getName());
-                System.out.println(filePart.getSize());
-                System.out.println(filePart.getContentType());
-
-                // obtains input stream of the upload file
-                inputStream = filePart.getInputStream();
-            }
-            Blob image = null;
+            String amount = request.getParameter("amount");
+             String discountCode = request.getParameter("discountCode");
             try {
-                image = new SerialBlob(IOUtils.toByteArray(inputStream));
-            } catch (SQLException ex) {
-                Logger.getLogger(adminControllerServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            try {
-                double priceDouble = Double.parseDouble(price);
-                int quantityInt = Integer.parseInt(quantity);
-                Category category = (new CategoryDAOImpl()).getCategoryFromID(categoryId);
-                product = new Product(productId, pName, mNo, category, quantityInt, true, priceDouble, brand, description, addInfo, true, true, "shop");
-
-                if (!(productDAO.addProduct(product, image, category.getName(), false, "shop"))) {
-                    throw new Exception("update unsuccessful");
+                double amountDouble = Double.parseDouble(amount);
+                DiscountDAO discountDAO = new DiscountDAOImpl();
+                Discount discount = new Discount(discountCode,amountDouble);
+                if (!(discountDAO.addDiscount(discount))) {
+                    throw new Exception("create discount unsuccessful. database error");
                 }
             } catch (Exception e) {
                 request.setAttribute("error", true);
                 request.setAttribute("errorMessage", e.getMessage());
                 success = false;
             }
-
-            request.setAttribute("pName", pName);
-            request.setAttribute("mNo", mNo);
-            request.setAttribute("brand", brand);
-            request.setAttribute("description", description);
-            request.setAttribute("quantity", quantity);
-            request.setAttribute("price", price);
-            request.setAttribute("addInfo", addInfo);
-            request.setAttribute("categoryId", categoryId);
+            
+            DiscountDAO discountDAO = new DiscountDAOImpl();
+            List<Discount> discounts = discountDAO.getAll();
+            request.setAttribute("discounts", discounts);
+            
             request.setAttribute("success", success);
-            if (success == true) {
-                request.setAttribute("error", false);
-                request.setAttribute("errorMessage", null);
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+        }
+        else if (userPath.equals("/adminDiscountDelete")) {
+            String discountCode = request.getParameter("discountCode");
+             request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+            DiscountDAO discountDAO = new DiscountDAOImpl();
+            
+ 
+            try {
+                Discount discount = discountDAO.getDiscountFromID(discountCode);
+                if (!(discountDAO.deleteDiscount(discount))) {
+                    throw new Exception("delete discount unsuccessful. database error");
+                }
+            } catch (Exception e) {
+                request.setAttribute("error", true);
+                request.setAttribute("errorMessage", e.getMessage());
             }
-
+            List<Discount> discounts = discountDAO.getAll();
+            request.setAttribute("discounts", discounts);
+            
+            request.setAttribute("success", false);
+            userPath = "/adminDiscount";
         }
 
         String url = "/WEB-INF/view" + userPath + ".jsp";

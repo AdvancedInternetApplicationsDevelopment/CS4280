@@ -101,6 +101,9 @@
                         <li>
                             <a href="/ToyStore/adminRecycledProducts"><i class="fa fa-fw fa-table"></i>Recycled Products</a>
                         </li>
+                        <li>
+                            <a href="/ToyStore/adminDiscount"><i class="fa fa-plus-square-o"></i> Add Discount</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->

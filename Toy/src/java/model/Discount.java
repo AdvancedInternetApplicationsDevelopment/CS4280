@@ -23,7 +23,7 @@ public class Discount
         this.discountCode = discountCode;
     }
 
-    public Discount(String discountCode, int amount)
+    public Discount(String discountCode, double amount)
     {
         this.discountCode = discountCode;
         this.amount = amount;

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : adminProducts
-    Created on : Apr 3, 2016, 3:23:04 PM
+    Document   : adminDiscount
+    Created on : Apr 16, 2016, 12:31:39 AM
     Author     : suhag
 --%>
 
@@ -17,7 +17,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Products Catalogue</title>
+        <title>Discount</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -86,7 +86,7 @@
                         <li>
                             <a href="/ToyStore/adminCustomer"><i class="fa fa-fw fa-bar-chart-o"></i> Customers</a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="/ToyStore/adminProducts"><i class="fa fa-fw fa-table"></i>Products</a>
                         </li>
                         <li>
@@ -95,13 +95,13 @@
                         <li >
                             <a href="/ToyStore/adminAddProducts"><i class="fa fa-plus-square-o"></i> Add products</a>
                         </li>
-                        <li>
+                        <li >
                             <a href="/ToyStore/adminTransactions"><i class="fa fa-money fa-fw"></i> Transactions/ Order</a>
                         </li>
                         <li>
                             <a href="/ToyStore/adminRecycledProducts"><i class="fa fa-fw fa-table"></i>Recycled Products</a>
                         </li>
-                        <li>
+                        <li class="active">
                             <a href="/ToyStore/adminDiscount"><i class="fa fa-plus-square-o"></i> Add Discount</a>
                         </li>
                     </ul>
@@ -117,69 +117,61 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <h1 class="page-header">
-                                Products
+                                Transactions/ Order
                             </h1>
                             <ol class="breadcrumb">
                                 <li class="active">
-                                    <i class="fa fa-fw fa-table"></i> Products Catalogue
+                                    <i class="fa fa-fw fa-table"></i> Discount
                                 </li>
                             </ol>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-sm-6">
                             <!-- Registration Block Starts -->
                             <!-- Personal Information Ends -->
                             <h3 class="panel-heading">
-                                Search Product
+                                Create Discount code 
                             </h3>
                             <div class="panel panel-smart">
 
                                 <!-- Delivery Information Starts -->
                                 <div class="panel-body">
                                     <!-- Registration Form Starts -->
-                                    <form class="form-horizontal" role="form" action="/ToyStore/adminProducts" method="post">
+                                    <form class="form-horizontal" role="form" action="/ToyStore/adminDiscount" method="post">
                                         <!-- Personal Information Starts -->
                                         <div class="form-group">
-                                            <label for="inputPname" class="col-sm-3 control-label">Product Name :</label>
+                                            <label for="inputDiscountCode" class="col-sm-3 control-label">Discount code</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputPname" placeholder="Product Name" name="pName" value="${pName}">
+                                                <input type="text" class="form-control" id="inputDiscountCode" placeholder="Discount Code" name="discountCode">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputModelNumber" class="col-sm-3 control-label">Model Number:</label>
+                                            <label for="inputAmonut" class="col-sm-3 control-label">Discount Amount</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputModelNumber" placeholder="Model Number" name="mNo" value="${mNo}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Category :</label>
-                                            <div class="col-sm-9">
-                                                <select name="category">
-                                                    <c:forEach items="${categories}" var="cat">
-                                                        <c:choose>
-                                                            <c:when test="${categoryId == cat.id}">
-                                                                <option value="${cat.id}" selected="selected"> ${cat.name}</option>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${cat.id}"> ${cat.name}</option>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:forEach>
-                                                </select>
+                                                <input type="text" class="form-control" id="inputAmount" placeholder="Amount" name="amount">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" class="btn btn-danger" value="/ToyStore/adminProducts">
-                                                    Search
+                                                <button type="submit" class="btn btn-danger" value="/ToyStore/adminDiscount">
+                                                    Add
                                                 </button>
                                             </div>
                                         </div>
                                         <!-- Payment Area Ends -->
                                     </form>
                                 </div>
+                                <c:if test="${success == true}">
+                                    <div class="alert alert-success">
+                                        <p> Add discount Successful </p>
+                                    </div> 
+                                </c:if>
+                                <c:if test="${error ==true}">
+                                    <div class="alert alert-danger">
+                                        <p> Error. Error message: ${errorMessage} </p>
+                                    </div> 
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -188,51 +180,44 @@
                         <div class="col-lg-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Product Search Result</h3>
+                                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Discount database</h3>
                                 </div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
                                         <c:choose>
-                                            <c:when test="${products[0]==null}">
-                                                <p>No products to display</p>
+                                            <c:when test="${discounts[0] == null}">
+                                                <div><p>No discounts in database</p></div>
                                             </c:when>
                                             <c:otherwise>
-                                                <table class="table table-bordered table-hover table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Product ID #</th>
-                                                            <th>Product Name</th>
-                                                            <th>Model Number</th>
-                                                            <th>category</th>
-                                                            <th>Brand</th>
-                                                            <th>Available Stock</th>
-                                                            <th>Price</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${products}" var="item">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-hover table-striped">
+                                                        <thead>
                                                             <tr>
-                                                                <td>${item.id}</td>
-                                                                <td>${item.name}</td>
-                                                                <td>${item.modelNum}</td>
-                                                                <td>${item.categoryId.name}</td>
-                                                                <td>${item.brand}</td>
-                                                                <td>${item.quantity}</td>
-                                                                <td>${item.price}</td>
-                                                                <td>
-                                                                    <a href="/ToyStore/adminEditProducts?productId=${item.id}">
-                                                                        <div>
-                                                                            <span class="pull-left">Edit</span>
-                                                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                                            <div class="clearfix"></div>
-                                                                        </div>
-                                                                    </a>
-                                                                </td>
+                                                                <th>Discount code</th>
+                                                                <th>Amount</th>
+                                                                <th></th>
                                                             </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:forEach items="${discounts}" var="item">
+                                                                <tr>
+                                                                    <td>${item.discountCode}</td>
+                                                                    <td> $ ${item.amount}</td>
+                                                                    <td>
+                                                                        <form action="/ToyStore/adminDiscountDelete" method="post">
+                                                                            <input type="hidden"
+                                                                                   name="discountCode"
+                                                                                   value="${item.discountCode}">
+                                                                            <button type="submit" class="btn btn-danger" value="delete">
+                                                                               <i class="fa fa-trash"> Delete</i>
+                                                                            </button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
@@ -265,4 +250,5 @@
     </body>
 
 </html>
+
 
