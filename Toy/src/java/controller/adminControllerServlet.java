@@ -192,6 +192,7 @@ public class adminControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+         HttpSession session = request.getSession(true);
         userPath = request.getServletPath();
         if (userPath.equals("/adminCustomer")) {
 
@@ -411,6 +412,7 @@ public class adminControllerServlet extends HttpServlet {
         CategoryDAO categoryDAO = new CategoryDAOImpl();
         List<Category> categories = categoryDAO.getAll();
         application.setAttribute("categories", categories);
+        
     }
 
 }

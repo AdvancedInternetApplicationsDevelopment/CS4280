@@ -506,14 +506,14 @@ public class ProductDAOImpl implements ProductDAO
         return ret;
     }
 
-    public List<Product> getByFilter(List<String> model, List<Integer> categoryId)
+    public List<Product> getByFilter(List<String> brand, List<Integer> categoryId)
     {   
         List<Product> ret = new ArrayList<Product>();
         String query = "";
         try
         {
             this.conn = ds.getConnection();
-            query = getQueryFromFilter(model, categoryId);
+            query = getQueryFromFilter(brand, categoryId);
             this.rs = conn.prepareStatement(query).executeQuery();
             while(this.rs.next())
             {

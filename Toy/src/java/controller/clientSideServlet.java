@@ -5,12 +5,19 @@
  */
 package controller;
 
+import dbaccessor.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Category;
+import model.Product;
 
 /**
  *
@@ -27,8 +34,6 @@ public class clientSideServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -41,7 +46,17 @@ public class clientSideServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
         String userPath = request.getServletPath();
+
+        if (userPath.equals("/productList")) {
+            ProductDAO productDAO = new ProductDAOImpl();
+            List<Product> products = productDAO.getAll();
+            List<String> brands = productDAO.listAllBrands();
+
+            request.setAttribute("brands", brands);
+            request.setAttribute("products", products);
+        }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -61,7 +76,48 @@ public class clientSideServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession session = request.getSession(true);
+        String userPath = request.getServletPath();
+
+        if (userPath.equals("/productList")) {
+            ProductDAO productDAO = new ProductDAOImpl();
+
+            List<String> brands = productDAO.listAllBrands();
+            String[] brandsChecked = request.getParameterValues("brand");
+            String[] catChecked = request.getParameterValues("category");
+            List<Integer> categoryChecked = new ArrayList<Integer>();
+            List<String> brandsChecList = new ArrayList<String>();
+            List<Product> products = null;
+            if (!(brandsChecked == null && catChecked == null)) {
+                if (!(brandsChecked == null)) {
+                    for (String brandsChecked1 : brandsChecked) {
+                        brandsChecList.add(brandsChecked1);
+                    }
+                }
+                if (!(catChecked == null)) {
+                    for (String catChecked1 : catChecked) {
+                        categoryChecked.add(Integer.parseInt(catChecked1));
+                    }
+                }
+                products = productDAO.getByFilter(brandsChecList, categoryChecked);
+            }
+            else
+            {
+                products = productDAO.getAll();
+            }
+
+            
+            request.setAttribute("brands", brands);
+            request.setAttribute("products", products);
+
+        }
+        String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 
     /**
