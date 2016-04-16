@@ -97,6 +97,7 @@ public class ReviewDAOImpl implements ReviewDAO
                 ProductDAO productDAO = new ProductDAOImpl();
                 review.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
                 review.setComments(this.rs.getString("comments"));
+                review.setAdminReply(this.rs.getString("admin_reply"));
                 review.setStar(this.rs.getInt("star"));
                 ret = review;
             }
