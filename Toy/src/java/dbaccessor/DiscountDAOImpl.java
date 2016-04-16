@@ -82,9 +82,9 @@ public class DiscountDAOImpl implements DiscountDAO
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM discount"
                     + " WHERE discount_code = ?;");
-            ps.setString(1, "%" + code + "%");
+            ps.setString(1, code);
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 Discount discount = new Discount();
                 discount.setDiscountCode(this.rs.getString("discount_code"));
@@ -148,7 +148,7 @@ public class DiscountDAOImpl implements DiscountDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("DELETE discount "
-                    + " WHERE discount_code = ?");
+                    + "WHERE discount_code = ? ;");
             ps.setString(1, discount.getDiscountCode());
             
             rows = ps.executeUpdate();
