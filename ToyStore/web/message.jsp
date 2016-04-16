@@ -16,6 +16,7 @@
 <body>
     <center>
         <h2>${message}</h2>
+        <img src="${imagePath}" />
     </center>
 </body>
 </html>

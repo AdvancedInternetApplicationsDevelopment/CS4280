@@ -17,4 +17,12 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <context-param>
+        <param-name>upload.location</param-name>
+        <param-value>/home/bsft14/ntungare2/www/images</param-value>
+    </context-param>
+    <context-param>
+        <param-name>display.path</param-name>
+        <param-value>personal.cs.cityu.edu.hk/~ntungare2/images/</param-value>
+    </context-param>
 </web-app>

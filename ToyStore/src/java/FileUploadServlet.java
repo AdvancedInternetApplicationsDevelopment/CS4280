@@ -32,7 +32,8 @@ public class FileUploadServlet extends HttpServlet
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
+    // location to store file uploaded
+    //private final String UPLOAD_DIRECTORY = getServletContext().getInitParameter("upload.location");
     // upload settings
     private static final int MEMORY_THRESHOLD   = 1024 * 1024 * 3;  // 3MB
     private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
@@ -42,7 +43,8 @@ public class FileUploadServlet extends HttpServlet
             throws ServletException, IOException
     {
         // checks if the request actually contains upload file
-        if (!ServletFileUpload.isMultipartContent(request)) {
+        if (!ServletFileUpload.isMultipartContent(request))
+        {
             // if not, we stop here
             PrintWriter writer = response.getWriter();
             writer.println("Error: Form must has enctype=multipart/form-data.");
@@ -64,26 +66,42 @@ public class FileUploadServlet extends HttpServlet
          
         // sets maximum size of request (include file + form data)
         upload.setSizeMax(MAX_REQUEST_SIZE);
-        
-        String message = "";
+ 
+        // constructs the directory path to store upload file
+        // this path is relative to application's directory
+        String uploadPath = getServletContext().getInitParameter("upload.location");
+         
+        // creates the directory if it does not exist
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists())
+        {
+            uploadDir.mkdir();
+        }
  
         try
         {
             // parses the request's content to extract file data
             @SuppressWarnings("unchecked")
             List<FileItem> formItems = upload.parseRequest(request);
- 
+            
+            String message = "";
             if (formItems != null && formItems.size() > 0)
             {
                 // iterates over form's fields
-                for (FileItem item : formItems)
+                for (FileItem item: formItems)
                 {
                     // processes only fields that are not form fields
                     if (!item.isFormField())
                     {
                         File file = new File(item.getName());
                         String fileName = file.getName();
+                        String filePath = uploadPath + File.separator + fileName;
                         message += "Upload has been done successfully! FileName = " + fileName + " found!<br\\>";
+                        // saves the file on disk
+                        File storeFile = new File(filePath);
+                        filePath = storeFile.getAbsolutePath();
+                        request.setAttribute("imagePath", (filePath));
+                        item.write(storeFile);
                     }
                     else
                     {
