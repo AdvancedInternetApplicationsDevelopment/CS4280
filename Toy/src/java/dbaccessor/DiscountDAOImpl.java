@@ -57,6 +57,15 @@ public class DiscountDAOImpl implements DiscountDAO
                 discount.setAmount(this.rs.getDouble("amount"));
                 ret.add(discount);
             }
+            
+            if (rs != null)
+            {
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
         }
         catch (SQLException ex)
         {
