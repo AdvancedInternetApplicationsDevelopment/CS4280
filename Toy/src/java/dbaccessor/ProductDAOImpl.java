@@ -553,16 +553,16 @@ public class ProductDAOImpl implements ProductDAO
         return ret;
     }
 
-    private String getQueryFromFilter(List<String> model, List<Integer> categoryId)
+    private String getQueryFromFilter(List<String> brand, List<Integer> categoryId)
     {
         List<String> query = new ArrayList<String>();
         query.add("SELECT * FROM product");
         query.add(" WHERE");
-        for(String modelToCheck: model)
+        for(String brandToCheck: brand)
         {
-            if(!modelToCheck.equalsIgnoreCase(""))
+            if(!brandToCheck.equalsIgnoreCase(""))
             {
-                query.add(" model_num LIKE '%" + modelToCheck + "%'");
+                query.add(" brand LIKE '%" + brandToCheck + "%'");
             }
         }
         for(Integer categoryIdToCheck: categoryId)
