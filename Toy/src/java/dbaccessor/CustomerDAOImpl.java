@@ -100,7 +100,7 @@ public class CustomerDAOImpl implements CustomerDAO
                     + " WHERE email = ?;");
             ps.setString(1, email);
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 Customer cus = new Customer();
                 cus.setEmail(this.rs.getString("email"));
@@ -148,7 +148,7 @@ public class CustomerDAOImpl implements CustomerDAO
             this.conn = ds.getConnection();
             this.rs = conn.prepareStatement("SELECT COUNT(*)"
                     + " as num FROM customer;").executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 ret = this.rs.getInt("num");
             }
@@ -396,7 +396,7 @@ public class CustomerDAOImpl implements CustomerDAO
             
             this.rs = ps.executeQuery();
             
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 ret = this.rs.getDouble("credits");
             }

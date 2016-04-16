@@ -85,7 +85,7 @@ public class CCInfoDAOImpl implements CCInfoDAO
                     + " WHERE cc_email = ?;");
             ps.setString(1, email);
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 CCInfo ccInfo = new CCInfo();
                 ccInfo.setCcNumber(this.rs.getString("cc_number"));

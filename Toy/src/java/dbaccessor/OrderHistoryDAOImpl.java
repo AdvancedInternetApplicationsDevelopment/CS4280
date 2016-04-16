@@ -90,7 +90,7 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
                     + " WHERE id = ?;");
             ps.setString(1, id);
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 OrderHistory order = new OrderHistory();
                 order.setId(this.rs.getString("id"));

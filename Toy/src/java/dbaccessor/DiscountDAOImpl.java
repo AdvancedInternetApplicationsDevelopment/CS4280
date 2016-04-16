@@ -147,7 +147,7 @@ public class DiscountDAOImpl implements DiscountDAO
         try
         {
             this.conn = ds.getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE discount "
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM discount "
                     + "WHERE discount_code = ? ;");
             ps.setString(1, discount.getDiscountCode());
             

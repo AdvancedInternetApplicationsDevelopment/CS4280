@@ -88,7 +88,7 @@ public class ReviewDAOImpl implements ReviewDAO
             ps.setString(1, customer_id);
             ps.setString(2, product_id);
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 Review review = new Review();
                 CustomerDAO customerDAO = new CustomerDAOImpl();
@@ -220,7 +220,7 @@ public class ReviewDAOImpl implements ReviewDAO
         try
         {
             this.conn = ds.getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE review "
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM review "
                     + "WHERE customer_id = ? AND product_id = ? ;");
             ps.setString(1, review.getCustomer().getEmail());
             ps.setString(2, review.getProduct().getId());

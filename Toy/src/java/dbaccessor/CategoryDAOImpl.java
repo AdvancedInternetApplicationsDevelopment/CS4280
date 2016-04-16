@@ -84,7 +84,7 @@ public class CategoryDAOImpl implements CategoryDAO
                     + " WHERE id = ?;");
             ps.setInt(1, id);
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 Category cat = new Category();
                 cat.setId(this.rs.getInt("id"));
@@ -119,7 +119,7 @@ public class CategoryDAOImpl implements CategoryDAO
                     + " WHERE name LIKE ?;");
             ps.setString(1, "%" + name + "%");
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 ret = this.rs.getInt("id");
             }
@@ -150,7 +150,7 @@ public class CategoryDAOImpl implements CategoryDAO
                     + " WHERE name LIKE ?;");
             ps.setString(1, "%" + category + "%");
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 return true;
             }

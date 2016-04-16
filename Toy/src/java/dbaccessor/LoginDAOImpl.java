@@ -84,7 +84,7 @@ public class LoginDAOImpl implements LoginDAO
                     + " WHERE idlogin = ?;");
             ps.setString(1, idlogin);
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 Login login = new Login();
                 login.setIdlogin(this.rs.getString("idlogin"));

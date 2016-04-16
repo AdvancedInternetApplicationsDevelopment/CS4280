@@ -89,7 +89,7 @@ public class OrderedProductDAOImpl implements OrderedProductDAO
             ps.setString(1, order_id);
             ps.setString(2, product_id);
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 OrderedProduct order = new OrderedProduct();
                 OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
@@ -127,7 +127,7 @@ public class OrderedProductDAOImpl implements OrderedProductDAO
                     + " FROM ordered_product WHERE product_id = ?;");
             ps.setString(1, product_id);
             this.rs = ps.executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 ret = this.rs.getInt("SUM(quantity)");
             }
@@ -147,7 +147,7 @@ public class OrderedProductDAOImpl implements OrderedProductDAO
             this.conn = ds.getConnection();
             this.rs = conn.prepareStatement("SELECT SUM(quantity) as total"
                     + " FROM ordered_product;").executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 ret = this.rs.getInt("total");
             }
