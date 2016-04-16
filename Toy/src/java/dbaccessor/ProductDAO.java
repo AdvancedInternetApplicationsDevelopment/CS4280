@@ -39,7 +39,7 @@ public interface ProductDAO
     
     public List<Product> getRecycledByFilter(String name, String modelNum, int categoryId);
     
-    public String getQueryFromFilter(String name, String modelNum, int categoryId, boolean recycled);
+    public List<Product> getByFilter(List<String> modelNum, List<Integer> categoryId);
     
     //if recycled enter owner, else if new, owner input can be anything
     public boolean addProduct(Product product, Blob image, String category);

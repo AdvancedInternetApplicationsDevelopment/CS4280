@@ -425,9 +425,9 @@ public class ProductDAOImpl implements ProductDAO
         return ret;
     }
     
-    public List<Product> getRecycledByFilter(String name, String modelNum, int categoryId)
+    public List<Product> getRecycledByFilter(String name, String model, int categoryId)
     {
-        String query = getQueryFromFilter(name, modelNum, categoryId, true);
+        String query = getQueryFromFilter(name, model, categoryId, true);
         
         List<Product> ret = new ArrayList<Product>();
         try
@@ -463,7 +463,7 @@ public class ProductDAOImpl implements ProductDAO
         return ret;
     }
     
-    public String getQueryFromFilter(String name, String modelNum, int categoryId, boolean recycled)
+    public String getQueryFromFilter(String name, String model, int categoryId, boolean recycled)
     {
         List<String> query = new ArrayList<String>();
         query.add("SELECT * FROM product");
@@ -473,11 +473,11 @@ public class ProductDAOImpl implements ProductDAO
         {
             query.add(" name LIKE '%" + name + "%'");
         }
-        if(!modelNum.equalsIgnoreCase(""))
+        if(!model.equalsIgnoreCase(""))
         {
-            query.add(" model_num LIKE '%" + modelNum + "%'");
+            query.add(" model_num LIKE '%" + model + "%'");
         }
-        if(categoryId  != 0)
+        if(categoryId != 0)
         {
             query.add(" category_id = '" + categoryId + "'");
         }
@@ -498,6 +498,92 @@ public class ProductDAOImpl implements ProductDAO
             if(!(query.get(i + 1).equalsIgnoreCase(";")))
             {
                 ret += " AND";
+            }
+        }
+        
+        ret += query.get(query.size() - 1);
+        
+        return ret;
+    }
+
+    public List<Product> getByFilter(List<String> model, List<Integer> categoryId)
+    {   
+        List<Product> ret = new ArrayList<Product>();
+        String query = "";
+        try
+        {
+            this.conn = ds.getConnection();
+            query = getQueryFromFilter(model, categoryId);
+            this.rs = conn.prepareStatement(query).executeQuery();
+            while(this.rs.next())
+            {
+                Product product = new Product();
+                product.setId(this.rs.getString("id"));
+                product.setName(this.rs.getString("name"));
+                product.setModelNum(this.rs.getString("model_num"));
+                CategoryDAO categoryDAO = new CategoryDAOImpl();
+                product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getDouble("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
+                product.setAddInfo(this.rs.getString("add_info"));
+                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setNew1(this.rs.getBoolean("new"));
+                product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
+
+                ret.add(product);
+            }
+            
+            if (rs != null)
+            {
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+
+    private String getQueryFromFilter(List<String> model, List<Integer> categoryId)
+    {
+        List<String> query = new ArrayList<String>();
+        query.add("SELECT * FROM product");
+        query.add(" WHERE");
+        for(String modelToCheck: model)
+        {
+            if(!modelToCheck.equalsIgnoreCase(""))
+            {
+                query.add(" model_num LIKE '%" + modelToCheck + "%'");
+            }
+        }
+        for(Integer categoryIdToCheck: categoryId)
+        {
+            if(categoryIdToCheck != 0)
+            {
+                query.add(" category_id = '" + categoryId + "'");
+            }
+        }
+        query.add(";");
+        
+        String ret = "";
+        
+        ret += query.get(0) + query.get(1);
+        
+        for(int i = 2; i <= (query.size() - 2); i++)
+        {
+            ret += query.get(i);
+            if(!(query.get(i + 1).equalsIgnoreCase(";")))
+            {
+                ret += " OR";
             }
         }
         
