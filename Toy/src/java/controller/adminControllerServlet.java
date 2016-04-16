@@ -27,6 +27,7 @@ import model.Customer;
 import model.Discount;
 import model.OrderHistory;
 import model.Product;
+import model.Review;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -64,8 +65,7 @@ public class adminControllerServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         userPath = request.getServletPath();
 
-        if (userPath.equals("/adminDashboard"))
-        {
+        if (userPath.equals("/adminDashboard")) {
             CustomerDAO customerDAO = new CustomerDAOImpl();
             ProductDAO productDAO = new ProductDAOImpl();
             OrderedProductDAO orderedProductDAO = new OrderedProductDAOImpl();
@@ -83,9 +83,7 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("totalNoOfProducts", totalNoOfProducts);
             request.setAttribute("latestApprovalItem", latestApprovalItem);
             request.setAttribute("transactions", transactions);
-        }
-        else if (userPath.equals("/adminCustomer"))
-        {
+        } else if (userPath.equals("/adminCustomer")) {
             List<Customer> customerSearchList = null;
             request.setAttribute("FName", "");
             request.setAttribute("LName", "");
@@ -97,55 +95,40 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("country", "");
             request.setAttribute("region", "");
             request.setAttribute("customerSearchList", customerSearchList);
-        }
-        else if (userPath.equals("/adminTransactions"))
-        {
+        } else if (userPath.equals("/adminTransactions")) {
             List<OrderHistory> orderHistorys = null;
             request.setAttribute("transactions", orderHistorys);
             request.setAttribute("orderNo", "");
             request.setAttribute("userId", "");
-        }
-        else if (userPath.equals("/adminProducts"))
-        {
+        } else if (userPath.equals("/adminProducts")) {
             List<Product> products = null;
             request.setAttribute("pName", "");
             request.setAttribute("mNo", "");
             request.setAttribute("categoryId", -1);
             request.setAttribute("products", products);
-        }
-        else if (userPath.equals("/adminRecycledProducts"))
-        {
+        } else if (userPath.equals("/adminRecycledProducts")) {
             List<Product> products = null;
             request.setAttribute("pName", "");
             request.setAttribute("mNo", "");
             request.setAttribute("categoryId", -1);
             request.setAttribute("owner", "");
             request.setAttribute("products", products);
-        }
-        else if (userPath.equals("/adminApprovals"))
-        {
+        } else if (userPath.equals("/adminApprovals")) {
             ProductDAO productDAO = new ProductDAOImpl();
             List<Product> approveProducts = productDAO.getAllPending();
             request.setAttribute("approveProducts", approveProducts);
-        }
-        else if (userPath.equals("/adminViewRecycled"))
-        {
+        } else if (userPath.equals("/adminViewRecycled")) {
             String productId = request.getParameter("productId");
             ProductDAO productDAO = new ProductDAOImpl();
             Product product = productDAO.getProductFromID(productId);
             request.setAttribute("product", product);
-        }
-        else if (userPath.equals("/adminEditProducts"))
-        {
+        } else if (userPath.equals("/adminEditProducts")) {
             String productId = request.getParameter("productId");
             ProductDAO productDAO = new ProductDAOImpl();
             Product product = productDAO.getProductFromID(productId);
-            if (product == null)
-            {
+            if (product == null) {
                 userPath = "/admin404";
-            }
-            else
-            {
+            } else {
                 request.setAttribute("pName", product.getName());
                 request.setAttribute("mNo", product.getModelNum());
                 request.setAttribute("brand", product.getBrand());
@@ -159,23 +142,28 @@ public class adminControllerServlet extends HttpServlet {
                 request.setAttribute("error", false);
                 request.setAttribute("errorMessage", null);
             }
-        }
-        else if (userPath.equals("/adminAddProducts"))
-        {
+        } else if (userPath.equals("/adminAddProducts")) {
             request.setAttribute("categoryId", 1);
             request.setAttribute("success", false);
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
-        }
-        else if (userPath.equals("/adminDiscount"))
-        {
+        } else if (userPath.equals("/adminDiscount")) {
             request.setAttribute("success", false);
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
-            
+
             DiscountDAO discountDAO = new DiscountDAOImpl();
             List<Discount> discounts = discountDAO.getAll();
             request.setAttribute("discounts", discounts);
+        }
+        else if (userPath.equals("/adminInbox")) {
+            request.setAttribute("success", false);
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+
+            ReviewDAO reviewDAO = new ReviewDAOImpl();
+            List<Review> reviews = reviewDAO.getAll();
+            request.setAttribute("reviews", reviews);
         }
 
         String url = "/WEB-INF/view" + userPath + ".jsp";
@@ -314,15 +302,13 @@ public class adminControllerServlet extends HttpServlet {
                 request.setAttribute("errorMessage", null);
             }
 
-        } 
-        
-        else if (userPath.equals("/adminDiscount")) {
+        } else if (userPath.equals("/adminDiscount")) {
             boolean success = true;
             String amount = request.getParameter("amount");
             try {
                 double amountDouble = Double.parseDouble(amount);
                 DiscountDAO discountDAO = new DiscountDAOImpl();
-                Discount discount = new Discount("",amountDouble);
+                Discount discount = new Discount("", amountDouble);
                 if (!(discountDAO.addDiscount(discount))) {
                     throw new Exception("create discount unsuccessful. database error");
                 }
@@ -331,25 +317,24 @@ public class adminControllerServlet extends HttpServlet {
                 request.setAttribute("errorMessage", e.getMessage());
                 success = false;
             }
-            
+
             DiscountDAO discountDAO = new DiscountDAOImpl();
             List<Discount> discounts = discountDAO.getAll();
             request.setAttribute("discounts", discounts);
-            
-            if(success== true){
-                 request.setAttribute("success", success);
-            request.setAttribute("error", false);
-            request.setAttribute("errorMessage", null);
+
+            if (success == true) {
+                request.setAttribute("success", success);
+                request.setAttribute("error", false);
+                request.setAttribute("errorMessage", null);
             }
-           
-        }
-        else if (userPath.equals("/adminDiscountDelete")) {
+
+        } else if (userPath.equals("/adminDiscountDelete")) {
+            boolean error = false;
             String discountCode = request.getParameter("discountCode");
-             request.setAttribute("error", false);
+            request.setAttribute("error", error);
             request.setAttribute("errorMessage", null);
             DiscountDAO discountDAO = new DiscountDAOImpl();
-            
- 
+
             try {
                 Discount discount = discountDAO.getDiscountFromID(discountCode);
                 if (!(discountDAO.deleteDiscount(discount))) {
@@ -358,22 +343,55 @@ public class adminControllerServlet extends HttpServlet {
             } catch (Exception e) {
                 request.setAttribute("error", true);
                 request.setAttribute("errorMessage", e.getMessage());
+                error = true;
             }
             List<Discount> discounts = discountDAO.getAll();
             request.setAttribute("discounts", discounts);
-            
+
             request.setAttribute("success", false);
-            userPath = "/adminDiscount";
+            if(error ==true)
+            {
+                userPath = "/adminDiscount";
+            }
+        }else if (userPath.equals("/adminInbox")) {
+            boolean success = true;
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+            String adminReply = request.getParameter("adminReplyform");
+            String customerId = request.getParameter("customerId");
+            String productId = request.getParameter("productId");
+            ReviewDAO reviewDAO = new ReviewDAOImpl();
+            try {
+                Review review = reviewDAO.getReviewFromID(customerId, productId);
+                review.setAdminReply(adminReply);
+                if (!(reviewDAO.addAdminReply(review))) {
+                    throw new Exception("reply unsuccessful. database error");
+                }
+            } catch (Exception e) {
+                request.setAttribute("error", true);
+                request.setAttribute("errorMessage", e.getMessage());
+                success = false;
+            }
+            List<Review> reviews = reviewDAO.getAll();
+            request.setAttribute("reviews", reviews);
+            
+            request.setAttribute("success", success);
+            
         }
 
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (ServletException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        if (userPath.equals("/adminDiscountDelete")) {
+            response.sendRedirect("/ToyStore/adminDiscount");
+        } else {
+            String url = "/WEB-INF/view" + userPath + ".jsp";
+            try {
+                request.getRequestDispatcher(url).forward(request, response);
+            } catch (ServletException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
+
     }
 
     /**

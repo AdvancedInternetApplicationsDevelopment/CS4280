@@ -65,14 +65,14 @@
                                 <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                                <a href="/ToyStore/adminInbox"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="/ToyStore/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                                <a href="/ToyStore/adminLogout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                             </li>
                         </ul>
                     </li>
@@ -249,7 +249,17 @@
 
                 </div>
                 <!-- /.container-fluid -->
+                <div class="copyright container">
+                    <div class="clearfix">
+                        <!-- Starts -->
+                        <p class="pull-right" >
+                            <i class="fa fa-copyright" aria-hidden="true"></i> Toy Store. designed By <a href="#">Suhag Byaravalli Arun</a> and <a href="#">Ninand Tungare</a>. This web site exists to fulfill the coursework requirement of CS4280.
+                            Do not use your real personal data as input.
 
+                        </p>
+                        <!-- Ends -->
+                    </div>
+                </div>
             </div>
             <!-- /#page-wrapper -->
 

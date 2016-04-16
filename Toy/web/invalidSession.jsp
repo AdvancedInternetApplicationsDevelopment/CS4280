@@ -175,7 +175,8 @@
 		<div class="clearfix">
 		<!-- Starts -->
 			<p class="pull-left">
-				© 2016 Toy Store. designed By <a href="#">Suhag Byaravalli Arun</a> and <a href="#">Ninand Tungare</a>
+				<i class="fa fa-copyright" aria-hidden="true"></i> Toy Store. designed By <a href="#">Suhag Byaravalli Arun</a> and <a href="#">Ninand Tungare</a>. This web site exists to fulfill the coursework requirement of CS4280.
+                            Do not use your real personal data as input.
 			</p>
 		<!-- Ends -->
 		</div>

@@ -31,7 +31,8 @@
         <url-pattern>/approveProduct</url-pattern>
         <url-pattern>/adminDiscount</url-pattern>
         <url-pattern>/adminDiscountDelete</url-pattern>
-        <url-pattern>/logout</url-pattern>
+        <url-pattern>/adminInbox</url-pattern>
+        <url-pattern>/adminlogout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>clientSideServlet</servlet-name>

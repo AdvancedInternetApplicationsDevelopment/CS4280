@@ -32,6 +32,7 @@ public interface ReviewDAO
     public int getAvgStarFromProductID(String product_id);
     
     public boolean addReview(Review review);
+     public boolean addAdminReply(Review review);
     
     public boolean deleteReview(Review review);
     

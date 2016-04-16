@@ -1,9 +1,10 @@
 <%-- 
-    Document   : admin404
-    Created on : Apr 10, 2016, 2:07:14 PM
+    Document   : adminInbox
+    Created on : Apr 16, 2016, 1:38:35 PM
     Author     : suhag
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Page Not Found</title>
+        <title>Discount</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -40,17 +41,7 @@
     </head>
 
     <body>
-        <div class="copyright container">
-            <div class="clearfix">
-                <!-- Starts -->
-                <p class="pull-left">
-                    &#169; 2016 Toy Store. designed By <a href="#">Suhag Byaravalli Arun</a> and <a href="#">Ninand Tungare</a> This web site exists to fulfill the coursework requirement of CS4280.
-                    Do not use your real personal data as input.
 
-                </p>
-                <!-- Ends -->
-            </div>
-        </div>
         <div id="wrapper">
 
             <!-- Navigation -->
@@ -101,10 +92,10 @@
                         <li>
                             <a href="/ToyStore/adminApprovals"><i class="fa fa-fw fa-edit"></i>Approvals</a>
                         </li>
-                        <li>
+                        <li >
                             <a href="/ToyStore/adminAddProducts"><i class="fa fa-plus-square-o"></i> Add products</a>
                         </li>
-                        <li>
+                        <li >
                             <a href="/ToyStore/adminTransactions"><i class="fa fa-money fa-fw"></i> Transactions/ Order</a>
                         </li>
                         <li>
@@ -119,23 +110,83 @@
             </nav>
 
             <div id="page-wrapper">
-                <!-- Main Heading Starts -->
-                <h2 class="main-heading text-center">
-                    404 Page
-                </h2>
-                <!-- Main Heading Ends -->
-                <!-- Content Starts -->
-                <div class="content-box text-center">
-                    <h4 class="special-heading">oops !</h4>
-                    <h5>
-                        The page you were looking for could not be found.
-                    </h5>
-                    <br />
-                    <p>
-                        <a href="/ToyStore/adminDashboard" class="btn btn-danger text-uppercase">Back to Home</a>
-                    </p>
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">
+                                Inbox
+                            </h1>
+                            <ol class="breadcrumb">
+                                <li class="active">
+                                    <i class="fa fa-fw fa-envelope"></i> Admin Inbox
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <c:choose>
+                                <c:when test="${reviews[0] == null}">
+                                    <div><p>No reviews to display</p></div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${success == true}">
+                                        <div class="alert alert-success">
+                                            <p> reply Successful </p>
+                                        </div> 
+                                    </c:if>
+                                    <c:if test="${error ==true}">
+                                        <div class="alert alert-danger">
+                                            <p> Error. Error message: ${errorMessage} </p>
+                                        </div> 
+                                    </c:if>
+                                    <c:forEach items="${reviews}" var="item">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <a href="/ToyStore/adminEditProducts?productId=${item.product.id}">
+                                                    <h3 class="panel-title"># ${item.product.id}</h3>
+                                                </a>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="heading"><h4>Customer Id : ${item.customer.email}</h4></div>
+                                                <div><p>Comments: ${item.comments}</p></div>
+                                                <div>
+                                                    <form class="form-horizontal" role="form" action="/ToyStore/adminInbox" method="post">
+
+                                                        <div class="form-group">
+                                                            <label for="inputAdminReply" class="col-sm-3 control-label">Admin reply:</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="inputAdminReply" placeholder="Admin Reply" name="adminReplyform" value="${item.adminReply}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-offset-3 col-sm-9">
+                                                                <input type="hidden" name="customerId" value="${item.customer.email}">
+                                                                <input type="hidden" name="productId" value="${item.product.id}">
+                                                                <button type="submit" class="btn btn-danger" value="/ToyStore/adminInbox">
+                                                                    Reply
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
                 </div>
-                <!-- Content Ends -->
+                <!-- /.container-fluid -->
                 <div class="copyright container">
                     <div class="clearfix">
                         <!-- Starts -->
@@ -163,7 +214,9 @@
         <script src="js/plugins/morris/raphael.min.js"></script>
         <script src="js/plugins/morris/morris.min.js"></script>
         <script src="js/plugins/morris/morris-data.js"></script>
+
     </body>
 
 </html>
+
 
