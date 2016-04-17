@@ -565,11 +565,11 @@ public class ProductDAOImpl implements ProductDAO
                 query.add(" brand LIKE '%" + brandToCheck + "%'");
             }
         }
-        for(Integer categoryIdToCheck: categoryId)
+        for(int categoryIdToCheck: categoryId)
         {
             if(categoryIdToCheck != 0)
             {
-                query.add(" category_id = '" + categoryId + "'");
+                query.add(" category_id = '" + categoryIdToCheck + "'");
             }
         }
         query.add(";");
