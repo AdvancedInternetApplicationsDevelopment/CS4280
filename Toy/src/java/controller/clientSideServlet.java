@@ -53,8 +53,11 @@ public class clientSideServlet extends HttpServlet {
             ProductDAO productDAO = new ProductDAOImpl();
             List<Product> products = productDAO.getAll();
             List<String> brands = productDAO.listAllBrands();
+            CategoryDAO categoryDAO = new CategoryDAOImpl();
+            List<Category> categorys = categoryDAO.getAll();
 
             request.setAttribute("brands", brands);
+            request.setAttribute("categoriesUnChecked", categorys);
             request.setAttribute("products", products);
         }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
@@ -81,8 +84,10 @@ public class clientSideServlet extends HttpServlet {
 
         if (userPath.equals("/productList")) {
             ProductDAO productDAO = new ProductDAOImpl();
-
+            List<Category> categorysChecked = new ArrayList<Category>();
             List<String> brands = productDAO.listAllBrands();
+            CategoryDAO categoryDAO = new CategoryDAOImpl();
+            List<Category> categorys = categoryDAO.getAll();
             String[] brandsChecked = request.getParameterValues("brand");
             String[] catChecked = request.getParameterValues("category");
             List<Integer> categoryChecked = new ArrayList<Integer>();
@@ -100,6 +105,23 @@ public class clientSideServlet extends HttpServlet {
                     }
                 }
                 products = productDAO.getByFilter(brandsChecList, categoryChecked);
+                for(String b : brandsChecList)
+                {
+                    if(brands.contains(b))
+                    {
+                        brands.remove(b);
+                    }
+                }
+                
+                for(Integer c: categoryChecked )
+                {
+                    Category cat = categoryDAO.getCategoryFromID(c);
+                    if(categorys.contains(cat))
+                    {
+                        categorysChecked.add(cat);
+                        categorys.remove(cat);
+                    }
+                }
             }
             else
             {
@@ -108,6 +130,9 @@ public class clientSideServlet extends HttpServlet {
 
             
             request.setAttribute("brands", brands);
+            request.setAttribute("categoriesChecked",categorysChecked );
+            request.setAttribute("brandsChecked", brandsChecList);
+            request.setAttribute("categoriesUnChecked", categorys);
             request.setAttribute("products", products);
 
         }

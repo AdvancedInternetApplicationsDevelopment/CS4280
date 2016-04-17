@@ -91,10 +91,16 @@
                 <div class="list-group-item">
                     <div class="filter-group">
                          <c:choose>
-                             <c:when test="${brands[0]==null}">
+                             <c:when test="${brands[0]==null && brandsChecked[0]==null}">
                                  No brands in database
                              </c:when>
                              <c:otherwise>
+                                 <c:forEach items="${brandsChecked}" var="item">
+                                     <label class="checkbox">
+                                         <input name="brand" type="checkbox" value="${item}" checked="checked" />
+                                     ${item}
+                                     </label> 
+                                 </c:forEach>
                                  <c:forEach items="${brands}" var="item">
                                      <label class="checkbox">
                                          <input name="brand" type="checkbox" value="${item}" />
@@ -112,13 +118,19 @@
                 <div class="list-group-item">
                     <div class="filter-group">
                          <c:choose>
-                             <c:when test="${categories[0]==null}">
+                             <c:when test="${categoriesChecked[0]==null && categoriesUnChecked[0]==null}">
                                  No brands in database
                              </c:when>
                              <c:otherwise>
-                                 <c:forEach items="${categories}" var="item">
+                                 <c:forEach items="${categoriesUnChecked}" var="item">
                                      <label class="checkbox">
                                          <input name="category" type="checkbox" value="${item.id}" />
+                                     ${item.name}
+                                     </label> 
+                                 </c:forEach>
+                                 <c:forEach items="${categoriesChecked}" var="item">
+                                     <label class="checkbox">
+                                         <input name="category" type="checkbox" value="${item.id}" checked="checked"/>
                                      ${item.name}
                                      </label> 
                                  </c:forEach>
