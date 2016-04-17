@@ -39,6 +39,7 @@
         <url-pattern>/productDetails</url-pattern>
         <url-pattern>/cart</url-pattern>
         <url-pattern>/productList</url-pattern>
+        <url-pattern>/productDetails</url-pattern>
         <url-pattern>/wishList</url-pattern>
         <url-pattern>/compareProducts</url-pattern>
         <url-pattern>/addRecycleProduct</url-pattern>

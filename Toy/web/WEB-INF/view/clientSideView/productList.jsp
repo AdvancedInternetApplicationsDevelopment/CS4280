@@ -55,7 +55,7 @@
                                                     </button>
                                                 </form>
                                             </div>
-                                            <div class="col-lg-4"
+                                            <div class="col-lg-4">
                                                  <form action="/ToyStore/addCartList" method="post">
                                                     <input type="hidden"
                                                            name="productId"

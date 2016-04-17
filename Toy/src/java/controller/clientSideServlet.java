@@ -105,32 +105,25 @@ public class clientSideServlet extends HttpServlet {
                     }
                 }
                 products = productDAO.getByFilter(brandsChecList, categoryChecked);
-                for(String b : brandsChecList)
-                {
-                    if(brands.contains(b))
-                    {
+                for (String b : brandsChecList) {
+                    if (brands.contains(b)) {
                         brands.remove(b);
                     }
                 }
-                
-                for(Integer c: categoryChecked )
-                {
+
+                for (Integer c : categoryChecked) {
                     Category cat = categoryDAO.getCategoryFromID(c);
-                    if(categorys.contains(cat))
-                    {
+                    if (categorys.contains(cat)) {
                         categorysChecked.add(cat);
                         categorys.remove(cat);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 products = productDAO.getAll();
             }
 
-            
             request.setAttribute("brands", brands);
-            request.setAttribute("categoriesChecked",categorysChecked );
+            request.setAttribute("categoriesChecked", categorysChecked);
             request.setAttribute("brandsChecked", brandsChecList);
             request.setAttribute("categoriesUnChecked", categorys);
             request.setAttribute("products", products);
