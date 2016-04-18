@@ -4,300 +4,327 @@
     Author     : suhag
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="common/header.jsp" %>
 
 <!-- Main Container Starts -->
 <div id="main-container">
     <div class="row">
         <!-- Primary Content Starts -->
-        <div class="col-md-9">
-            <!-- Product Info Starts -->
-            <div class="row product-info">
-                <!-- Left Starts -->
-                <div class="col-sm-5 images-block">
-                    <p>
-                        <img src="images/product-images/pimg3.jpg" alt="Image" class="img-responsive thumbnail" />
-                    </p>
+        <c:choose>
+            <c:when test="${product==null}">
+                <div class="col-md-9">
+                    <p>Product not found</p>
                 </div>
-                <!-- Left Ends -->
-                <!-- Right Starts -->
-                <div class="col-sm-7 product-details">
-                    <!-- Product Name Starts -->
-                    <h2>Simply Organic seeds</h2>
-                    <!-- Product Name Ends -->
-                    <hr />
-                    <!-- Manufacturer Starts -->
-                    <ul class="list-unstyled manufacturer">
-                        <li>
-                            <span>Brand:</span> Indian spices
-                        </li>
-                        <li><span>Reward Points:</span> 300</li>
-                        <li>
-                            <span>Availability:</span> <strong class="label label-success">In Stock</strong>
-                        </li>
-                    </ul>
-                    <!-- Manufacturer Ends -->
-                    <hr />
-                    <!-- Price Starts -->
-                    <div class="price">
-                        <span class="price-head">Price :</span>
-                        <span class="price-new">$199.50</span> 
-                    </div>
-                    <!-- Price Ends -->
-                    <hr />
-                    <!-- Available Options Starts -->
-                    <div class="options">
-                        <div class="cart-button button-group">
-                            <div class="col-lg-4">
-                                <form action="/ToyStore/addWishList" method="post">
-                                    <input type="hidden"
-                                           name="productId"
-                                           value="${product.id}">
-                                    <button type="button" title="Wishlist" class="btn btn-wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-lg-4">
-                                <form action="/ToyStore/addCompareList" method="post">
-                                    <input type="hidden"
-                                           name="productId"
-                                           value="${product.id}">
-                                    <button type="button" title="Compare" class="btn btn-compare">
-                                        <i class="fa fa-bar-chart-o"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-lg-4">
-                                 <form action="/ToyStore/addCartList" method="post">
-                                    <input type="hidden"
-                                           name="productId"
-                                           value="${product.id}">
-                                    <button type="button" class="btn btn-cart">
-                                        Add to cart
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </button>
-                                </form>
-                            </div>									
+            </c:when>
+            <c:otherwise>
+                <div class="col-md-9">
+                    <!-- Product Info Starts -->
+                    <div class="row product-info">
+                        <!-- Left Starts -->
+                        <div class="col-sm-5 images-block">
+                            <p>
+                                <img src="/ToyStore/getImage?productId=${product.id}" alt="Image" class="img-responsive thumbnail" />
+                            </p>
                         </div>
-                    </div>
-                    <!-- Available Options Ends -->
-                    <hr />
-                </div>
-                <!-- Right Ends -->
-            </div>
-            <!-- product Info Ends -->
-            <!-- Product Description Starts -->
-            <div class="product-info-box">
-                <h4 class="heading">Description</h4>
-                <div class="content panel-smart">
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
-                    <p>
-                        It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
-                </div>
-            </div>
-            <!-- Product Description Ends -->
-            <!-- Additional Information Starts -->
-            <div class="product-info-box">
-                <h4 class="heading">Additional Information</h4>
-                <div class="content panel-smart">
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
-                </div>
-            </div>
-            <!-- Additional Information Ends -->
-            <div class="product-info-box">
-                <h4 class="heading">Review Product</h4>
-                <div class="content panel-smart">
-                    <form class="form-horizontal">
-                        <div class="form-group required">
-                            <label class="col-sm-2 control-label" for="input-name">Name</label>
-                            <div class="col-sm-10">
-                                <input name="name" class="form-control" id="input-name" type="text" value="">
-                            </div>
-                        </div>
-                        <div class="form-group required">
-                            <label class="col-sm-2 control-label" for="input-review">Review</label>
-                            <div class="col-sm-10">
-                                <textarea name="text" class="form-control" id="input-review" rows="5"></textarea>
-                                <div class="help-block">
-                                    Some note goes here..
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group required">
-                            <label class="col-sm-2 control-label ratings">Ratings</label>
-                            <div class="col-sm-10">
-                                Bad&nbsp;
-                                <input name="rating" type="radio" value="1">
-                                &nbsp;
-                                <input name="rating" type="radio" value="2">
-                                &nbsp;
-                                <input name="rating" type="radio" value="3">
-                                &nbsp;
-                                <input name="rating" type="radio" value="4">
-                                &nbsp;
-                                <input name="rating" type="radio" value="5">
-                                &nbsp;Good
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button class="btn btn-danger" id="button-review" type="button">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                        <!-- Left Ends -->
+                        <!-- Right Starts -->
+                        <div class="col-sm-7 product-details">
+                            <!-- Product Name Starts -->
+                            <h2>${product.name}</h2>
+                            <!-- Product Name Ends -->
+                            <hr />
+                            <!-- Manufacturer Starts -->
+                            <ul class="list-unstyled manufacturer">
+                                <li>
+                                    <span>Brand:</span> ${product.brand}
+                                </li>
 
-            <!-- Related Products Starts -->
-            <div class="product-info-box">
-                <h4 class="heading">Related Products</h4>
-                <!-- Products Row Starts -->
-                <div class="row">
-                    <!-- Product #1 Starts -->
-                    <div class="col-md-4 col-sm-6">
-                        <div class="product-col">
-                            <div class="image">
-                                <img src="images/product-images/20.jpg" alt="product" class="img-responsive" />
+                                <li><span>Product sold By:</span> ${product.owner}</li>
+                                <li>
+                                    <span>Availability:</span> 
+                                    <c:choose>
+                                        <c:when test="${product.quantity gt 0}">
+                                            <strong class="label label-success">In Stock</strong>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <strong class="label label-danger">Out of Stock</strong>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </li>
+                                <li>
+                                    <span>Rating:</span>
+                                    <span>
+                                        <c:forEach begin="1" end="${ratingRecived}" var="val">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        </c:forEach>
+                                        <c:forEach begin="1" end="${ratingLeft}" var="val">
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </c:forEach>
+                                    </span>
+
+
+                                </li>
+                            </ul>
+                            <!-- Manufacturer Ends -->
+                            <hr />
+                            <!-- Price Starts -->
+                            <div class="price">
+                                <span class="price-new">$ ${product.price}</span> 
                             </div>
-                            <div class="caption">
-                                <h4><a href="product.html">Simply Organic Seeds</a></h4>
-                                <div class="description">
-                                    We are so lucky living in such a wonderful time. Our almost unlimited ...
-                                </div>
-                                <div class="price">
-                                    <span class="price-new">$199.50</span> 
-                                    <span class="price-old">$249.50</span>
-                                </div>
+                            <!-- Price Ends -->
+                            <hr />
+                            <!-- Available Options Starts -->
+                            <div class="options">
                                 <div class="cart-button button-group">
-                                    <button type="button" title="Wishlist" class="btn btn-wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </button>
-                                    <button type="button" title="Compare" class="btn btn-compare">
-                                        <i class="fa fa-bar-chart-o"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-cart">
-                                        Add to cart
-                                        <i class="fa fa-shopping-cart"></i> 
-                                    </button>									
+
+                                    <form action="/ToyStore/addWishList" method="post" style="display: inline-flex;">
+                                        <input type="hidden"
+                                               name="productId"
+                                               value="${product.id}">
+                                        <button type="button" title="Wishlist" class="btn btn-wishlist">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                    </form>
+
+                                    <form action="/ToyStore/addCompareList" method="post" style="display: inline-flex;">
+                                        <input type="hidden"
+                                               name="productId"
+                                               value="${product.id}">
+                                        <button type="button" title="Compare" class="btn btn-compare">
+                                            <i class="fa fa-bar-chart-o"></i>
+                                        </button>
+                                    </form>
+
+                                    <form action="/ToyStore/addCartList" method="post" style="display: inline-flex;">
+                                        <input type="hidden"
+                                               name="productId"
+                                               value="${product.id}">
+                                        <button type="button" class="btn btn-cart">
+                                            Add to cart
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </button>
+                                    </form>
+
                                 </div>
                             </div>
+                            <!-- Available Options Ends -->
+                            <hr />
+                        </div>
+                        <!-- Right Ends -->
+                    </div>
+                    <!-- product Info Ends -->
+                    <!-- Product Description Starts -->
+                    <div class="product-info-box">
+                        <h4 class="heading">Description</h4>
+                        <div class="content panel-smart">
+                            ${product.description}
                         </div>
                     </div>
-                    <!-- Product #1 Ends -->
-                    <!-- Product #2 Starts -->
-                    <div class="col-md-4 col-sm-6">
-                        <div class="product-col">
-                            <div class="image">
-                                <img src="images/product-images/17.jpg" alt="product" class="img-responsive" />
-                            </div>
-                            <div class="caption">
-                                <h4><a href="product.html">Simply Organic Seeds</a></h4>
-                                <div class="description">
-                                    We are so lucky living in such a wonderful time. Our almost unlimited ...
-                                </div>
-                                <div class="price">
-                                    <span class="price-new">$199.50</span> 
-                                    <span class="price-old">$249.50</span>
-                                </div>
-                                <div class="cart-button button-group">
-                                    <button type="button" title="Wishlist" class="btn btn-wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </button>
-                                    <button type="button" title="Compare" class="btn btn-compare">
-                                        <i class="fa fa-bar-chart-o"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-cart">
-                                        Add to cart
-                                        <i class="fa fa-shopping-cart"></i> 
-                                    </button>									
-                                </div>
-                            </div>
+                    <!-- Product Description Ends -->
+                    <!-- Additional Information Starts -->
+                    <div class="product-info-box">
+                        <h4 class="heading">Additional Information</h4>
+                        <div class="content panel-smart">
+                            ${product.addInfo}
                         </div>
                     </div>
-                    <!-- Product #2 Ends -->
-                    <!-- Product #3 Starts -->
-                    <div class="col-md-4 col-sm-6">
-                        <div class="product-col">
-                            <div class="image">
-                                <img src="images/product-images/6.jpg" alt="product" class="img-responsive" />
-                            </div>
-                            <div class="caption">
-                                <h4><a href="product.html">Simply Organic Seeds</a></h4>
-                                <div class="description">
-                                    We are so lucky living in such a wonderful time. Our almost unlimited ...
+                    <!-- Additional Information Ends -->
+                    <div class="product-info-box">
+                        <h4 class="heading">Review Product</h4>
+                        <div class="content panel-smart">
+                            <form class="form-horizontal" action="/ToyStore/productDetails" method="post">
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label" for="input-review">Review</label>
+                                    <div class="col-sm-10">
+                                        <textarea name="review" class="form-control" id="input-review" rows="5" ></textarea>
+                                        <div class="help-block">
+                                            Some note goes here..
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="price">
-                                    <span class="price-new">$199.50</span> 
-                                    <span class="price-old">$249.50</span>
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label ratings">Ratings</label>
+                                    <div class="col-sm-10">
+                                        Bad&nbsp;
+                                        <input name="rating" type="radio" value="1">
+                                        &nbsp;
+                                        <input name="rating" type="radio" value="2">
+                                        &nbsp;
+                                        <input name="rating" type="radio" value="3">
+                                        &nbsp;
+                                        <input name="rating" type="radio" value="4">
+                                        &nbsp;
+                                        <input name="rating" type="radio" value="5">
+                                        &nbsp;Good
+                                    </div>
                                 </div>
-                                <div class="cart-button button-group">
-                                    <button type="button" title="Wishlist" class="btn btn-wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </button>
-                                    <button type="button" title="Compare" class="btn btn-compare">
-                                        <i class="fa fa-bar-chart-o"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-cart">
-                                        Add to cart
-                                        <i class="fa fa-shopping-cart"></i> 
-                                    </button>									
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-danger" id="button-review" type="submit" value="reviewProduct">
+                                            Submit
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
+                            <c:if test="${success == true}">
+                                    <div class="alert alert-success">
+                                        <p> Review Successful </p>
+                                    </div> 
+                                </c:if>
+                                <c:if test="${error ==true}">
+                                    <div class="alert alert-danger">
+                                        <p> Error in review. Error message: ${errorMessage} </p>
+                                    </div> 
+                                </c:if>
                         </div>
                     </div>
-                    <!-- Product #3 Ends -->
+
+                    <!-- Related Products Starts -->
+                    <div class="product-info-box">
+                        <h4 class="heading">Related Products</h4>
+                        <c:choose>
+                            <c:when test="${Relatedproducts[0]==null}">
+                                <div class="col-md-9">
+                                    <p>Related products not found</p>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="row">
+                                    <c:forEach items="${Relatedproducts}" var="item">
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="product-col">
+                                                <div class="image">
+                                                    <img src="/ToyStore/getImage?productId=${item.id}" alt="product" class="img-responsive" />
+                                                </div>
+                                                <div class="caption">
+                                                    <h4><a href="/ToyStore/productDetails?productId=${item.id}">${item.name}</a></h4>
+                                                    <div class="price">
+                                                        <span class="price-new">$ ${item.price}</span>
+                                                    </div>
+                                                    <div class="cart-button button-group">
+                                                        <form action="/ToyStore/addWishList" method="post" style="
+                                                              display: inline-flex;
+                                                              ">
+                                                            <input type="hidden"
+                                                                   name="productId"
+                                                                   value="${item.id}">
+                                                            <button type="button" title="Wishlist" class="btn btn-wishlist">
+                                                                <i class="fa fa-heart"></i>
+                                                            </button>
+                                                        </form>
+
+
+                                                        <form action="/ToyStore/addCompareList" method="post" style="
+                                                              display: inline-flex;
+                                                              ">
+                                                            <input type="hidden"
+                                                                   name="productId"
+                                                                   value="${item.id}">
+                                                            <button type="button" title="Compare" class="btn btn-compare">
+                                                                <i class="fa fa-bar-chart-o"></i>
+                                                            </button>
+                                                        </form>
+
+                                                        <form action="/ToyStore/addCartList" method="post" style="
+                                                              display: inline-flex;
+                                                              ">
+                                                            <input type="hidden"
+                                                                   name="productId"
+                                                                   value="${item.id}">
+                                                            <button type="button" class="btn btn-cart">
+                                                                Add to cart
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </button>
+                                                        </form>					
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                        <!-- Products Row Starts -->
+
+                        <!-- Products Row Ends -->
+                    </div>
+                    <!-- Related Products Ends -->
                 </div>
-                <!-- Products Row Ends -->
-            </div>
-            <!-- Related Products Ends -->
-        </div>
+            </c:otherwise>
+        </c:choose>
+
         <!-- Primary Content Ends -->
         <!-- Sidebar Starts -->
         <div class="col-md-3">
             <!-- Bestsellers Links Starts -->
             <h3 class="side-heading">Bestsellers</h3>
-            <div class="product-col">
-                <div class="image">
-                    <img src="images/product-images/20.jpg" alt="product" class="img-responsive" />
-                </div>
-                <div class="caption">
-                    <h4>
-                        <a href="product-full.html">Simply Organic Seeds</a>
-                    </h4>
-                    <div class="description">
-                        We are so lucky living in such a wonderful time. Our almost unlimited ...
+            <c:choose>
+                <c:when test="${bestProduct==null}">
+                    <div class="col-md-9">
+                        <p>Best seller not found</p>
                     </div>
-                    <div class="price">
-                        <span class="price-new">$199.50</span> 
-                        <span class="price-old">$249.50</span>
+                </c:when>
+                <c:otherwise>
+                    <div class="product-col">
+                        <div class="image">
+                            <img src="/ToyStore/getImage?productId=${bestProduct.id}" alt="product" class="img-responsive" />
+                        </div>
+                        <div class="caption">
+                            <h4><a href="/ToyStore/productDetails?productId=${bestProduct.id}">${bestProduct.name}</a></h4>
+                            <div class="price">
+                                <span class="price-new">$ ${bestProduct.price}</span>
+                            </div>
+                            <div class="cart-button button-group">
+
+                                <form action="/ToyStore/addWishList" method="post" style="
+                                      display: inline-flex;
+                                      ">
+                                    <input type="hidden"
+                                           name="productId"
+                                           value="${bestProduct.id}">
+                                    <button type="button" title="Wishlist" class="btn btn-wishlist">
+                                        <i class="fa fa-heart"></i>
+                                    </button>
+                                </form>
+
+
+                                <form action="/ToyStore/addCompareList" method="post" style="
+                                      display: inline-flex;
+                                      ">
+                                    <input type="hidden"
+                                           name="productId"
+                                           value="${bestProduct.id}">
+                                    <button type="button" title="Compare" class="btn btn-compare">
+                                        <i class="fa fa-bar-chart-o"></i>
+                                    </button>
+                                </form>
+
+                                <form action="/ToyStore/addCartList" method="post" style="
+                                      display: inline-flex;
+                                      ">
+                                    <input type="hidden"
+                                           name="productId"
+                                           value="${bestProduct.id}">
+                                    <button type="button" class="btn btn-cart">
+                                        Add to cart
+                                        <i class="fa fa-shopping-cart"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
                     </div>
-                    <div class="cart-button button-group">
-                        <button type="button" title="Wishlist" class="btn btn-wishlist">
-                            <i class="fa fa-heart"></i>
-                        </button>
-                        <button type="button" title="Compare" class="btn btn-compare">
-                            <i class="fa fa-bar-chart-o"></i>
-                        </button>
-                        <button type="button" class="btn btn-cart">
-                            Add to cart
-                            <i class="fa fa-shopping-cart"></i> 
-                        </button>									
-                    </div>
-                </div>
-            </div>
+                </c:otherwise>
+            </c:choose>
+
+
             <!-- Bestsellers Links Ends -->
         </div>
         <!-- Sidebar Ends -->
     </div>
 </div>
 <!-- Main Container Ends -->
-
 <%@include file="common/footer.jsp" %>

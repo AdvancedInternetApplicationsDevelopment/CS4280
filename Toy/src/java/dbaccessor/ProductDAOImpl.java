@@ -872,8 +872,8 @@ public class ProductDAOImpl implements ProductDAO
                     + "(SELECT order_id FROM order_history WHERE customer_id IN "
                     + "(SELECT customer_id FROM order_history WHERE order_id IN "
                     + "(SELECT order_id FROM ordered_product WHERE product_id = ?)))"
-                    + "LIMIT 4;";
-        String[] related = {"", "", "", ""};
+                    + "LIMIT 3;";
+        String[] related = {"", "", ""};
         
         try
         {
@@ -882,7 +882,7 @@ public class ProductDAOImpl implements ProductDAO
             ps.setString(1, productId);
             this.rs = ps.executeQuery();
             int i = 0;
-            while(this.rs.next() && i < 4)
+            while(this.rs.next() && i < 3)
             {
                 related[i] = this.rs.getString("product_id");
                 i++;

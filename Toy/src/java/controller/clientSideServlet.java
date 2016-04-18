@@ -60,6 +60,28 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("categoriesUnChecked", categorys);
             request.setAttribute("products", products);
         }
+        else if(userPath.equals("/productDetails"))
+        {
+            String productId = request.getParameter("productId");
+            ProductDAO productDAO = new ProductDAOImpl();
+            ReviewDAO reviewDAO = new ReviewDAOImpl();
+            int ratingRecived = reviewDAO.getAvgStarFromProductID(productId);
+            int ratingLeft = 5 - ratingRecived;
+            Product product = productDAO.getProductFromID(productId);
+            String[] relatedProducts = productDAO.getRelated(productId);
+            Product bestProduct = productDAO.getBestSelling();
+            List<Product> relProducts = new ArrayList<Product>();
+            for(String pid: relatedProducts)
+            {
+                relProducts.add(productDAO.getProductFromID(pid));
+            }
+            
+            request.setAttribute("product", product);
+            request.setAttribute("bestProduct",bestProduct);
+            request.setAttribute("Relatedproducts",relProducts);
+            request.setAttribute("ratingRecived", ratingRecived);
+            request.setAttribute("ratingLeft", ratingLeft);
+        }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);

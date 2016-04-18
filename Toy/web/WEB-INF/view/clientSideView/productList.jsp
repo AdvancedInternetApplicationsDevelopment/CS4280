@@ -34,9 +34,9 @@
                                             <span class="price-new">$ ${item.price}</span>
 
                                         </div>
-                                        <div class="cart-button button-group col-md-3">
-                                            <div class="col-lg-4">
-                                                <form action="/ToyStore/addWishList" method="post">
+                                        <div class="cart-button button-group">
+                                           
+                                                <form action="/ToyStore/addWishList" method="post" style="display: inline-flex;">
                                                     <input type="hidden"
                                                            name="productId"
                                                            value="${product.id}">
@@ -44,9 +44,8 @@
                                                         <i class="fa fa-heart"></i>
                                                     </button>
                                                 </form>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <form action="/ToyStore/addCompareList" method="post">
+                                           
+                                                <form action="/ToyStore/addCompareList" method="post" style="display: inline-flex;">
                                                     <input type="hidden"
                                                            name="productId"
                                                            value="${product.id}">
@@ -54,9 +53,8 @@
                                                         <i class="fa fa-bar-chart-o"></i>
                                                     </button>
                                                 </form>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                 <form action="/ToyStore/addCartList" method="post">
+                                            
+                                                 <form action="/ToyStore/addCartList" method="post" style="display: inline-flex;">
                                                     <input type="hidden"
                                                            name="productId"
                                                            value="${product.id}">
@@ -65,7 +63,7 @@
                                                         <i class="fa fa-shopping-cart"></i>
                                                     </button>
                                                 </form>
-                                            </div>
+                                           
                                         </div>
                                     </div>
                                 </div>
