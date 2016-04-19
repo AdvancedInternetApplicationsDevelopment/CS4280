@@ -21,6 +21,8 @@ public interface OrderHistoryDAO
     
     public OrderHistory getOrderHistoryFromID(String id);
     
+    public List<OrderHistory> getOrderHistoryFromCustomerID(String customer_id);
+    
     public List<OrderHistory> getLatest();
     
     public List<OrderHistory> getByFilter(String customerId, String orderId);

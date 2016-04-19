@@ -20,6 +20,8 @@ public interface OrderedProductDAO
     
     public OrderedProduct getOrderHistoryFromID(String order_id, String product_id);
     
+    public List<OrderedProduct> getOrderHistoryFromID(String order_id);
+    
     public int getTotalQuantityFromProductID(String product_id);
     
     public int getTotalQuantityOfProductSold();

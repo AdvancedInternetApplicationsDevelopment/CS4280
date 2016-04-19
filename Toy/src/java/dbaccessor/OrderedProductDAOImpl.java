@@ -116,6 +116,44 @@ public class OrderedProductDAOImpl implements OrderedProductDAO
         }
         return ret;
     }
+
+    public List<OrderedProduct> getOrderHistoryFromID(String order_id)
+    {
+        List<OrderedProduct> ret = new ArrayList<OrderedProduct>();
+        try
+        {
+            this.conn = ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM ordered_product"
+                    + " WHERE order_id = ?;");
+            ps.setString(1, order_id);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                OrderedProduct order = new OrderedProduct();
+                OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
+                order.setOrderHistory(orderHistoryDAO.getOrderHistoryFromID(this.rs.getString("order_id")));
+                ProductDAO productDAO = new ProductDAOImpl();
+                order.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
+                order.setQuantity(this.rs.getInt("quantity"));
+                ret.add(order);
+            }
+            
+            if (rs != null)
+            {
+                ps.close();
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(OrderedProductDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
     
     public int getTotalQuantityFromProductID(String product_id)
     {

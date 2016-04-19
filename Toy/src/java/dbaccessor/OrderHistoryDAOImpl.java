@@ -119,6 +119,46 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
         }
         return ret;
     }
+
+    public List<OrderHistory> getOrderHistoryFromCustomerID(String customer_id)
+    {
+        List<OrderHistory> ret = new ArrayList<OrderHistory>();
+        try
+        {
+            this.conn = ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM order_history"
+                    + " WHERE customer_id = ?;");
+            ps.setString(1, customer_id);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                OrderHistory order = new OrderHistory();
+                order.setId(this.rs.getString("id"));
+                CustomerDAO dao = new CustomerDAOImpl();
+                order.setCustomerId(dao.getCustomerFromID(this.rs.getString("customer_id")));
+                order.setAmount(this.rs.getDouble("amount"));
+                order.setDateCreated(this.rs.getTimestamp("date_created"));
+                order.setDiscount(this.rs.getDouble("discount"));
+                order.setCredit(this.rs.getDouble("credit"));
+                ret.add(order);
+            }
+            
+            if (rs != null)
+            {
+                ps.close();
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(OrderHistoryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
     
     public List<OrderHistory> getLatest()
     {
