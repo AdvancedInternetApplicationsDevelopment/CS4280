@@ -641,7 +641,7 @@ public class ProductDAOImpl implements ProductDAO
     }
     
     //if recycled enter owner, else if new, owner input can be anything
-    public boolean addProduct(Product product, Blob image, String category)
+    public boolean addProduct(Product product, String category)
     {
         int rows = 0;
         try
@@ -649,8 +649,8 @@ public class ProductDAOImpl implements ProductDAO
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO product "
                     + "(id, name, model_num, category_id, quantity, available, price, "
-                    + "brand, description, add_info, image, new, approved, owner) "
-                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;");
+                    + "brand, description, add_info, new, approved, owner) "
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;");
             ps.setString(1, UUID.randomUUID().toString());
             ps.setString(2, product.getName());
             ps.setString(3, product.getModelNum());
@@ -662,10 +662,9 @@ public class ProductDAOImpl implements ProductDAO
             ps.setString(8, product.getBrand());
             ps.setString(9, product.getDescription());
             ps.setString(10, product.getAddInfo());
-            ps.setBlob(11, image);
-            ps.setBoolean(12, product.isNew1());
-            ps.setBoolean(13, product.isApproved());
-            ps.setString(14, product.getOwner());
+            ps.setBoolean(11, product.isNew1());
+            ps.setBoolean(12, product.isApproved());
+            ps.setString(13, product.getOwner());
             
             rows = ps.executeUpdate();
             

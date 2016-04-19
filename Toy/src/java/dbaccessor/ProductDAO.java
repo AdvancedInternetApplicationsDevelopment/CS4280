@@ -44,7 +44,7 @@ public interface ProductDAO
     public List<Product> getRecycledByOwner(String owner);
     
     //if recycled enter owner, else if new, owner input can be anything
-    public boolean addProduct(Product product, Blob image, String category);
+    public boolean addProduct(Product product, String category);
     
     public boolean updateProduct(Product product);
     
