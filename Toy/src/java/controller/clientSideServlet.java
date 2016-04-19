@@ -5,6 +5,7 @@
  */
 package controller;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import dbaccessor.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -83,6 +84,56 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("Relatedproducts", relProducts);
             request.setAttribute("ratingRecived", ratingRecived);
             request.setAttribute("ratingLeft", ratingLeft);
+        }
+        else if(userPath.equals("/compareProducts"))
+        {
+            //TODO
+            //to remove later 
+            List<String> cp = new ArrayList<String>();
+            cp.add("1");
+            cp.add("2");
+            cp.add("3");
+            cp.add("9");
+            cp.add("10");
+            session.setAttribute("compareProducts", cp);
+            @SuppressWarnings("unchecked")
+            List<String> compareProducts = (List<String>)session.getAttribute("compareProducts");
+            
+            List<Product> compareProductList = new ArrayList<Product>();
+            try {
+                ProductDAO productDAO = new ProductDAOImpl();
+                for(String p : compareProducts)
+                {
+                    compareProductList.add(productDAO.getProductFromID(p));
+                }
+            } catch (Exception e) {
+            }
+            request.setAttribute("compareProductList", compareProductList);
+        }
+        else if(userPath.equals("/wishList"))
+        {
+            //TODO
+            //please remove later 
+            List<String> wl = new ArrayList<String>();
+            wl.add("1");
+            wl.add("2");
+            wl.add("3");
+            wl.add("9");
+            wl.add("10");
+            session.setAttribute("wishListOfProducts", wl);
+            @SuppressWarnings("unchecked")
+            List<String> wishList = (List<String>)session.getAttribute("wishListOfProducts");
+            
+            List<Product> wishListProducts = new ArrayList<Product>();
+            try {
+                ProductDAO productDAO = new ProductDAOImpl();
+                for(String p : wishList)
+                {
+                    wishListProducts.add(productDAO.getProductFromID(p));
+                }
+            } catch (Exception e) {
+            }
+            request.setAttribute("wishList", wishListProducts);
         }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {

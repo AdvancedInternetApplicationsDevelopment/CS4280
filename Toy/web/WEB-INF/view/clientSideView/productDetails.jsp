@@ -83,7 +83,7 @@
                                         <input type="hidden"
                                                name="productId"
                                                value="${product.id}">
-                                        <button type="button" title="Wishlist" class="btn btn-wishlist">
+                                        <button type="submit" title="Wishlist" class="btn btn-wishlist">
                                             <i class="fa fa-heart"></i>
                                         </button>
                                     </form>
@@ -92,7 +92,7 @@
                                         <input type="hidden"
                                                name="productId"
                                                value="${product.id}">
-                                        <button type="button" title="Compare" class="btn btn-compare">
+                                        <button type="submit" title="Compare" class="btn btn-compare">
                                             <i class="fa fa-bar-chart-o"></i>
                                         </button>
                                     </form>
@@ -101,7 +101,7 @@
                                         <input type="hidden"
                                                name="productId"
                                                value="${product.id}">
-                                        <button type="button" class="btn btn-cart">
+                                        <button type="submit" class="btn btn-cart">
                                             Add to cart
                                             <i class="fa fa-shopping-cart"></i>
                                         </button>
@@ -160,7 +160,7 @@
                                                             <input type="hidden"
                                                                    name="productId"
                                                                    value="${item.id}">
-                                                            <button type="button" title="Wishlist" class="btn btn-wishlist">
+                                                            <button type="submit" title="Wishlist" class="btn btn-wishlist">
                                                                 <i class="fa fa-heart"></i>
                                                             </button>
                                                         </form>
@@ -172,7 +172,7 @@
                                                             <input type="hidden"
                                                                    name="productId"
                                                                    value="${item.id}">
-                                                            <button type="button" title="Compare" class="btn btn-compare">
+                                                            <button type="submit" title="Compare" class="btn btn-compare">
                                                                 <i class="fa fa-bar-chart-o"></i>
                                                             </button>
                                                         </form>
@@ -183,7 +183,7 @@
                                                             <input type="hidden"
                                                                    name="productId"
                                                                    value="${item.id}">
-                                                            <button type="button" class="btn btn-cart">
+                                                            <button type="submit" class="btn btn-cart">
                                                                 Add to cart
                                                                 <i class="fa fa-shopping-cart"></i>
                                                             </button>
@@ -328,7 +328,7 @@
                                     <input type="hidden"
                                            name="productId"
                                            value="${bestProduct.id}">
-                                    <button type="button" title="Wishlist" class="btn btn-wishlist">
+                                    <button type="submit" title="Wishlist" class="btn btn-wishlist">
                                         <i class="fa fa-heart"></i>
                                     </button>
                                 </form>
@@ -340,7 +340,7 @@
                                     <input type="hidden"
                                            name="productId"
                                            value="${bestProduct.id}">
-                                    <button type="button" title="Compare" class="btn btn-compare">
+                                    <button type="submit" title="Compare" class="btn btn-compare">
                                         <i class="fa fa-bar-chart-o"></i>
                                     </button>
                                 </form>
@@ -351,7 +351,7 @@
                                     <input type="hidden"
                                            name="productId"
                                            value="${bestProduct.id}">
-                                    <button type="button" class="btn btn-cart">
+                                    <button type="submit" class="btn btn-cart">
                                         Add to cart
                                         <i class="fa fa-shopping-cart"></i>
                                     </button>
