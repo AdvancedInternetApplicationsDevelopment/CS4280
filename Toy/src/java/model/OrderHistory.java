@@ -6,6 +6,7 @@
 package model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  *
@@ -19,6 +20,7 @@ public class OrderHistory
     private Timestamp dateCreated;
     private double discount;
     private double credit;
+    private List<OrderedProduct> orderedProducts;
     
     public OrderHistory()
     {
@@ -43,15 +45,15 @@ public class OrderHistory
         this.credit = credit;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
+
+    
 
     public Customer getCustomerId()
     {
@@ -125,6 +127,14 @@ public class OrderHistory
             return false;
         }
         return true;
+    }
+
+    public List<OrderedProduct> getOrderedProducts() {
+        return orderedProducts;
+    }
+
+    public void setOrderedProducts(List<OrderedProduct> orderedProducts) {
+        this.orderedProducts = orderedProducts;
     }
 
     @Override

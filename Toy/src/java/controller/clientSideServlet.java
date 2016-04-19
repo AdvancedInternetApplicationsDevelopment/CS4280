@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Category;
 import model.Customer;
+import model.OrderHistory;
 import model.Product;
 import model.Review;
 
@@ -81,9 +82,7 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("Relatedproducts", relProducts);
             request.setAttribute("ratingRecived", ratingRecived);
             request.setAttribute("ratingLeft", ratingLeft);
-        }
-        else if(userPath.equals("/compareProducts"))
-        {
+        } else if (userPath.equals("/compareProducts")) {
             //TODO
             //to remove later 
             List<String> cp = new ArrayList<String>();
@@ -94,21 +93,18 @@ public class clientSideServlet extends HttpServlet {
             cp.add("10");
             session.setAttribute("compareProducts", cp);
             @SuppressWarnings("unchecked")
-            List<String> compareProducts = (List<String>)session.getAttribute("compareProducts");
-            
+            List<String> compareProducts = (List<String>) session.getAttribute("compareProducts");
+
             List<Product> compareProductList = new ArrayList<Product>();
             try {
                 ProductDAO productDAO = new ProductDAOImpl();
-                for(String p : compareProducts)
-                {
+                for (String p : compareProducts) {
                     compareProductList.add(productDAO.getProductFromID(p));
                 }
             } catch (Exception e) {
             }
             request.setAttribute("compareProductList", compareProductList);
-        }
-        else if(userPath.equals("/wishList"))
-        {
+        } else if (userPath.equals("/wishList")) {
             //TODO
             //please remove later 
             List<String> wl = new ArrayList<String>();
@@ -119,27 +115,55 @@ public class clientSideServlet extends HttpServlet {
             wl.add("10");
             session.setAttribute("wishListOfProducts", wl);
             @SuppressWarnings("unchecked")
-            List<String> wishList = (List<String>)session.getAttribute("wishListOfProducts");
-            
+            List<String> wishList = (List<String>) session.getAttribute("wishListOfProducts");
+
             List<Product> wishListProducts = new ArrayList<Product>();
             try {
                 ProductDAO productDAO = new ProductDAOImpl();
-                for(String p : wishList)
-                {
+                for (String p : wishList) {
                     wishListProducts.add(productDAO.getProductFromID(p));
                 }
             } catch (Exception e) {
             }
             request.setAttribute("wishList", wishListProducts);
-        }
-        else if(userPath.equals("/recycleProductList"))
-        {
+        } else if (userPath.equals("/recycleProductList")) {
             //TODO convert the to session variable 
 //            String email = (String) session.getAttribute("customerEmail");
             String email = "email3@yahoo.com";
-           ProductDAO productDAO = new ProductDAOImpl();
+            ProductDAO productDAO = new ProductDAOImpl();
             List<Product> products = productDAO.getRecycledByOwner(email);
             request.setAttribute("recycleProduct", products);
+        } else if (userPath.equals("/orderHistory")) {
+            //TODO convert the to session variable 
+//            String email = (String) session.getAttribute("customerEmail");
+            String email = "email3@yahoo.com";
+            OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
+            OrderedProductDAO orderedProductDAO = new OrderedProductDAOImpl();
+            List<OrderHistory> orderHistorys = orderHistoryDAO.getOrderHistoryFromCustomerID(email);
+            for (int i = 0; i < orderHistorys.size(); i++) {
+                OrderHistory temp = orderHistorys.get(i);
+                orderHistorys.remove(i);
+                temp.setOrderedProducts(orderedProductDAO.getOrderHistoryFromID(temp.getId()));
+                orderHistorys.add(i, temp);
+            }
+            request.setAttribute("orderHistory", orderHistorys);
+        } else if (userPath.equals("/orderConfirmation")) {
+            //TODO convert the to session variable 
+//            String email = (String) session.getAttribute("customerEmail");
+            String email = "email3@yahoo.com";
+            String orderId = (String) request.getAttribute("orderId");
+            OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
+            OrderedProductDAO orderedProductDAO = new OrderedProductDAOImpl();
+            List<OrderHistory> orderHistorys = new ArrayList<OrderHistory>();
+            OrderHistory oh = orderHistoryDAO.getOrderHistoryFromID(orderId);
+            orderHistorys.add(oh);
+            for (int i = 0; i < orderHistorys.size(); i++) {
+                OrderHistory temp = orderHistorys.get(i);
+                orderHistorys.remove(i);
+                temp.setOrderedProducts(orderedProductDAO.getOrderHistoryFromID(temp.getId()));
+                orderHistorys.add(i, temp);
+            }
+            request.setAttribute("orderHistory", orderHistorys);
         }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
@@ -243,7 +267,7 @@ public class clientSideServlet extends HttpServlet {
                 request.setAttribute("errorMessage", e.getMessage());
                 success = false;
             }
-            
+
             int ratingRecived = reviewDAO.getAvgStarFromProductID(productId);
             int ratingLeft = 5 - ratingRecived;
             List<Review> reviews = reviewDAO.getReviewFromProductID(productId);
