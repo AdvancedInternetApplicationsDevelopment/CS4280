@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Category;
+import model.Customer;
 import model.Product;
+import model.Review;
 
 /**
  *
@@ -59,26 +61,26 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("brands", brands);
             request.setAttribute("categoriesUnChecked", categorys);
             request.setAttribute("products", products);
-        }
-        else if(userPath.equals("/productDetails"))
-        {
+        } else if (userPath.equals("/productDetails")) {
             String productId = request.getParameter("productId");
             ProductDAO productDAO = new ProductDAOImpl();
             ReviewDAO reviewDAO = new ReviewDAOImpl();
             int ratingRecived = reviewDAO.getAvgStarFromProductID(productId);
             int ratingLeft = 5 - ratingRecived;
+
             Product product = productDAO.getProductFromID(productId);
             String[] relatedProducts = productDAO.getRelated(productId);
             Product bestProduct = productDAO.getBestSelling();
             List<Product> relProducts = new ArrayList<Product>();
-            for(String pid: relatedProducts)
-            {
+            for (String pid : relatedProducts) {
                 relProducts.add(productDAO.getProductFromID(pid));
             }
-            
+
             request.setAttribute("product", product);
-            request.setAttribute("bestProduct",bestProduct);
-            request.setAttribute("Relatedproducts",relProducts);
+            List<Review> reviews = reviewDAO.getReviewFromProductID(productId);
+            request.setAttribute("reviews", reviews);
+            request.setAttribute("bestProduct", bestProduct);
+            request.setAttribute("Relatedproducts", relProducts);
             request.setAttribute("ratingRecived", ratingRecived);
             request.setAttribute("ratingLeft", ratingLeft);
         }
@@ -150,6 +152,51 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("categoriesUnChecked", categorys);
             request.setAttribute("products", products);
 
+        } else if (userPath.equals("/productDetails")) {
+            //TODO convert the to session variable 
+//            String email = (String) session.getAttribute("customerEmail");
+            String email = "email3@yahoo.com";
+            boolean success = true;
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+            String reviewMessage = request.getParameter("review");
+            int rating = Integer.parseInt(request.getParameter("rating"));
+            String productId = request.getParameter("productId");
+            ProductDAO productDAO = new ProductDAOImpl();
+            ReviewDAO reviewDAO = new ReviewDAOImpl();
+
+            CustomerDAO customerDAO = new CustomerDAOImpl();
+            Product product = productDAO.getProductFromID(productId);
+            String[] relatedProducts = productDAO.getRelated(productId);
+            Product bestProduct = productDAO.getBestSelling();
+            List<Product> relProducts = new ArrayList<Product>();
+            for (String pid : relatedProducts) {
+                relProducts.add(productDAO.getProductFromID(pid));
+            }
+
+            try {
+                Customer customer = customerDAO.getCustomerFromID(email);
+                Review submitReview = new Review(customer, product, reviewMessage, "", rating);
+
+                if (!(reviewDAO.addReview(submitReview))) {
+                    throw new Exception("Cannot review the same product again.");
+                }
+            } catch (Exception e) {
+                request.setAttribute("error", true);
+                request.setAttribute("errorMessage", e.getMessage());
+                success = false;
+            }
+            
+            int ratingRecived = reviewDAO.getAvgStarFromProductID(productId);
+            int ratingLeft = 5 - ratingRecived;
+            List<Review> reviews = reviewDAO.getReviewFromProductID(productId);
+            request.setAttribute("reviews", reviews);
+            request.setAttribute("success", success);
+            request.setAttribute("product", product);
+            request.setAttribute("bestProduct", bestProduct);
+            request.setAttribute("Relatedproducts", relProducts);
+            request.setAttribute("ratingRecived", ratingRecived);
+            request.setAttribute("ratingLeft", ratingLeft);
         }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {

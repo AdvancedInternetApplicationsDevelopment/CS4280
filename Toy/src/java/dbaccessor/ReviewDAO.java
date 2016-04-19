@@ -26,5 +26,7 @@ public interface ReviewDAO
     public boolean addAdminReply(Review review);
     
     public boolean deleteReview(Review review);
+
+    public List<Review> getReviewFromProductID(String productId);
     
 }

@@ -276,7 +276,7 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
             //Check is account credits are enough for this transaction
             CustomerDAO customerDAO = new CustomerDAOImpl();
             double cusCredits = customerDAO.getCredits(customerId);
-            if(credit > cusCredits)
+            if(credit >= cusCredits)
             {
                 cusCredits -= credit;
                 customerDAO.updateCredits(customerId, cusCredits);

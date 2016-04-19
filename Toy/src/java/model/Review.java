@@ -29,6 +29,14 @@ public class Review
         this.comments = comments;
         this.adminReply = adminReply;
     }
+    public Review(Customer customer, Product product, String comments, String adminReply, int star)
+    {
+        this.customer = customer;
+        this.product = product;
+        this.comments = comments;
+        this.adminReply = adminReply;
+        this.star = star;
+    }
     
     public Review(String customerID, String productId)
     {

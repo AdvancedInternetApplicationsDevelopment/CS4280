@@ -245,4 +245,42 @@ public class ReviewDAOImpl implements ReviewDAO
         }
         return (rows > 0);
     }
+
+    public List<Review> getReviewFromProductID(String product_id)
+    {
+        List<Review> ret = new ArrayList<Review>();
+        try
+        {
+            this.conn = ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM review"
+                    + " WHERE product_id = ?;");
+            ps.setString(1, product_id);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                Review review = new Review();
+                CustomerDAO customerDAO = new CustomerDAOImpl();
+                review.setCustomer(customerDAO.getCustomerFromID(this.rs.getString("customer_id")));
+                ProductDAO productDAO = new ProductDAOImpl();
+                review.setProduct(productDAO.getProductFromID(this.rs.getString("product_id")));
+                review.setComments(this.rs.getString("comments"));
+                review.setAdminReply(this.rs.getString("admin_reply"));
+                ret.add(review);
+            }
+            
+            if (rs != null)
+            {
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ReviewDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
 }

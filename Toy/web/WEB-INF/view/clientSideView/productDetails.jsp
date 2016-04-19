@@ -131,56 +131,6 @@
                         </div>
                     </div>
                     <!-- Additional Information Ends -->
-                    <div class="product-info-box">
-                        <h4 class="heading">Review Product</h4>
-                        <div class="content panel-smart">
-                            <form class="form-horizontal" action="/ToyStore/productDetails" method="post">
-                                <div class="form-group required">
-                                    <label class="col-sm-2 control-label" for="input-review">Review</label>
-                                    <div class="col-sm-10">
-                                        <textarea name="review" class="form-control" id="input-review" rows="5" ></textarea>
-                                        <div class="help-block">
-                                            Some note goes here..
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label class="col-sm-2 control-label ratings">Ratings</label>
-                                    <div class="col-sm-10">
-                                        Bad&nbsp;
-                                        <input name="rating" type="radio" value="1">
-                                        &nbsp;
-                                        <input name="rating" type="radio" value="2">
-                                        &nbsp;
-                                        <input name="rating" type="radio" value="3">
-                                        &nbsp;
-                                        <input name="rating" type="radio" value="4">
-                                        &nbsp;
-                                        <input name="rating" type="radio" value="5">
-                                        &nbsp;Good
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button class="btn btn-danger" id="button-review" type="submit" value="reviewProduct">
-                                            Submit
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                            <c:if test="${success == true}">
-                                    <div class="alert alert-success">
-                                        <p> Review Successful </p>
-                                    </div> 
-                                </c:if>
-                                <c:if test="${error ==true}">
-                                    <div class="alert alert-danger">
-                                        <p> Error in review. Error message: ${errorMessage} </p>
-                                    </div> 
-                                </c:if>
-                        </div>
-                    </div>
-
                     <!-- Related Products Starts -->
                     <div class="product-info-box">
                         <h4 class="heading">Related Products</h4>
@@ -252,6 +202,99 @@
                         <!-- Products Row Ends -->
                     </div>
                     <!-- Related Products Ends -->
+                    <div class="product-info-box">
+                        <h4 class="heading">Product reviews</h4>
+                        <div class="content panel-smart">
+                            <c:choose>
+                                <c:when test="${reviews[0] == null}">
+                                    <div><p>No reviews to display</p></div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach items="${reviews}" var="item">
+                                        
+                                            <h4 class="heading">
+                                                <span><strong>Customer Id :</strong></span>
+                                                <span><strong>${item.customer.email}</strong></span>
+                                            </h4>
+                                            <div class="content panel-smart">
+
+                                                <dl class="list-unstyled manufacturer">
+                                                    <dt style="padding-left:4%;">
+                                                        <span><strong><h4>Customer Review:</h4> </strong></span> 
+                                                    </dt>
+                                                    <dd style="padding-left:20%; font-size: 18px;">
+                                                        <span><strong>${item.comments}</strong></span>
+                                                    </dd>
+                                                    <c:if test="${not empty item.adminReply}">
+                                                    <dt style="padding-left:4%;">
+                                                        <span><strong><h4>Admin Reply:</h4> </strong></span> 
+                                                    </dt>
+                                                    <dd style="padding-left:20%; font-size: 18px;">
+                                                        <span style="p"><strong>${item.adminReply}</strong></span>
+                                                    </dd>
+                                                    </c:if>
+                                                </dl>
+                                            </div>
+                                       
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+                    <div class="product-info-box">
+                        <h4 class="heading">Review Product</h4>
+                        <div class="content panel-smart">
+                            <form class="form-horizontal" action="/ToyStore/productDetails" method="post">
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label" for="input-review">Review</label>
+                                    <div class="col-sm-10">
+                                        <input type="hidden"
+                                               name="productId"
+                                               value="${product.id}">
+                                        <textarea name="review" class="form-control" id="input-review" rows="5" ></textarea>
+                                        <div class="help-block">
+                                            Ask admin a question or write a review for the product..
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label ratings">Ratings</label>
+                                    <div class="col-sm-10">
+                                        Bad&nbsp;
+                                        <input name="rating" type="radio" value="1">
+                                        &nbsp;
+                                        <input name="rating" type="radio" value="2">
+                                        &nbsp;
+                                        <input name="rating" type="radio" value="3">
+                                        &nbsp;
+                                        <input name="rating" type="radio" value="4">
+                                        &nbsp;
+                                        <input name="rating" type="radio" value="5">
+                                        &nbsp;Good
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-danger" id="button-review" type="submit" value="reviewProduct">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <c:if test="${success == true}">
+                                <div class="alert alert-success">
+                                    <p> Review Successful </p>
+                                </div> 
+                            </c:if>
+                            <c:if test="${error ==true}">
+                                <div class="alert alert-danger">
+                                    <p> Error in review. Error message: ${errorMessage} </p>
+                                </div> 
+                            </c:if>
+                        </div>
+                    </div>
+
+
                 </div>
             </c:otherwise>
         </c:choose>
