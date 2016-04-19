@@ -132,6 +132,15 @@ public class clientSideServlet extends HttpServlet {
             }
             request.setAttribute("wishList", wishListProducts);
         }
+        else if(userPath.equals("/recycleProductList"))
+        {
+            //TODO convert the to session variable 
+//            String email = (String) session.getAttribute("customerEmail");
+            String email = "email3@yahoo.com";
+           ProductDAO productDAO = new ProductDAOImpl();
+            List<Product> products = productDAO.getRecycledByOwner(email);
+            request.setAttribute("recycleProduct", products);
+        }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
