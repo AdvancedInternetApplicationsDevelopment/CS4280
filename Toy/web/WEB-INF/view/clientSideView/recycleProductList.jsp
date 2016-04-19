@@ -31,7 +31,7 @@
                                         <img src="/ToyStore/getImage?productId=${item.id}" alt="product" class="img-responsive" />
                                     </div>
                                     <div class="caption">
-                                        <h4><a href="/ToyStore/productDetails?productId=${item.id}">${item.name}</a></h4>
+                                        <h4><a href="#">${item.name}</a></h4>
                                         <div class="description">
                                             ${item.description}
                                         </div>
