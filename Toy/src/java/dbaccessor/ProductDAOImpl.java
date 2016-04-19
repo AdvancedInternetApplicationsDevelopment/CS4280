@@ -51,7 +51,7 @@ public class ProductDAOImpl implements ProductDAO
         try
         {
             this.conn = ds.getConnection();
-            this.rs = conn.prepareStatement("SELECT * FROM product;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT * FROM product WHERE approved = 1;").executeQuery();
             while(this.rs.next())
             {
                 Product product = new Product();
@@ -557,7 +557,7 @@ public class ProductDAOImpl implements ProductDAO
     {
         List<String> query = new ArrayList<String>();
         query.add("SELECT * FROM product");
-        query.add(" WHERE");
+        query.add(" WHERE approved = 1 AND (");
         for(String brandToCheck: brand)
         {
             if(!brandToCheck.equalsIgnoreCase(""))
@@ -572,7 +572,7 @@ public class ProductDAOImpl implements ProductDAO
                 query.add(" category_id = '" + categoryIdToCheck + "'");
             }
         }
-        query.add(";");
+        query.add(");");
         
         String ret = "";
         
@@ -581,7 +581,7 @@ public class ProductDAOImpl implements ProductDAO
         for(int i = 2; i <= (query.size() - 2); i++)
         {
             ret += query.get(i);
-            if(!(query.get(i + 1).equalsIgnoreCase(";")))
+            if(!(query.get(i + 1).equalsIgnoreCase(");")))
             {
                 ret += " OR";
             }
@@ -589,6 +589,54 @@ public class ProductDAOImpl implements ProductDAO
         
         ret += query.get(query.size() - 1);
         
+        return ret;
+    }
+    
+    public List<Product> getRecycledByOwner(String owner)
+    {
+        List<Product> ret = new ArrayList<Product>();
+        try
+        {
+            this.conn = ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM product"
+                        + " WHERE owner = ?;");
+            ps.setString(1, owner);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                Product product = new Product();
+                product.setId(this.rs.getString("id"));
+                product.setName(this.rs.getString("name"));
+                product.setModelNum(this.rs.getString("model_num"));
+                CategoryDAO categoryDAO = new CategoryDAOImpl();
+                product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getDouble("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
+                product.setAddInfo(this.rs.getString("add_info"));
+                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setNew1(this.rs.getBoolean("new"));
+                product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
+                
+                ret.add(product);
+            }
+            
+            if (rs != null)
+            {
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return ret;
     }
     
