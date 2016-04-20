@@ -427,7 +427,7 @@ public class ProductDAOImpl implements ProductDAO
     
     public List<Product> getLatestRecycled()
     {
-        List<Product> ret = null;
+        List<Product> ret = new ArrayList<Product>();
         try
         {
             this.conn = ds.getConnection();
@@ -603,7 +603,7 @@ public class ProductDAOImpl implements ProductDAO
     public List<Product> getByFilter(List<String> brand, List<Integer> categoryId)
     {   
         List<Product> ret = new ArrayList<Product>();
-        String query = "";
+        String query;
         try
         {
             this.conn = ds.getConnection();
