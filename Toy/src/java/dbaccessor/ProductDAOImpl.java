@@ -1086,7 +1086,7 @@ public class ProductDAOImpl implements ProductDAO
             this.rs = ps.executeQuery();
             if(this.rs.next())
             {
-                ret = this.rs.getBoolean("approved");
+                ret = this.rs.getBoolean("new");
             }
             
             if (rs != null)
