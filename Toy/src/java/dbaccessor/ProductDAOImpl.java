@@ -388,7 +388,7 @@ public class ProductDAOImpl implements ProductDAO
                     + " WHERE product.new = '1'"
                     + " ORDER BY last_update DESC"
                     + " LIMIT 8;").executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 Product product = new Product();
                 product.setId(this.rs.getString("id"));
@@ -435,7 +435,7 @@ public class ProductDAOImpl implements ProductDAO
                     + " WHERE product.new = '0' AND approved = '1'"
                     + " ORDER BY last_update DESC"
                     + " LIMIT 4;").executeQuery();
-            if(this.rs.next())
+            while(this.rs.next())
             {
                 Product product = new Product();
                 product.setId(this.rs.getString("id"));

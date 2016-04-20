@@ -30,6 +30,7 @@
 	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
 	<link href="css/magnific-popup.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
+     
 	<link href="css/responsive.css" rel="stylesheet">
 	<!-- JavaScript Files -->
 	<script src="js/jquery-1.11.1.min.js"></script>

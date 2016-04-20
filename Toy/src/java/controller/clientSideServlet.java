@@ -165,6 +165,14 @@ public class clientSideServlet extends HttpServlet {
             }
             request.setAttribute("orderHistory", orderHistorys);
         }
+        else if(userPath.equals("/home"))
+        {
+            ProductDAO productDAO = new ProductDAOImpl();
+            List<Product> latestProducts = productDAO.getLatest();
+            List<Product> latestRecycledProducts = productDAO.getLatestRecycled();
+            request.setAttribute("latestRecycledProducts", latestRecycledProducts);
+            request.setAttribute("latestProducts",latestProducts);
+        }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
