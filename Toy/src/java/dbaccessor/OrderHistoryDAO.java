@@ -29,6 +29,6 @@ public interface OrderHistoryDAO
     
     public String getQueryFromFilter(String customerId, String orderId);
     
-    public String checkout(List<Order> order, String discountCode, double credit, String customerId);
+    public List<String> checkout(List<Order> order, String discountCode, double credit, String customerId);
     
 }

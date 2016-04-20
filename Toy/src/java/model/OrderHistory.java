@@ -104,6 +104,16 @@ public class OrderHistory
     {
         this.credit = credit;
     }
+
+    public List<OrderedProduct> getOrderedProducts()
+    {
+        return orderedProducts;
+    }
+
+    public void setOrderedProducts(List<OrderedProduct> orderedProducts)
+    {
+        this.orderedProducts = orderedProducts;
+    }
     
     @Override
     public int hashCode()
@@ -127,14 +137,6 @@ public class OrderHistory
             return false;
         }
         return true;
-    }
-
-    public List<OrderedProduct> getOrderedProducts() {
-        return orderedProducts;
-    }
-
-    public void setOrderedProducts(List<OrderedProduct> orderedProducts) {
-        this.orderedProducts = orderedProducts;
     }
 
     @Override

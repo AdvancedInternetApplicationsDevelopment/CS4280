@@ -271,10 +271,11 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
         return ret;
     }
     
-    public synchronized String checkout(List<Order> order, String discountCode,
+    public synchronized List<String> checkout(List<Order> order, String discountCode,
             double credit, String customerId)
     {
         int rows;
+        List <String> ret = new ArrayList<String>();
         try
         {
             this.conn = ds.getConnection();
@@ -291,7 +292,9 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
                 disAmount = this.rs.getDouble("amount");
                 if(!(disAmount > 0))
                 {
-                    return "Error: Dicount Code is not valid.";
+                    ret.add("error");
+                    ret.add("Error: Dicount Code is not valid.");
+                    return ret;
                 }
             }
             
@@ -305,7 +308,9 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
                 int quantity = ordered.getQuantity();
                 if(quantity > productDAO.getQuantityById(productId))
                 {
-                    return ("Error: Entered Product Quantity for " + productDAO.getNameById(productId) + " is excessive.");
+                    ret.add("error");
+                    ret.add("Error: Entered Product Quantity for " + productDAO.getNameById(productId) + " is excessive.");
+                    return ret;
                 }
                 else
                 {
@@ -323,7 +328,9 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
             }
             else
             {
-                return "Error: Account Credits is not sufficient.";
+                ret.add("error");
+                ret.add("Error: Account Credits is not sufficient.");
+                return ret;
             }
 
             //Add credits to owner if the product is recycled
@@ -371,13 +378,17 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
             
             if (rows > 0)
             {
-                return "success";
+                ret.add("success");
+                ret.add(orderID);
+                return ret;
             }
         }
         catch (SQLException ex)
         {
             Logger.getLogger(OrderHistoryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "failed to insert";
+        ret.add("error");
+        ret.add("Error: Failed to update");
+        return ret;
     }
 }
