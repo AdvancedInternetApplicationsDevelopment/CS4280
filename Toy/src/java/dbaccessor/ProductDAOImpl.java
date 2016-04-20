@@ -292,7 +292,7 @@ public class ProductDAOImpl implements ProductDAO
         {
             this.conn = ds.getConnection();
             this.rs = conn.prepareStatement("SELECT * FROM product"
-                    + " WHERE new = '0';").executeQuery();
+                    + " WHERE new = '0' AND approved= '0';").executeQuery();
             while(this.rs.next())
             {
                 Product product = new Product();
@@ -338,7 +338,7 @@ public class ProductDAOImpl implements ProductDAO
         {
             this.conn = ds.getConnection();
             this.rs = conn.prepareStatement("SELECT * FROM product"
-                    + " WHERE product.new = '0'"
+                    + " WHERE product.new = '0' AND approved = '0'"
                     + " ORDER BY last_update DESC"
                     + " LIMIT 1;").executeQuery();
             if(this.rs.next())
@@ -360,6 +360,100 @@ public class ProductDAOImpl implements ProductDAO
                 product.setApproved(this.rs.getBoolean("approved"));
                 product.setOwner(this.rs.getString("owner"));
                 ret = product;
+            }
+            
+            if (rs != null)
+            {
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public List<Product> getLatest()
+    {
+        List<Product> ret = new ArrayList<Product>();
+        try
+        {
+            this.conn = ds.getConnection();
+            this.rs = conn.prepareStatement("SELECT * FROM product"
+                    + " WHERE product.new = '1'"
+                    + " ORDER BY last_update DESC"
+                    + " LIMIT 8;").executeQuery();
+            if(this.rs.next())
+            {
+                Product product = new Product();
+                product.setId(this.rs.getString("id"));
+                product.setName(this.rs.getString("name"));
+                product.setModelNum(this.rs.getString("model_num"));
+                CategoryDAO categoryDAO = new CategoryDAOImpl();
+                product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getDouble("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
+                product.setAddInfo(this.rs.getString("add_info"));
+                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setNew1(this.rs.getBoolean("new"));
+                product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
+                ret.add(product);
+            }
+            
+            if (rs != null)
+            {
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ProductDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
+    public List<Product> getLatestRecycled()
+    {
+        List<Product> ret = null;
+        try
+        {
+            this.conn = ds.getConnection();
+            this.rs = conn.prepareStatement("SELECT * FROM product"
+                    + " WHERE product.new = '0' AND approved = '1'"
+                    + " ORDER BY last_update DESC"
+                    + " LIMIT 4;").executeQuery();
+            if(this.rs.next())
+            {
+                Product product = new Product();
+                product.setId(this.rs.getString("id"));
+                product.setName(this.rs.getString("name"));
+                product.setModelNum(this.rs.getString("model_num"));
+                CategoryDAO categoryDAO = new CategoryDAOImpl();
+                product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
+                product.setQuantity(this.rs.getInt("quantity"));
+                product.setAvailable(this.rs.getBoolean("available"));
+                product.setPrice(this.rs.getDouble("price"));
+                product.setBrand(this.rs.getString("brand"));
+                product.setDescription(this.rs.getString("description"));
+                product.setAddInfo(this.rs.getString("add_info"));
+                product.setLastUpdate(this.rs.getTimestamp("last_update"));
+                product.setNew1(this.rs.getBoolean("new"));
+                product.setApproved(this.rs.getBoolean("approved"));
+                product.setOwner(this.rs.getString("owner"));
+                ret.add(product);
             }
             
             if (rs != null)
@@ -882,7 +976,6 @@ public class ProductDAOImpl implements ProductDAO
         }
         return ret;
     }
-    
     
     public boolean updateQuantity(String productID, int quantity)
     {

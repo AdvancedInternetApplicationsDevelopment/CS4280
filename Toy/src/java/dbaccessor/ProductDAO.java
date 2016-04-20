@@ -35,6 +35,10 @@ public interface ProductDAO
     
     public Product getLatestPending();
     
+    public List<Product> getLatest();
+    
+    public List<Product> getLatestRecycled();
+    
     public List<Product> getByFilter(String name, String modelNum, int categoryId);
     
     public List<Product> getRecycledByFilter(String name, String modelNum, int categoryId);
