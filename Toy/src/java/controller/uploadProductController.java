@@ -23,6 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.sql.rowset.serial.SerialBlob;
 import model.Category;
@@ -186,6 +187,7 @@ public class uploadProductController extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
+        HttpSession session = request.getSession(true);
         String userPath = request.getServletPath();
         if (userPath.equals("/uploadProduct")) {
 
@@ -198,6 +200,7 @@ public class uploadProductController extends HttpServlet {
             String price = request.getParameter("price");
             String addInfo = request.getParameter("addInfo");
             int categoryId = Integer.parseInt(request.getParameter("category"));
+            String owner = (String) session.getAttribute("customerEmail");
             boolean success = true;
             ProductDAO productDAO = new ProductDAOImpl();
             Product product;
@@ -227,7 +230,7 @@ public class uploadProductController extends HttpServlet {
                 double priceDouble = Double.parseDouble(price);
                 int quantityInt = Integer.parseInt(quantity);
                 Category category = (new CategoryDAOImpl()).getCategoryFromID(categoryId);
-                product = new Product(productId, pName, mNo, category, quantityInt, true, priceDouble, brand, description, addInfo, true, true, "shop");
+                product = new Product(productId, pName, mNo, category, quantityInt, true, priceDouble, brand, description, addInfo, true, true, owner);
 
                 if (!(productDAO.addProduct(product ,category.getName()))) {
                     throw new Exception("update unsuccessful");

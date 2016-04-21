@@ -173,6 +173,12 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("latestRecycledProducts", latestRecycledProducts);
             request.setAttribute("latestProducts",latestProducts);
         }
+        else if (userPath.equals("/addRecycleProduct")) {
+            request.setAttribute("categoryId", 1);
+            request.setAttribute("success", false);
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+        } 
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -305,5 +311,6 @@ public class clientSideServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
 
 }
