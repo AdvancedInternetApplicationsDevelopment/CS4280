@@ -27,7 +27,7 @@ CREATE TABLE `category` (
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'mesc'),(2,'dairy'),(3,'meats'),(4,'bakery'),(5,'fruit & veg');
+INSERT INTO `category` VALUES (1,'Action'),(2,'Action Figures'),(3,'Role Play'),(4,'Halloween'),(5,'Board Games'),(6,'Education');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `cc_info` (
 
 LOCK TABLES `cc_info` WRITE;
 /*!40000 ALTER TABLE `cc_info` DISABLE KEYS */;
-INSERT INTO `cc_info` VALUES ('1','email3@yahoo.com','2020-05-04',1),('2','email1@yahoo.com','2020-05-04',1),('3','email2@yahoo.com','2020-05-04',1);
+INSERT INTO `cc_info` VALUES ('340040799743575','email3@gmail.com','2020-05-04',1),('376986756768871','email1@gmail.com','2020-05-04',1),('4485685601098514','email5@gmail.com','2020-05-04',1),('4557457844259797','email2@gmail.com','2020-05-04',1),('5206351081144378','email6@gmail.com','2020-05-04',1),('5333063160259854','email4@gmail.com','2020-05-04',1);
 /*!40000 ALTER TABLE `cc_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,7 +105,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES ('email1@yahoo.com','cus','one','1',NULL,'a','a','a','a','a','a','2',0.00),('email2@gmail.com','cus','two','1',NULL,'a','a','a','a','a','a','3',0.00),('email3@yahoo.com','cus','three','1',NULL,'a','a','a','a','a','a','1',0.00);
+INSERT INTO `customer` VALUES ('email1@gmail.com','customer','one','12345678',NULL,'address1','address2','hk','kowloon','hk','hk','376986756768871',0.00),('email2@gmail.com','customer','two','23456781',NULL,'address1','address2','hk','hong kong','hk','hk','4557457844259797',0.00),('email3@gmail.com','customer','three','34567812',NULL,'address1','address2','hk','new terr','hk','hk','340040799743575',0.00),('email4@gmail.com','customer','four','45678123',NULL,'address1','address2','hk','tung chung','hk','hk','5333063160259854',0.00),('email5@gmail.com','customer','five','56781234',NULL,'address1','address2','hk','discovery','hk','hk','4485685601098514',0.00),('email6@gmail.com','customer','six','67812345',NULL,'address1','address2','hk','kowloon','hk','hk','5206351081144378',0.00);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,6 +129,7 @@ CREATE TABLE `discount` (
 
 LOCK TABLES `discount` WRITE;
 /*!40000 ALTER TABLE `discount` DISABLE KEYS */;
+INSERT INTO `discount` VALUES ('0ea49bd5-8116-4e62-ac9e-64e25d07d6f3',123.00),('8cc13148-f211-49db-8fd0-8b4657761311',123456.00),('e8934667-af0e-4a67-9bfb-0e027fd9f54e',123.00);
 /*!40000 ALTER TABLE `discount` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +154,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES ('email1@yahoo.com','a'),('email2@gmail.com','n'),('email3@yahoo.com','123');
+INSERT INTO `login` VALUES ('email1@gmail.com','abcd123'),('email2@gmail.com','asdfgh'),('email3@gmail.com','123456'),('email4@gmail.com','qwerty'),('email5@gmail.com','zxcvb'),('email6@gmail.com','qwerty');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +186,7 @@ CREATE TABLE `order_history` (
 
 LOCK TABLES `order_history` WRITE;
 /*!40000 ALTER TABLE `order_history` DISABLE KEYS */;
-INSERT INTO `order_history` VALUES ('1','email3@yahoo.com',2000.00,'2016-07-04 00:00:00',0.00,NULL),('2','email1@yahoo.com',2000.00,'2016-07-04 00:00:00',0.00,NULL),('3','email2@gmail.com',5000.00,'2016-07-04 00:00:00',0.00,NULL);
+INSERT INTO `order_history` VALUES ('1','email3@gmail.com',2000.00,'2016-07-04 00:00:00',0.00,NULL),('2','email1@gmail.com',2000.00,'2016-07-04 00:00:00',0.00,NULL),('3','email2@gmail.com',5000.00,'2016-07-04 00:00:00',0.00,NULL);
 /*!40000 ALTER TABLE `order_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,12 +233,10 @@ CREATE TABLE `product` (
   `model_num` varchar(20) NOT NULL,
   `category_id` int(10) unsigned NOT NULL,
   `quantity` int(11) DEFAULT NULL,
-  `available` bit(1) DEFAULT b'0',
   `price` decimal(6,2) NOT NULL,
   `brand` varchar(10) DEFAULT NULL,
   `description` mediumtext,
   `add_info` varchar(50) DEFAULT NULL,
-  `image` blob,
   `last_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `new` bit(1) NOT NULL DEFAULT b'1',
   `approved` bit(1) NOT NULL DEFAULT b'1',
@@ -256,7 +255,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES ('1','milk','8',1,NULL,NULL,1.70,'brand1','semi skimmed (1L)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('10','sesame seed bagel','modelnum2',3,NULL,NULL,1.19,'brand2','4 bagels',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('11','pumpkin seed bun','modelnum3',3,NULL,NULL,1.15,'brand3','4 buns',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('12','chocolate cookies','modelnum4',3,NULL,NULL,2.39,'brand3','contain peanuts<br>(3 cookies)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('13','corn on the cob','modelnum5',4,NULL,NULL,1.59,'brand2','2 pieces',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('14','red currants','modelnum6',4,NULL,NULL,2.49,'brand6','150g',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('15','broccoli','modelnum7',4,NULL,NULL,1.29,'brand2','500g',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('16','seedless watermelon','modelnum8',4,NULL,NULL,1.49,'brand4','250g',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('2','cheese','modelnum9',1,NULL,NULL,2.39,'brand5','mild cheddar (330g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('3','butter','modelnum10',1,NULL,NULL,1.09,'brand3','unsalted (250g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('4','free range eggs','modelnum11',1,NULL,NULL,1.76,'brand1','medium-sized (6 eggs)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('5','organic meat patties','modelnum12',2,NULL,NULL,2.29,'brand4','rolled in fresh herbs<br>2 patties (250g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('6','parma ham','modelnum13',2,NULL,NULL,3.49,'brand5','matured, organic (70g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('7','chicken leg','modelnum14',2,NULL,NULL,2.59,'brand6','free range (250g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('8','sausages','modelnum15',2,NULL,NULL,3.55,'brand7','reduced fat, pork<br>3 sausages (350g)',NULL,NULL,'2016-04-12 23:52:10','','','Shop'),('9','sunflower seed loaf','modelnum16',3,NULL,NULL,1.89,'brand9','600g',NULL,NULL,'2016-04-12 23:52:10','','','Shop');
+INSERT INTO `product` VALUES ('1','Motor Max Color Twisters - Single Pack','model 3',1,90,90.00,'brand 1','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('10','Sw7 Jedi Master Lightsaber','model 3',4,90,90.00,'brand 1','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('11','Sw7 Kylo Ren Deluxe Costume(M)','model 2',4,90,90.00,'brand 2','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('12','Rubie S Avengers AOU H/S Iron Man Mk43 (L)','model 1',4,90,90.00,'brand 3','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('13','Hasbro Monopoly','model 3',5,90,90.00,'brand 1','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('14','Mattel Games Bounce-Off','model 2',5,90,90.00,'brand 2','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('15','Mattel Games Uno','model 1',5,90,90.00,'brand 3','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('16','Vtech Stencil & Learn Studio','model 3',6,90,90.00,'brand 1','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('17','Vtech Winnie The Pooh: Pooh & Friends Phone','model 2',6,90,90.00,'brand 2','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('18','Oregon Scientific Smart Anatomy','model 1',6,90,90.00,'brand 3','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('2','Fast Lane Fl 1:24 Die Cast Vehicles, 12 Asst','model 2',1,90,90.00,'brand 2','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('3','Disney Hatch N Heroes-Cars Francesco','model 1',1,90,90.00,'brand 3','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('4','Minions-Deluxe Plush Buddies Asst','model 3',2,90,90.00,'brand 1','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('5','Disney Hatch N Heroes-Cars King','model 2',2,90,90.00,'brand 2','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('6','Bandai Yo-Kai Medal Zero Z Vol. 1 (Bonus Set)','model 1',2,90,90.00,'brand 3','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('7','Nerf Ner Rival Zeus Mxv 1200 Ast','model 3',3,90,90.00,'brand 1','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('8','24\" Foam Hammer','model 2',3,90,90.00,'brand 2','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL),('9','Nerf Ner Sonic Ice Mega Magnus','model 1',3,90,90.00,'brand 3','desc',NULL,'0000-00-00 00:00:00','\0','\0',NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +287,7 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES ('email1@yahoo.com','1','v',NULL,4),('email1@yahoo.com','15','hhhj',NULL,5),('email2@gmail.com','15','hjj',NULL,3),('email3@yahoo.com','1','A',NULL,5),('email3@yahoo.com','12','c',NULL,3),('email3@yahoo.com','15','b',NULL,4),('email3@yahoo.com','2','bb',NULL,3);
+INSERT INTO `review` VALUES ('email1@gmail.com','1','v',NULL,4),('email2@gmail.com','15','hjj',NULL,3),('email3@gmail.com','1','A',NULL,5),('email3@gmail.com','15','hhhj',NULL,5),('email4@gmail.com','15','b',NULL,4),('email5@gmail.com','12','c',NULL,3),('email6@gmail.com','2','bb',NULL,3);
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -301,4 +300,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-15 18:19:27
+-- Dump completed on 2016-04-22 20:31:14
