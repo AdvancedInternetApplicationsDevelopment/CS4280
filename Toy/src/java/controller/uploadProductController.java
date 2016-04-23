@@ -8,15 +8,10 @@ package controller;
 import dbaccessor.CategoryDAOImpl;
 import dbaccessor.ProductDAO;
 import dbaccessor.ProductDAOImpl;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -24,13 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import javax.sql.rowset.serial.SerialBlob;
 import model.Category;
 import model.Product;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -99,16 +90,7 @@ public class uploadProductController extends HttpServlet {
             InputStream inputStream = null; // input stream of the upload file
 
             // obtains the upload file part in this multipart request
-            Part filePart = request.getPart("image");
-            if (filePart != null) {
-                // prints out some information for debugging
-                System.out.println(filePart.getName());
-                System.out.println(filePart.getSize());
-                System.out.println(filePart.getContentType());
-
-                // obtains input stream of the upload file
-                inputStream = filePart.getInputStream();
-            }
+            
             Blob image = null;
             try {
                 image = new SerialBlob(IOUtils.toByteArray(inputStream));
