@@ -1,28 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
-        <servlet-name>FileUploadServlet</servlet-name>
-        <servlet-class>FileUploadServlet</servlet-class>
+        <servlet-name>adminControllerServlet</servlet-name>
+        <servlet-class>controller.adminControllerServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>clientSideServlet</servlet-name>
+        <servlet-class>controller.clientSideServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getImage</servlet-name>
+        <servlet-class>controller.getImage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadProductController</servlet-name>
+        <servlet-class>controller.uploadProductController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>FileUploadServlet</servlet-name>
-        <url-pattern>/uploadFile</url-pattern>
+        <servlet-name>adminControllerServlet</servlet-name>
+        <url-pattern>/adminAddProducts</url-pattern>
+        <url-pattern>/adminApprovals</url-pattern>
+        <url-pattern>/adminCustomer</url-pattern>
+        <url-pattern>/adminDashboard</url-pattern>
+        <url-pattern>/adminEditProducts</url-pattern>
+        <url-pattern>/adminProducts</url-pattern>
+        <url-pattern>/adminRecycledProducts</url-pattern>
+        <url-pattern>/adminTransactions</url-pattern>
+        <url-pattern>/adminViewRecycled</url-pattern>
+        <url-pattern>/approveProduct</url-pattern>
+        <url-pattern>/adminDiscount</url-pattern>
+        <url-pattern>/adminDiscountDelete</url-pattern>
+        <url-pattern>/adminInbox</url-pattern>
+        <url-pattern>/adminlogout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>clientSideServlet</servlet-name>
+        <url-pattern>/productDetails</url-pattern>
+        <url-pattern>/cart</url-pattern>
+        <url-pattern>/productList</url-pattern>
+        <url-pattern>/productDetails</url-pattern>
+        <url-pattern>/wishList</url-pattern>
+        <url-pattern>/compareProducts</url-pattern>
+        <url-pattern>/addRecycleProduct</url-pattern>
+        <url-pattern>/recycleProductList</url-pattern>
+        <url-pattern>/accountDetails</url-pattern>
+        <url-pattern>/orderConfirmation</url-pattern>
+        <url-pattern>/orderHistory</url-pattern>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getImage</servlet-name>
+        <url-pattern>/getImage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadProductController</servlet-name>
+        <url-pattern>/uploadProduct</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <display-name>FileUploadServletExample</display-name>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <resource-ref>
+        <description>MySQL LocalDB</description>
+        <res-ref-name>jdbc/toy</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
     <context-param>
         <param-name>upload.location</param-name>
         <param-value>/home/bsft14/ntungare2/www/images</param-value>
-    </context-param>
-    <context-param>
-        <param-name>display.path</param-name>
-        <param-value>personal.cs.cityu.edu.hk/~ntungare2/images/</param-value>
     </context-param>
 </web-app>
