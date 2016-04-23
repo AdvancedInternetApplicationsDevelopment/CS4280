@@ -18,7 +18,6 @@ public class Product
     private String modelNum;
     private Category categoryId;
     private int quantity;
-    private boolean available;
     private double price;
     private String brand;
     private String description;
@@ -34,7 +33,6 @@ public class Product
         name = "";
         modelNum = "";
         description = "";
-        available = false;
         price = 0.0;
         addInfo = "";
         new1 = false;
@@ -47,16 +45,14 @@ public class Product
     }
 
     public Product(String id, String name, String modelNum, Category categoryId,
-            int quantity, boolean available, double price, String brand,
-            String description, String addInfo, boolean new1, boolean approved,
-            String owner)
+            int quantity, double price, String brand, String description,
+            String addInfo, boolean new1, boolean approved, String owner)
     {
         this.id = id;
         this.name = name;
         this.modelNum = modelNum;
         this.categoryId = categoryId;
         this.quantity = quantity;
-        this.available = available;
         this.price = price;
         this.brand = brand;
         this.description = description;
@@ -114,16 +110,6 @@ public class Product
     public void setQuantity(int quantity)
     {
         this.quantity = quantity;
-    }
-
-    public boolean isAvailable()
-    {
-        return available;
-    }
-
-    public void setAvailable(boolean available)
-    {
-        this.available = available;
     }
 
     public double getPrice()

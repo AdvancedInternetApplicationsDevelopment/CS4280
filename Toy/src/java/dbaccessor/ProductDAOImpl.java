@@ -61,7 +61,6 @@ public class ProductDAOImpl implements ProductDAO
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
                 product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -138,7 +137,6 @@ public class ProductDAOImpl implements ProductDAO
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
                 product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -221,7 +219,6 @@ public class ProductDAOImpl implements ProductDAO
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
                 product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -302,7 +299,6 @@ public class ProductDAOImpl implements ProductDAO
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
                 product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -350,7 +346,6 @@ public class ProductDAOImpl implements ProductDAO
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
                 product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -397,7 +392,6 @@ public class ProductDAOImpl implements ProductDAO
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
                 product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -444,7 +438,6 @@ public class ProductDAOImpl implements ProductDAO
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
                 product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -489,8 +482,7 @@ public class ProductDAOImpl implements ProductDAO
                 product.setModelNum(this.rs.getString("model_num"));
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
-                product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
+                product.setQuantity(this.rs.getInt("quantity"));                
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -537,7 +529,6 @@ public class ProductDAOImpl implements ProductDAO
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
                 product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -617,8 +608,7 @@ public class ProductDAOImpl implements ProductDAO
                 product.setModelNum(this.rs.getString("model_num"));
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
-                product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
+                product.setQuantity(this.rs.getInt("quantity"));                
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -705,7 +695,6 @@ public class ProductDAOImpl implements ProductDAO
                 CategoryDAO categoryDAO = new CategoryDAOImpl();
                 product.setCategoryId(categoryDAO.getCategoryFromID(this.rs.getInt("category_id")));
                 product.setQuantity(this.rs.getInt("quantity"));
-                product.setAvailable(this.rs.getBoolean("available"));
                 product.setPrice(this.rs.getDouble("price"));
                 product.setBrand(this.rs.getString("brand"));
                 product.setDescription(this.rs.getString("description"));
@@ -742,23 +731,22 @@ public class ProductDAOImpl implements ProductDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO product "
-                    + "(id, name, model_num, category_id, quantity, available, price, "
+                    + "(id, name, model_num, category_id, quantity, price, "
                     + "brand, description, add_info, new, approved, owner) "
-                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;");
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;");
             ps.setString(1, UUID.randomUUID().toString());
             ps.setString(2, product.getName());
             ps.setString(3, product.getModelNum());
             CategoryDAO categoryDAO = new CategoryDAOImpl();
             ps.setInt(4, categoryDAO.getCategoryIDFromName(category));
             ps.setInt(5, product.getQuantity());
-            ps.setBoolean(6, product.isAvailable());
-            ps.setDouble(7, product.getPrice());
-            ps.setString(8, product.getBrand());
-            ps.setString(9, product.getDescription());
-            ps.setString(10, product.getAddInfo());
-            ps.setBoolean(11, product.isNew1());
-            ps.setBoolean(12, product.isApproved());
-            ps.setString(13, product.getOwner());
+            ps.setDouble(6, product.getPrice());
+            ps.setString(7, product.getBrand());
+            ps.setString(8, product.getDescription());
+            ps.setString(9, product.getAddInfo());
+            ps.setBoolean(10, product.isNew1());
+            ps.setBoolean(11, product.isApproved());
+            ps.setString(12, product.getOwner());
             
             rows = ps.executeUpdate();
             
@@ -790,7 +778,6 @@ public class ProductDAOImpl implements ProductDAO
                     + "model_num = ?, "
                     + "category_id = ?, "
                     + "quantity = ?, "
-                    + "available = ?, "
                     + "price = ?, "
                     + "brand = ?, "
                     + "description = ?, "
@@ -803,15 +790,14 @@ public class ProductDAOImpl implements ProductDAO
             ps.setString(2, product.getModelNum());
             ps.setInt(3, product.getCategoryId().getId());
             ps.setInt(4, product.getQuantity());
-            ps.setBoolean(5, product.isAvailable());
-            ps.setDouble(6, product.getPrice());
-            ps.setString(7, product.getBrand());
-            ps.setString(8, product.getDescription());
-            ps.setString(9, product.getAddInfo());
-            ps.setBoolean(10, product.isNew1());
-            ps.setBoolean(11, product.isApproved());
-            ps.setString(12, product.getOwner());
-            ps.setString(13, product.getId());
+            ps.setDouble(5, product.getPrice());
+            ps.setString(6, product.getBrand());
+            ps.setString(7, product.getDescription());
+            ps.setString(8, product.getAddInfo());
+            ps.setBoolean(9, product.isNew1());
+            ps.setBoolean(10, product.isApproved());
+            ps.setString(11, product.getOwner());
+            ps.setString(12, product.getId());
             
             rows = ps.executeUpdate();
             
