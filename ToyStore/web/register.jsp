@@ -549,7 +549,5 @@
             </div>
         </div>
         <!-- Copyright Area Ends -->
-        <!-- JavaScript Files -->
-
     </body>
 </html>

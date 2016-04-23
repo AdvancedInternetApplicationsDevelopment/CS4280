@@ -129,14 +129,14 @@ public class clientSideServlet extends HttpServlet {
         } else if (userPath.equals("/recycleProductList")) {
             //TODO convert the to session variable 
 //            String email = (String) session.getAttribute("customerEmail");
-            String email = "email3@yahoo.com";
+            String email = "email1@gmail.com";
             ProductDAO productDAO = new ProductDAOImpl();
             List<Product> products = productDAO.getRecycledByOwner(email);
             request.setAttribute("recycleProduct", products);
         } else if (userPath.equals("/orderHistory")) {
             //TODO convert the to session variable 
 //            String email = (String) session.getAttribute("customerEmail");
-            String email = "email3@yahoo.com";
+            String email = "email1@gmail.com";
             OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
             OrderedProductDAO orderedProductDAO = new OrderedProductDAOImpl();
             List<OrderHistory> orderHistorys = orderHistoryDAO.getOrderHistoryFromCustomerID(email);
@@ -150,7 +150,7 @@ public class clientSideServlet extends HttpServlet {
         } else if (userPath.equals("/orderConfirmation")) {
             //TODO convert the to session variable 
 //            String email = (String) session.getAttribute("customerEmail");
-            String email = "email3@yahoo.com";
+            String email = "email1@gmail.com";
             String orderId = (String) request.getAttribute("orderId");
             OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
             OrderedProductDAO orderedProductDAO = new OrderedProductDAOImpl();
@@ -180,8 +180,12 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("errorMessage", null);
         } 
         else if (userPath.equals("/accountDetails")) {
-            String customerDeatails = null;
-            request.setAttribute("customerDetails", customerDeatails);
+            //TODO convert the to session variable 
+//            String email = (String) session.getAttribute("customerEmail");
+            String email = "email1@gmail.com";
+            CustomerDAO customerDAO = new CustomerDAOImpl();
+            Customer customerDetails = customerDAO.getCustomerFromID(email);
+            request.setAttribute("customerDetails", customerDetails);
         } 
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
@@ -254,7 +258,7 @@ public class clientSideServlet extends HttpServlet {
         } else if (userPath.equals("/productDetails")) {
             //TODO convert the to session variable 
 //            String email = (String) session.getAttribute("customerEmail");
-            String email = "email3@yahoo.com";
+            String email = "email1@gmail.com";
             boolean success = true;
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);

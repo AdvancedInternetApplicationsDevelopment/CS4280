@@ -22,7 +22,7 @@
                 <div class="col-md-12">
                     <div class="product-info-box">
                         <h4 class="heading">Personal Information</h4>
-                        <div class="content panel-smart">
+                        <div class="content panel-smart" style="font-weight: 700;">
                             <ul class="list-unstyled manufacturer">
                                 <li>
                                     <span>First Name:</span> ${customerDetails.fname}
@@ -37,7 +37,7 @@
                     </div>
                     <div class="product-info-box">
                         <h4 class="heading">Delivery Information</h4>
-                        <div class="content panel-smart">
+                        <div class="content panel-smart" style="font-weight: 700;">
                             <ul class="list-unstyled manufacturer">
                                 <li>
                                     <span>Address/1:</span> ${customerDetails.address1}
@@ -53,36 +53,29 @@
                     </div>
                     <div class="product-info-box">
                         <h4 class="heading">Payment Information</h4>
-                        <div class="content panel-smart">
+                        <div class="content panel-smart" style="font-weight: 700;">
                             <ul class="list-unstyled manufacturer">
                                 <li>
                                     <span>Credits Accumulated:</span> ${customerDetails.credits}
                                 </li>
 
-                                <li><span>Card number:</span>...... ${ fn:substring(customerDetails.ccNumber, fn:length(customerDetails.ccNumber)-5 , fn:length(customerDetails.ccNumber))}</li>
+                                <li><span>Card number:</span>  ...... ${ fn:substring(customerDetails.ccNumber, fn:length(customerDetails.ccNumber)-4, fn:length(customerDetails.ccNumber))}</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="options">
+                    <br/>
+                    <div class="options pull-right">
                         <div class="cart-button button-group">
-
-                            <form action="/ToyStore/editCreditCard" method="get" style="display: inline-flex;">
-
-                                <button type="submit" class="btn btn-cart">
-                                    Edit Credit Card Info
-                                </button>
-                            </form>
-
                             <form action="/ToyStore/editPassword" method="post" style="display: inline-flex;">
 
-                                <button type="submit" class="btn btn-cart">
-                                    Edit password
+                                <button type="submit" class="btn btn-danger">
+                                    Change password
                                 </button>
                             </form>
 
                             <form action="/ToyStore/editCustomer" method="post" style="display: inline-flex;">
 
-                                <button type="submit" class="btn btn-cart">
+                                <button type="submit" class="btn btn-danger">
                                     Edit Customer Details
                                 </button>
                             </form>
