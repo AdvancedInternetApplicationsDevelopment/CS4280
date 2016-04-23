@@ -265,7 +265,7 @@ public class adminControllerServlet extends HttpServlet {
                 double priceDouble = Double.parseDouble(price);
                 int quantityInt = Integer.parseInt(quantity);
                 Category category = (new CategoryDAOImpl()).getCategoryFromID(categoryId);
-                product = new Product(productId, pName, mNo, category, quantityInt, true, priceDouble, brand, description, addInfo, true, true, "shop");
+                product = new Product(productId, pName, mNo, category, quantityInt, priceDouble, brand, description, addInfo, true, true, "shop");
                 if (!(productDAO.updateProduct(product))) {
                     throw new Exception("update unsuccessful");
                 }
