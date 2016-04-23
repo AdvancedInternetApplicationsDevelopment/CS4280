@@ -348,7 +348,6 @@ public class CustomerDAOImpl implements CustomerDAO
                     + "country = ?, "
                     + "region = ?, "
                     + "cc_number = ?, "
-                    + "credits = ? "
                     + " WHERE email = ?;");
             ps.setString(1, customer.getFname());
             ps.setString(2, customer.getLname());
@@ -361,8 +360,7 @@ public class CustomerDAOImpl implements CustomerDAO
             ps.setString(9, customer.getCountry());
             ps.setString(10, customer.getRegion());
             ps.setString(11, customer.getCcNumber());
-            ps.setDouble(12, customer.getCredits());
-            ps.setString(13, customer.getEmail());
+            ps.setString(12, customer.getEmail());
             
             rows = ps.executeUpdate();
             

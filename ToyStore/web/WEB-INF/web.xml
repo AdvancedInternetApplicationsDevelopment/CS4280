@@ -47,6 +47,8 @@
         <url-pattern>/accountDetails</url-pattern>
         <url-pattern>/orderConfirmation</url-pattern>
         <url-pattern>/orderHistory</url-pattern>
+        <url-pattern>/editPassword</url-pattern>
+        <url-pattern>/editCustomer</url-pattern>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

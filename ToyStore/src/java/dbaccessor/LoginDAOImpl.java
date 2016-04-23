@@ -140,7 +140,7 @@ public class LoginDAOImpl implements LoginDAO
         return (rows > 0);
     }
     
-    public boolean updatePass(String idLogin)
+    public boolean updatePass(String idLogin, String password)
     {
         int rows = 0;
         try
@@ -149,7 +149,8 @@ public class LoginDAOImpl implements LoginDAO
             PreparedStatement ps = conn.prepareStatement("UPDATE login SET "
                     + "idpass = ? "
                     + " WHERE idlogin = ?;");
-            ps.setString(1, idLogin);
+            ps.setString(1, password);
+            ps.setString(2, idLogin);
             
             rows = ps.executeUpdate();
             

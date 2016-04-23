@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.CCInfo;
 import model.Category;
 import model.Customer;
 import model.OrderHistory;
@@ -164,29 +165,56 @@ public class clientSideServlet extends HttpServlet {
                 orderHistorys.add(i, temp);
             }
             request.setAttribute("orderHistory", orderHistorys);
-        }
-        else if(userPath.equals("/home"))
-        {
+        } else if (userPath.equals("/home")) {
             ProductDAO productDAO = new ProductDAOImpl();
             List<Product> latestProducts = productDAO.getLatest();
             List<Product> latestRecycledProducts = productDAO.getLatestRecycled();
             request.setAttribute("latestRecycledProducts", latestRecycledProducts);
-            request.setAttribute("latestProducts",latestProducts);
-        }
-        else if (userPath.equals("/addRecycleProduct")) {
+            request.setAttribute("latestProducts", latestProducts);
+        } else if (userPath.equals("/addRecycleProduct")) {
             request.setAttribute("categoryId", 1);
             request.setAttribute("success", false);
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
-        } 
-        else if (userPath.equals("/accountDetails")) {
+        } else if (userPath.equals("/accountDetails")) {
             //TODO convert the to session variable 
 //            String email = (String) session.getAttribute("customerEmail");
             String email = "email1@gmail.com";
             CustomerDAO customerDAO = new CustomerDAOImpl();
             Customer customerDetails = customerDAO.getCustomerFromID(email);
             request.setAttribute("customerDetails", customerDetails);
-        } 
+        } else if (userPath.equals("/editPassword")) {
+
+            request.setAttribute("success", false);
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+        } else if (userPath.equals("/editCustomer")) {
+            //TODO convert the to session variable 
+//            String email = (String) session.getAttribute("customerEmail");
+            String email = "email1@gmail.com";
+            CustomerDAO customerDAO = new CustomerDAOImpl();
+            Customer customer = customerDAO.getCustomerFromID(email);
+            CCInfoDAO cCInfoDAO = new CCInfoDAOImpl();
+            CCInfo cCInfo = cCInfoDAO.getCcInfoFromID(email);
+            request.setAttribute("fname", customer.getFname());
+            request.setAttribute("lname", customer.getLname());
+            request.setAttribute("phone", customer.getPhone());
+            request.setAttribute("fax", customer.getFax());
+            request.setAttribute("addressL1", customer.getAddress1());
+            request.setAttribute("addressL2", customer.getAddress2());
+            request.setAttribute("city", customer.getCity());
+            request.setAttribute("postal", customer.getPostal());
+            request.setAttribute("country", customer.getCountry());
+            request.setAttribute("region", customer.getRegion());
+            request.setAttribute("ccNumber", cCInfo.getCcNumber());
+            request.setAttribute("ccv", cCInfo.getCcv());
+            request.setAttribute("cardHolder","hhh");
+            request.setAttribute("expiryDate", cCInfo.getExpiryDate());
+
+            request.setAttribute("success", false);
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+        }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -300,7 +328,77 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("Relatedproducts", relProducts);
             request.setAttribute("ratingRecived", ratingRecived);
             request.setAttribute("ratingLeft", ratingLeft);
+        } else if (userPath.equals("/editPassword")) {
+            //TODO convert the to session variable 
+//            String email = (String) session.getAttribute("customerEmail");
+            boolean success = true;
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+            String email = "email1@gmail.com";
+            String pass1 = request.getParameter("password");
+            String pass2 = request.getParameter("rePassword");
+            if (pass1.equals(pass2)) {
+                //TODO add salt hash 
+
+                try {
+                    LoginDAO loginDAO = new LoginDAOImpl();
+                    if (!(loginDAO.updatePass(email, pass1))) {
+                        throw new Exception("Cannot update password again.");
+                    }
+                } catch (Exception e) {
+                    request.setAttribute("error", true);
+                    request.setAttribute("errorMessage", e.getMessage());
+                    success = false;
+                }
+                request.setAttribute("success", success);
+
+            } else {
+                request.setAttribute("success", false);
+                request.setAttribute("error", true);
+                request.setAttribute("errorMessage", "Password does not match");
+            }
+            //have to edit 
+        } else if (userPath.equals("/editCustomer")) {
+            //TODO convert the to session variable 
+//            String email = (String) session.getAttribute("customerEmail");
+            boolean success = true;
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+            String email = "email1@gmail.com";
+            String fname = request.getParameter("fname");
+            String lname = request.getParameter("lname");
+            String phone = request.getParameter("phone");
+            String fax = request.getParameter("fax");
+            String address1 = request.getParameter("addressL1");
+            String address2 = request.getParameter("addressL2");
+            String city = request.getParameter("city");
+            String postal = request.getParameter("postal");
+            String country = request.getParameter("country");
+            String region = request.getParameter("region");
+            String ccNumber = request.getParameter("ccNumber");
+            String ccv = request.getParameter("ccv");
+            String cardHolder = request.getParameter("cardHolder");
+            String expiryDate = request.getParameter("expiryDate");
+            CCInfo ccInfo = null;
+            
+//            CCInfo ccInfo = new CCInfo(ccNumber, lname, expiryDate, 0);
+             try {
+                 CustomerDAO customerDAO = new CustomerDAOImpl();
+                Customer customer = new Customer(email, fname, lname, phone, fax, address1, address2, city, postal, country, region, ccNumber, 0);
+                CCInfoDAO cCInfoDAO = new CCInfoDAOImpl();
+                cCInfoDAO.updateCcInfo(ccInfo);
+                if (!(customerDAO.updateCustomer(customer))) {
+                    throw new Exception("Cannot update customer details.");
+                }
+            } catch (Exception e) {
+                request.setAttribute("error", true);
+                request.setAttribute("errorMessage", e.getMessage());
+                success = false;
+            }
+             request.setAttribute("success", success);
+
         }
+
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -319,6 +417,5 @@ public class clientSideServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
 
 }

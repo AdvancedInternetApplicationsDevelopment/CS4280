@@ -139,7 +139,7 @@
                                 <!-- Delivery Information Starts -->
                                 <div class="panel-body">
                                     <!-- Registration Form Starts -->
-                                    <form class="form-horizontal" role="form">
+                                    <form action="/ToyStore/approveProduct" method="post">
                                         <!-- Personal Information Starts -->
                                         <div class="form-group">
                                             <label for="inputPname" class="col-sm-3 control-label" >Product Name :</label>
@@ -178,7 +178,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputAdditionalInfo" class="col-sm-3 control-label">Additional Information:</label>
+                                            <label for="inputAdditionalInfo" class="col-sm-3 control-label">Add Info:</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control" id="inputAdditionalInfo" placeholder="Additional Information" value="${product.addInfo}">
                                             </div>
@@ -193,13 +193,11 @@
                                             <div class="col-sm-offset-3 col-sm-9">
                                                 <c:choose>
                                                     <c:when test="${!( product.approved)}">
-                                                        <form action="/ToyStore/approveProduct" method="post">
-                                                            <input type="hidden" name="productId" value="${product.id}">
-                                                            <button type="button" class="btn btn-success" style="font-size: 14px;text-transform: uppercase;" value="/ToyStore/approveProduct">
-                                                                approve
-                                                                <i class="fa fa-check" style="margin-right: 5px;"></i>
-                                                            </button>
-                                                        </form>
+                                                        <input type="hidden" name="productId" value="${product.id}">
+                                                        <button type="submit" class="btn btn-success" style="font-size: 14px;text-transform: uppercase;" value="/ToyStore/approveProduct">
+                                                            approve
+                                                            <i class="fa fa-check" style="margin-right: 5px;"></i>
+                                                        </button>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <button type="button" class="btn btn-cart disabled" style="font-size: 14px;color: #fff;text-transform: uppercase;" disabled="disabled">

@@ -825,9 +825,10 @@ public class ProductDAOImpl implements ProductDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE product SET"
-                    + " approved = ? WHERE id = ?;");
+                    + " new = ? ," + " approved = ? WHERE id = ?;");
             ps.setBoolean(1, true);
-            ps.setString(2, id);
+            ps.setBoolean(2, true);
+            ps.setString(3, id);
             
             rows = ps.executeUpdate();
             

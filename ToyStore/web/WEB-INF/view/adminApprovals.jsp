@@ -158,7 +158,7 @@
                                                                     <img src="/ToyStore/getImage?productId=${approveProduct.id}" alt="product" class="img-responsive" />
                                                                 </div>
                                                                 <div class="caption" style="color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif;padding: 20px 0;">
-                                                                    <h4 style="color: #252a2f; font-weight: bold; font-size: 16px; text-transform: uppercase;"><a style= "color: #252a2f;"href="/ToyStore/adminViewRecycled?productId=${approveProduct.name}">${approveProduct.name}</a></h4>
+                                                                    <h4 style="color: #252a2f; font-weight: bold; font-size: 16px; text-transform: uppercase;"><a style= "color: #252a2f;"href="/ToyStore/adminViewRecycled?productId=${approveProduct.id}">${approveProduct.name}</a></h4>
                                                                     <div class="description" style=" padding-right: 20px; padding: 5px 0;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif; line-height: 18px; text-align: justify;">
                                                                         ${approveProduct.description}  
                                                                     </div>

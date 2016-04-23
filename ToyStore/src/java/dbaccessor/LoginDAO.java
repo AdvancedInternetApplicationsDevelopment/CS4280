@@ -22,6 +22,6 @@ public interface LoginDAO
     
     public boolean addLogin(Login login);
     
-    public boolean updatePass(String idLogin);
+    public boolean updatePass(String idLogin, String password);
     
 }
