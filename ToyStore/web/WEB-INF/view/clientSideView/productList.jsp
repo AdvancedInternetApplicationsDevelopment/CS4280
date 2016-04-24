@@ -39,7 +39,7 @@
                                                 <form action="/ToyStore/addWishList" method="post" style="display: inline-flex;">
                                                     <input type="hidden"
                                                            name="productId"
-                                                           value="${product.id}">
+                                                           value="${item.id}">
                                                     <button type="submit" title="Wishlist" class="btn btn-wishlist">
                                                         <i class="fa fa-heart"></i>
                                                     </button>
@@ -48,7 +48,7 @@
                                                 <form action="/ToyStore/addCompareList" method="post" style="display: inline-flex;">
                                                     <input type="hidden"
                                                            name="productId"
-                                                           value="${product.id}">
+                                                           value="${item.id}">
                                                     <button type="submit" title="Compare" class="btn btn-compare">
                                                         <i class="fa fa-bar-chart-o"></i>
                                                     </button>
@@ -57,7 +57,7 @@
                                                  <form action="/ToyStore/addCartList" method="post" style="display: inline-flex;">
                                                     <input type="hidden"
                                                            name="productId"
-                                                           value="${product.id}">
+                                                           value="${item.id}">
                                                     <button type="submit" class="btn btn-cart">
                                                         Add to cart
                                                         <i class="fa fa-shopping-cart"></i>

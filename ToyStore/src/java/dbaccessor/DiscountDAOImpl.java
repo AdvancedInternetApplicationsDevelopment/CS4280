@@ -169,4 +169,37 @@ public class DiscountDAOImpl implements DiscountDAO
         }
         return (rows > 0);
     }
+
+    public double getAmountByID(String code)
+    {
+        double ret = 0.0;
+        try
+        {
+            this.conn = ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT amount FROM discount"
+                    + " WHERE discount_code = ?;");
+            ps.setString(1, code);
+            this.rs = ps.executeQuery();
+            while(this.rs.next())
+            {
+                ret = this.rs.getDouble("amount");
+            }
+            
+            if (rs != null)
+            {
+                ps.close();
+                rs.close();
+            }
+            if (conn != null)
+            {
+                conn.close();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DiscountDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
+    
 }

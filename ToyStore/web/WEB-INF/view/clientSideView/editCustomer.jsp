@@ -110,7 +110,7 @@
                         <div class="form-group">
                             <label for="inputCCV" class="col-sm-3 control-label">CCV :</label>
                             <div class="col-sm-9">
-                                <input type="password" class="form-control" id="inputCCV" placeholder="CCV" name="cvv" value="${ccv}">
+                                <input type="password" class="form-control" id="inputCCV" placeholder="CCV" name="ccv" value="${ccv}">
                             </div>
                         </div>
                         <div class="form-group">

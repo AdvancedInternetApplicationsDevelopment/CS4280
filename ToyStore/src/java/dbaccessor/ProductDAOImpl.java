@@ -789,10 +789,9 @@ public class ProductDAOImpl implements ProductDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE product SET"
-                    + " new = ? , approved = ?, last_update = CURRENT_TIMESTAMP WHERE id = ?;");
+                    + " approved = ?, last_update = CURRENT_TIMESTAMP WHERE id = ?;");
             ps.setBoolean(1, true);
-            ps.setBoolean(2, true);
-            ps.setString(3, id);
+            ps.setString(2, id);
             
             rows = ps.executeUpdate();
             
@@ -818,6 +817,7 @@ public class ProductDAOImpl implements ProductDAO
         int ret = 0;
         try
         {
+            this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT quantity FROM product"
                     + " WHERE id = ?;");
             ps.setString(1, id);

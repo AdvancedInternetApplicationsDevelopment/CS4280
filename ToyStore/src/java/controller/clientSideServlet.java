@@ -5,6 +5,8 @@
  */
 package controller;
 
+import cart.ShoppingCart;
+import cart.ShoppingCartItem;
 import dbaccessor.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,9 +19,11 @@ import javax.servlet.http.HttpSession;
 import model.CCInfo;
 import model.Category;
 import model.Customer;
+import model.Order;
 import model.OrderHistory;
 import model.Product;
 import model.Review;
+import validate.Validator;
 
 /**
  *
@@ -208,12 +212,84 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("region", customer.getRegion());
             request.setAttribute("ccNumber", cCInfo.getCcNumber());
             request.setAttribute("ccv", cCInfo.getCcv());
-            request.setAttribute("cardHolder","hhh");
+            request.setAttribute("cardHolder", "hhh");
             request.setAttribute("expiryDate", cCInfo.getExpiryDate());
 
             request.setAttribute("success", false);
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
+        } else if (userPath.equals("/cart")) {
+
+            String clear = request.getParameter("clear");
+
+            if ((clear != null) && clear.equals("true")) {
+
+                ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+                cart.clear();
+            }
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+            userPath = "/cart";
+
+            // if checkout page is requested
+        } else if (userPath.equals("/checkout")) {
+            //TODO convert the to session variable 
+//            String email = (String) session.getAttribute("customerEmail");
+            boolean error = false;
+            String email = "email1@gmail.com";
+            ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+            List<String> ordeConfirmation = null;
+            OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
+            OrderedProductDAO orderedProductDAO = new OrderedProductDAOImpl();
+            try {
+
+                List<Order> orders = new ArrayList<Order>();
+                for (ShoppingCartItem scItem : cart.getItems()) {
+                    Order o = new Order(scItem.getProduct().getId(), scItem.getQuantity());
+                    orders.add(o);
+                }
+                String discountCode = cart.getDiscount();
+                double credit = cart.getCredit();
+                ordeConfirmation = orderHistoryDAO.checkout(orders, discountCode, credit, email);
+                if ((!error) && (ordeConfirmation != null) && (ordeConfirmation.get(0).equals("success"))) {
+                String orderId = ordeConfirmation.get(1);
+
+                List<OrderHistory> orderHistorys = new ArrayList<OrderHistory>();
+                OrderHistory oh = orderHistoryDAO.getOrderHistoryFromID(orderId);
+                orderHistorys.add(oh);
+                for (int i = 0; i < orderHistorys.size(); i++) {
+                    OrderHistory temp = orderHistorys.get(i);
+                    orderHistorys.remove(i);
+                    temp.setOrderedProducts(orderedProductDAO.getOrderHistoryFromID(temp.getId()));
+                    orderHistorys.add(i, temp);
+                }
+                cart = null;
+                session.setAttribute("cart",cart );
+                request.setAttribute("orderHistory", orderHistorys);
+                userPath = "/orderConfirmation";
+            }
+            else
+            {
+                error = true;
+                request.setAttribute("error", error);
+                if(ordeConfirmation != null)
+                {
+                    request.setAttribute("errorMessage", ordeConfirmation.get(1));
+                }
+                else{
+                    request.setAttribute("errorMessage", "checkout failed");
+                }
+                userPath = "/cart";
+                
+            }
+            } catch (Exception e) {
+                error = true;
+                request.setAttribute("error", error);
+                request.setAttribute("errorMessage", e.getMessage());
+                userPath = "/cart";
+            }
+            
+
         }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
@@ -236,6 +312,7 @@ public class clientSideServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         String userPath = request.getServletPath();
+        ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
 
         if (userPath.equals("/productList")) {
             ProductDAO productDAO = new ProductDAOImpl();
@@ -376,18 +453,22 @@ public class clientSideServlet extends HttpServlet {
             String country = request.getParameter("country");
             String region = request.getParameter("region");
             String ccNumber = request.getParameter("ccNumber");
-            String ccv = request.getParameter("ccv");
+            String ccvS = request.getParameter("ccv");
             String cardHolder = request.getParameter("cardHolder");
             String expiryDate = request.getParameter("expiryDate");
             CCInfo ccInfo = null;
-            
+
 //            CCInfo ccInfo = new CCInfo(ccNumber, lname, expiryDate, 0);
-             try {
-                 CustomerDAO customerDAO = new CustomerDAOImpl();
+            try {
+                int ccv = Integer.parseInt(ccvS);
+                CustomerDAO customerDAO = new CustomerDAOImpl();
                 Customer customer = new Customer(email, fname, lname, phone, fax, address1, address2, city, postal, country, region, ccNumber, 0);
                 CCInfoDAO cCInfoDAO = new CCInfoDAOImpl();
+                CCInfo temp = cCInfoDAO.getCcInfoFromID(email);
+                ccInfo = new CCInfo(ccNumber, cardHolder, email, expiryDate, ccv);
                 cCInfoDAO.updateCcInfo(ccInfo);
                 if (!(customerDAO.updateCustomer(customer))) {
+                    cCInfoDAO.updateCcInfo(temp);
                     throw new Exception("Cannot update customer details.");
                 }
             } catch (Exception e) {
@@ -395,10 +476,92 @@ public class clientSideServlet extends HttpServlet {
                 request.setAttribute("errorMessage", e.getMessage());
                 success = false;
             }
-             request.setAttribute("success", success);
+            request.setAttribute("success", success);
+
+        } else if (userPath.equals("/updateCart")) {
+
+            // get input from request
+            String productId = request.getParameter("productId");
+            String quantity = request.getParameter("quantity");
+
+            boolean invalidEntry = Validator.validateQuantity(productId, quantity);
+
+            if (!invalidEntry) {
+                ProductDAO productDAO = new ProductDAOImpl();
+                Product product = productDAO.getProductFromID(productId);
+                cart.update(product, quantity);
+                session.setAttribute("cart", cart);
+            }
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+            userPath = "/cart";
+        } else if (userPath.equals("/addCartList")) {
+
+            // if user is adding item to cart for first time
+            // create cart object and attach it to user session
+            if (cart == null) {
+
+                cart = new ShoppingCart();
+                session.setAttribute("cart", cart);
+            }
+
+            // get user input from request
+            String productId = request.getParameter("productId");
+
+            if (!productId.isEmpty()) {
+
+                ProductDAO productDAO = new ProductDAOImpl();
+                Product product = productDAO.getProductFromID(productId);
+                cart.addItem(product);
+                session.setAttribute("cart", cart);
+            }
+            request.setAttribute("error", false);
+            request.setAttribute("errorMessage", null);
+            userPath = "/cart";
+        } else if (userPath.equals("/removeCartItem")) {
+
+            // if user is adding item to cart for first time
+            // create cart object and attach it to user session
+            if (!(cart == null)) {
+                // get user input from request
+                String productId = request.getParameter("productId");
+
+                if (!productId.isEmpty()) {
+
+                    ProductDAO productDAO = new ProductDAOImpl();
+                    Product product = productDAO.getProductFromID(productId);
+                    cart.removeItem(product);
+                    session.setAttribute("cart", cart);
+                }
+                request.setAttribute("error", false);
+                request.setAttribute("errorMessage", null);
+                userPath = "/cart";
+            }
+
+        } else if (userPath.equals("/updateCoupon")) {
+
+            // if user is adding item to cart for first time
+            // create cart object and attach it to user session
+            if (!(cart == null)) {
+                // get user input from request
+                String discount = request.getParameter("discount");
+                String creditS = request.getParameter("credit");
+                double credit = 0.0d;
+                try {
+                    credit = Double.parseDouble(creditS);
+                } catch (Exception e) {
+                    request.setAttribute("error", true);
+                    request.setAttribute("errorMessage", e.getMessage());
+
+                }
+                if (credit > -1) {
+                    cart.updateDisCre(discount, credit);
+                    session.setAttribute("cart", cart);
+                }
+                userPath = "/cart";
+            }
 
         }
-
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);

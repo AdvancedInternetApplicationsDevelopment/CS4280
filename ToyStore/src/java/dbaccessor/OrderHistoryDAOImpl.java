@@ -278,18 +278,12 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
         List <String> ret = new ArrayList<String>();
         try
         {
-            this.conn = ds.getConnection();
-            PreparedStatement ps;
-            
-            //Check if discount code is valid
             double disAmount = 0.0;
-            ps = conn.prepareStatement("SELECT amount FROM discount"
-                    + " WHERE discount_code = ?;");
-            ps.setString(1, discountCode);
-            this.rs = ps.executeQuery();
-            while(this.rs.next())
+            if(!discountCode.equalsIgnoreCase(""))
             {
-                disAmount = this.rs.getDouble("amount");
+                //Check if discount code is valid
+                DiscountDAO discountDAO = new DiscountDAOImpl();
+                disAmount = discountDAO.getAmountByID(discountCode);
                 if(!(disAmount > 0))
                 {
                     ret.add("error");
@@ -321,7 +315,7 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
             //Check is account credits are enough for this transaction
             CustomerDAO customerDAO = new CustomerDAOImpl();
             double cusCredits = customerDAO.getCredits(customerId);
-            if(credit >= cusCredits)
+            if(credit <= cusCredits)
             {
                 cusCredits -= credit;
                 customerDAO.updateCredits(customerId, cusCredits);
@@ -347,8 +341,8 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
             
             //Process transaction
             amount = amount - disAmount - credit;
-            
-            ps = conn.prepareStatement("INSERT INTO order_history"
+            this.conn = ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO order_history"
                     + " (id, customer_id, amount, date_created, discount, credit)"
                     + " VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?, ?);");
             String orderID = UUID.randomUUID().toString();

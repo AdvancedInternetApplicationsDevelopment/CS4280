@@ -24,4 +24,5 @@ public interface DiscountDAO
     
     public boolean deleteDiscount(Discount discount);
     
+    public double getAmountByID(String code);
 }

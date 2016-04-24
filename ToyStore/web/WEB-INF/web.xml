@@ -50,6 +50,11 @@
         <url-pattern>/editPassword</url-pattern>
         <url-pattern>/editCustomer</url-pattern>
         <url-pattern>/home</url-pattern>
+        <url-pattern>/addCartList</url-pattern>
+        <url-pattern>/removeCartItem</url-pattern>
+        <url-pattern>/updateCart</url-pattern>
+        <url-pattern>/updateCoupon</url-pattern>
+        <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>getImage</servlet-name>
