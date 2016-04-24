@@ -341,6 +341,8 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
             
             //Process transaction
             amount = amount - disAmount - credit;
+            if(amount < 0)
+                amount = 0;
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO order_history"
                     + " (id, customer_id, amount, date_created, discount, credit)"
