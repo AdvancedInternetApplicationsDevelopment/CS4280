@@ -349,8 +349,8 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
             amount = amount - disAmount - credit;
             
             ps = conn.prepareStatement("INSERT INTO order_history"
-                    + " (id, customer_id, amount, discount, credit)"
-                    + " VALUES (?, ?, ?, ?, ?);");
+                    + " (id, customer_id, amount, date_created, discount, credit)"
+                    + " VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?, ?);");
             String orderID = UUID.randomUUID().toString();
             ps.setString(1, orderID);
             ps.setString(2, customerId);
