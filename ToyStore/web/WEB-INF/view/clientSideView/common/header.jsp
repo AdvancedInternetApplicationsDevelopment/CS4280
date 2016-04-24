@@ -6,8 +6,13 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%-- Set language based on user's choice --%>
+<c:if test="${!empty language}">
+    <fmt:setLocale value="${language}" scope="session" />
+</c:if>
+
 <!doctype html>
-<html lang="en">
+<html>
     <head>
 
         <meta charset="utf-8">
@@ -75,19 +80,65 @@
                             <div class="col-md-3 col-xs-12 pull-right">
                                 <div class="pull-right">							
                                     <!-- Languages Starts -->
-                                    <div class="btn-group">
-                                        <button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
-                                            ENG
-                                            <i class="fa fa-caret-down"></i>
-                                        </button>
-                                        <ul class="pull-right dropdown-menu">
-                                            <li>
-                                                <a tabindex="-1" href="#">English</a>
-                                            </li>
-                                            <li>
-                                                <a tabindex="-1" href="#">French</a>
-                                            </li>
-                                        </ul>
+
+                                    <div class="btn-group " style="display: inline-flex;">
+                                        <%-- language selection widget --%>
+                                        <c:choose>
+                                            <%-- When user hasn't explicitly set language,
+                                                 render toggle according to browser's preferred locale --%>
+                                            <c:when test="${empty sessionScope['javax.servlet.jsp.jstl.fmt.locale.session']}">
+                                                <c:choose>
+                                                    <c:when test="${pageContext.request.locale.language ne 'fr'}">
+                                                        English
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:url var="url" value="chooseLanguage">
+                                                            <c:param name="language" value="en"/>
+                                                        </c:url>
+                                                        <div class="bubble"><a href="${url}">English</a></div>
+                                                    </c:otherwise>
+                                                </c:choose> |
+
+                                                <c:choose>
+                                                    <c:when test="${pageContext.request.locale.language eq 'fr'}">
+                                                        French
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:url var="url" value="chooseLanguage">
+                                                            <c:param name="language" value="fr"/>
+                                                        </c:url>
+                                                        <div class="bubble"><a href="${url}">French</a></div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:when>
+
+                                            <%-- Otherwise, render widget according to the set locale --%>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${sessionScope['javax.servlet.jsp.jstl.fmt.locale.session'] ne 'fr'}">
+                                                        English
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:url var="url" value="chooseLanguage">
+                                                            <c:param name="language" value="en"/>
+                                                        </c:url>
+                                                        <div class="bubble"><a href="${url}">English</a></div>
+                                                    </c:otherwise>
+                                                </c:choose> |
+
+                                                <c:choose>
+                                                    <c:when test="${sessionScope['javax.servlet.jsp.jstl.fmt.locale.session'] eq 'fr'}">
+                                                        French
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:url var="url" value="chooseLanguage">
+                                                            <c:param name="language" value="fr"/>
+                                                        </c:url>
+                                                        <div class="bubble"><a href="${url}">French</a></div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     <!-- Languages Ends -->
                                     <!-- login Starts -->
@@ -112,11 +163,11 @@
                                     <div class="input-group">
                                         <form action="/ToyStore/search" method="post" style="display: inline-flex;">
                                             <input type="text" class="form-control input-lg" placeholder="Search" name="search" value="${search}">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-lg" type="submit" value="search">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-lg" type="submit" value="search">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
                                         </form>
                                     </div>
                                 </div>	

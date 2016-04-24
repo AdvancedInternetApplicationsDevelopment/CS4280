@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>resources.messages</param-value>
+    </context-param>
     <filter>
         <filter-name>SessionTimeoutFilter</filter-name>
         <filter-class>filter.SessionTimeoutFilter</filter-class>
@@ -7,7 +11,7 @@
     <filter-mapping>
         <filter-name>SessionTimeoutFilter</filter-name>
         <url-pattern>/loginServlet</url-pattern>
-<!--        <servlet-name>adminControllerServlet</servlet-name>
+        <!--        <servlet-name>adminControllerServlet</servlet-name>
         <servlet-name>clientSideServlet</servlet-name>-->
     </filter-mapping>
     <servlet>
@@ -69,6 +73,7 @@
         <url-pattern>/updateCart</url-pattern>
         <url-pattern>/updateCoupon</url-pattern>
         <url-pattern>/checkout</url-pattern>
+        <url-pattern>/chooseLanguage</url-pattern>
         <url-pattern>/search</url-pattern>
         <url-pattern>/logoutClient</url-pattern>
     </servlet-mapping>

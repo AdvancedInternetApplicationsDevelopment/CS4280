@@ -54,7 +54,7 @@
 <!-- Latest Products Starts -->
 <section class="product-carousel">
     <!-- Heading Starts -->
-    <h2 class="product-head">Latest Products</h2>
+    <h2 class="product-head"><fmt:message key='typeLatest'/></h2>
     <!-- Heading Ends -->
     <!-- Products Row Starts -->
     <div class="row">
@@ -144,7 +144,7 @@
 <!-- Featured Products Starts -->
 <section class="product-list">
     <!-- Heading Starts -->
-    <h2 class="product-head">Latest Recycled Products</h2>
+    <h2 class="product-head"> <fmt:message key='typeRecycled'/></h2>
     <!-- Heading Ends -->
     <!-- Products Row Starts -->
     <div class="row">

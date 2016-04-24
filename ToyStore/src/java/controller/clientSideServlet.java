@@ -286,6 +286,17 @@ public class clientSideServlet extends HttpServlet {
             }
 
         }
+        else if (userPath.equals("/chooseLanguage")) {
+
+            // get language choice
+            String language = request.getParameter("language");
+
+            // place in request scope
+            request.setAttribute("language", language);
+
+            String userView = (String) session.getAttribute("view");
+            userPath = "/home";
+        }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
