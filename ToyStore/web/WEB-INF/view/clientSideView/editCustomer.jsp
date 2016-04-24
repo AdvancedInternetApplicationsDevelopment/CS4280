@@ -124,12 +124,12 @@
                     </form>
                     <c:if test="${success == true}">
                         <div class="alert alert-success">
-                            <p> Add product Successful </p>
+                            <p> Update Successful </p>
                         </div> 
                     </c:if>
                     <c:if test="${error ==true}">
                         <div class="alert alert-danger">
-                            <p> Error in adding product. Error message: ${errorMessage} </p>
+                            <p> Error in updating customer. Error message: ${errorMessage} </p>
                         </div> 
                     </c:if>
                 </div>
