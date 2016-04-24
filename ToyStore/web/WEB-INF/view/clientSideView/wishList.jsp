@@ -19,7 +19,7 @@
             <div class="row">
                 <c:choose>
                     <c:when test="${wishList[0]==null}">
-                        <div><p>No products added to compare list</p></div>
+                        <div><p>No products added to wish list</p></div>
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${wishList}" var="item">
