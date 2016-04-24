@@ -293,8 +293,11 @@ public class clientSideServlet extends HttpServlet {
 
             // place in request scope
             request.setAttribute("language", language);
-
-            String userView = (String) session.getAttribute("view");
+            ProductDAO productDAO = new ProductDAOImpl();
+            List<Product> latestProducts = productDAO.getLatest();
+            List<Product> latestRecycledProducts = productDAO.getLatestRecycled();
+            request.setAttribute("latestRecycledProducts", latestRecycledProducts);
+            request.setAttribute("latestProducts", latestProducts);
             userPath = "/home";
         }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
