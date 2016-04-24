@@ -126,14 +126,15 @@
                                     <button type="button" data-toggle="dropdown" class="btn btn-block btn-lg dropdown-toggle">
                                         <i class="fa fa-shopping-cart"></i>
                                         <span class="hidden-xs">Cart:</span> 
-                                        <span id="cart-total">0 item(s) - $0.00</span>
-                                        <i class="fa fa-caret-down"></i>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.cart.items[0]==null}">
+                                                <span id="cart-total">0 item(s) - $0.00</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span id="cart-total">${sessionScope.cart.numberOfItems} item(s) - $ ${sessionScope.cart.total}</span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <p class="text-center">Your shopping cart is empty!</p>
-                                        </li>									
-                                    </ul>
                                 </div>
                             </div>
                             <!-- Shopping Cart Ends -->						
