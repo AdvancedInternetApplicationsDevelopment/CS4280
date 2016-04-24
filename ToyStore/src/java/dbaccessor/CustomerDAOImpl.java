@@ -347,7 +347,7 @@ public class CustomerDAOImpl implements CustomerDAO
                     + "postal = ?, "
                     + "country = ?, "
                     + "region = ?, "
-                    + "cc_number = ?, "
+                    + "cc_number = ? "
                     + " WHERE email = ?;");
             ps.setString(1, customer.getFname());
             ps.setString(2, customer.getLname());
