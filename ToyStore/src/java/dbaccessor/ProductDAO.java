@@ -9,7 +9,6 @@ import java.sql.Blob;
 import java.util.*;
 
 import model.Product;
-import model.ProductImage;
 
 /**
  *
@@ -27,8 +26,6 @@ public interface ProductDAO
     public Product getBestSelling();
     
     public List<Product> getProductFromName(String name);
-    
-    public ProductImage getImageByID(String id);
     
     public List<Product> getAllPending();
     
@@ -52,8 +49,6 @@ public interface ProductDAO
     public boolean updateProduct(Product product);
     
     public boolean approveRecycled(String id);
-    
-    public boolean updateImageByID(String id, Blob image);
     
     public int getQuantityById(String id);
     

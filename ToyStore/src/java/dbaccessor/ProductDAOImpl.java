@@ -5,7 +5,6 @@
  */
 package dbaccessor;
 
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +17,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import model.Product;
-import model.ProductImage;
 
 /**
  *
@@ -228,41 +226,6 @@ public class ProductDAOImpl implements ProductDAO
                 product.setApproved(this.rs.getBoolean("approved"));
                 product.setOwner(this.rs.getString("owner"));
                 ret.add(product);
-            }
-            
-            if (rs != null)
-            {
-                ps.close();
-                rs.close();
-            }
-            if (conn != null)
-            {
-                conn.close();
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ProductDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
-    
-    public ProductImage getImageByID(String id)
-    {
-        ProductImage ret = new ProductImage();
-        try
-        {
-            this.conn = ds.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM product"
-                        + " WHERE id = ?;");
-            ps.setString(1, id);
-            this.rs = ps.executeQuery();
-            if(this.rs.next())
-            {
-                ProductImage product = new ProductImage();
-                product.setId(this.rs.getString("id"));
-                product.setImage(this.rs.getBlob("image"));
-                ret = product;
             }
             
             if (rs != null)
@@ -732,8 +695,8 @@ public class ProductDAOImpl implements ProductDAO
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO product "
                     + "(id, name, model_num, category_id, quantity, price, "
-                    + "brand, description, add_info, new, approved, owner) "
-                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;");
+                    + "brand, description, add_info, last_update, new, approved, owner) "
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?) ;");
             ps.setString(1, UUID.randomUUID().toString());
             ps.setString(2, product.getName());
             ps.setString(3, product.getModelNum());
@@ -782,6 +745,7 @@ public class ProductDAOImpl implements ProductDAO
                     + "brand = ?, "
                     + "description = ?, "
                     + "add_info = ?, "
+                    + "last_update = CURRENT_TIMESTAMP, "
                     + "new = ?, "
                     + "approved = ?, "
                     + "owner = ? "
@@ -825,40 +789,10 @@ public class ProductDAOImpl implements ProductDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE product SET"
-                    + " new = ? ," + " approved = ? WHERE id = ?;");
+                    + " new = ? , approved = ?, last_update = CURRENT_TIMESTAMP WHERE id = ?;");
             ps.setBoolean(1, true);
             ps.setBoolean(2, true);
             ps.setString(3, id);
-            
-            rows = ps.executeUpdate();
-            
-            if (rs != null)
-            {
-                ps.close();
-                rs.close();
-            }
-            if (conn != null)
-            {
-                conn.close();
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ProductDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return (rows > 0);
-    }
-    
-    public boolean updateImageByID(String id, Blob image)
-    {
-        int rows = 0;
-        try
-        {
-            this.conn = ds.getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE product SET"
-                    + " image = ? WHERE id = ?;");
-            ps.setBlob(1, image);
-            ps.setString(2, id);
             
             rows = ps.executeUpdate();
             
@@ -971,7 +905,7 @@ public class ProductDAOImpl implements ProductDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE product SET"
-                    + " quantity = ? WHERE id = ?;");
+                    + " quantity = ?, last_update = CURRENT_TIMESTAMP WHERE id = ?;");
             ps.setInt(1, quantity);
             ps.setString(2, productID);
             rows = ps.executeUpdate();

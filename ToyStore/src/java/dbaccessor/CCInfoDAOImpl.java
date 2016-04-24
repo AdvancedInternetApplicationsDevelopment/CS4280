@@ -54,7 +54,7 @@ public class CCInfoDAOImpl implements CCInfoDAO
                 CCInfo ccInfo = new CCInfo();
                 ccInfo.setCcNumber(this.rs.getString("cc_number"));
                 ccInfo.setCcName(this.rs.getString("cc_email"));
-                ccInfo.setExpiryDate(this.rs.getDate("expiry_date"));
+                ccInfo.setExpiryDate(this.rs.getString("expiry_date"));
                 ccInfo.setCcv(this.rs.getInt("ccv"));
                 ret.add(ccInfo);
             }
@@ -90,7 +90,7 @@ public class CCInfoDAOImpl implements CCInfoDAO
                 CCInfo ccInfo = new CCInfo();
                 ccInfo.setCcNumber(this.rs.getString("cc_number"));
                 ccInfo.setCcName(this.rs.getString("cc_email"));
-                ccInfo.setExpiryDate(this.rs.getDate("expiry_date"));
+                ccInfo.setExpiryDate(this.rs.getString("expiry_date"));
                 ccInfo.setCcv(this.rs.getInt("ccv"));
                 ret = ccInfo;
             }
@@ -123,7 +123,7 @@ public class CCInfoDAOImpl implements CCInfoDAO
                     + "VALUES(?, ?, ?, ?)");
             ps.setString(1, ccinfo.getCcNumber());
             ps.setString(2, ccinfo.getCcName());
-            ps.setDate(3, ccinfo.getExpiryDate());
+            ps.setString(3, ccinfo.getExpiryDate());
             ps.setInt(4, ccinfo.getCcv());
             
             rows = ps.executeUpdate();
@@ -157,7 +157,7 @@ public class CCInfoDAOImpl implements CCInfoDAO
                     + "ccv = ? "
                     + " WHERE cc_number = ?;");
             ps.setString(1, ccinfo.getCcName());
-            ps.setDate(2, ccinfo.getExpiryDate());
+            ps.setString(2, ccinfo.getExpiryDate());
             ps.setInt(3, ccinfo.getCcv());
             ps.setString(4, ccinfo.getCcNumber());
             

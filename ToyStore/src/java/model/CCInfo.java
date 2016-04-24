@@ -5,7 +5,6 @@
  */
 package model;
 
-import java.sql.Date;
 
 /**
  *
@@ -15,7 +14,7 @@ public class CCInfo
 {
     private String ccNumber;
     private String ccName;
-    private Date expiryDate;
+    private String expiryDate;
     private int ccv;
     
     public CCInfo()
@@ -27,7 +26,7 @@ public class CCInfo
         this.ccNumber = ccNumber;
     }
 
-    public CCInfo(String ccNumber, String ccName, Date expiryDate, int ccv)
+    public CCInfo(String ccNumber, String ccName, String expiryDate, int ccv)
     {
         this.ccNumber = ccNumber;
         this.ccName = ccName;
@@ -55,12 +54,12 @@ public class CCInfo
         this.ccName = ccName;
     }
 
-    public Date getExpiryDate()
+    public String getExpiryDate()
     {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate)
+    public void setExpiryDate(String expiryDate)
     {
         this.expiryDate = expiryDate;
     }
