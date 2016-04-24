@@ -288,7 +288,7 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES ('email1@gmail.com','455dacc7-354e-44d3-8048-355b3523cb1f','v',NULL,4),('email2@gmail.com','d7803c62-0110-4917-ba5c-1f8ec32a4c20','hjj',NULL,3),('email3@gmail.com','455dacc7-354e-44d3-8048-355b3523cb1f','A',NULL,5),('email3@gmail.com','704a46b2-9deb-4d0c-884c-f37d33baf830','hhhj',NULL,5),('email4@gmail.com','d7803c62-0110-4917-ba5c-1f8ec32a4c20','b',NULL,4),('email5@gmail.com','b98870cc-6789-4649-aa50-9182a9913c04','c',NULL,3),('email6@gmail.com','704a46b2-9deb-4d0c-884c-f37d33baf830','bb',NULL,3);
+INSERT INTO `review` VALUES ('email1@gmail.com','455dacc7-354e-44d3-8048-355b3523cb1f','Comment One',NULL,4),('email2@gmail.com','d7803c62-0110-4917-ba5c-1f8ec32a4c20','Comment Two',NULL,3),('email3@gmail.com','455dacc7-354e-44d3-8048-355b3523cb1f','Comment Three',NULL,5),('email3@gmail.com','704a46b2-9deb-4d0c-884c-f37d33baf830','Comment Four','Reply Four',5),('email4@gmail.com','d7803c62-0110-4917-ba5c-1f8ec32a4c20','Comment Five','Reply Five',4),('email5@gmail.com','b98870cc-6789-4649-aa50-9182a9913c04','Comment Six','Reply Six',3),('email6@gmail.com','704a46b2-9deb-4d0c-884c-f37d33baf830','Comment Seven',NULL,3);
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -301,4 +301,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-24 19:39:23
+-- Dump completed on 2016-04-24 20:01:19
