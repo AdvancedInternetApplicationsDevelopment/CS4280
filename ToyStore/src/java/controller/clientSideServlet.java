@@ -252,43 +252,38 @@ public class clientSideServlet extends HttpServlet {
                 double credit = cart.getCredit();
                 ordeConfirmation = orderHistoryDAO.checkout(orders, discountCode, credit, email);
                 if ((!error) && (ordeConfirmation != null) && (ordeConfirmation.get(0).equals("success"))) {
-                String orderId = ordeConfirmation.get(1);
+                    String orderId = ordeConfirmation.get(1);
 
-                List<OrderHistory> orderHistorys = new ArrayList<OrderHistory>();
-                OrderHistory oh = orderHistoryDAO.getOrderHistoryFromID(orderId);
-                orderHistorys.add(oh);
-                for (int i = 0; i < orderHistorys.size(); i++) {
-                    OrderHistory temp = orderHistorys.get(i);
-                    orderHistorys.remove(i);
-                    temp.setOrderedProducts(orderedProductDAO.getOrderHistoryFromID(temp.getId()));
-                    orderHistorys.add(i, temp);
+                    List<OrderHistory> orderHistorys = new ArrayList<OrderHistory>();
+                    OrderHistory oh = orderHistoryDAO.getOrderHistoryFromID(orderId);
+                    orderHistorys.add(oh);
+                    for (int i = 0; i < orderHistorys.size(); i++) {
+                        OrderHistory temp = orderHistorys.get(i);
+                        orderHistorys.remove(i);
+                        temp.setOrderedProducts(orderedProductDAO.getOrderHistoryFromID(temp.getId()));
+                        orderHistorys.add(i, temp);
+                    }
+                    cart = null;
+                    session.setAttribute("cart", cart);
+                    request.setAttribute("orderHistory", orderHistorys);
+                    userPath = "/orderConfirmation";
+                } else {
+                    error = true;
+                    request.setAttribute("error", error);
+                    if (ordeConfirmation != null) {
+                        request.setAttribute("errorMessage", ordeConfirmation.get(1));
+                    } else {
+                        request.setAttribute("errorMessage", "checkout failed");
+                    }
+                    userPath = "/cart";
+
                 }
-                cart = null;
-                session.setAttribute("cart",cart );
-                request.setAttribute("orderHistory", orderHistorys);
-                userPath = "/orderConfirmation";
-            }
-            else
-            {
-                error = true;
-                request.setAttribute("error", error);
-                if(ordeConfirmation != null)
-                {
-                    request.setAttribute("errorMessage", ordeConfirmation.get(1));
-                }
-                else{
-                    request.setAttribute("errorMessage", "checkout failed");
-                }
-                userPath = "/cart";
-                
-            }
             } catch (Exception e) {
                 error = true;
                 request.setAttribute("error", error);
                 request.setAttribute("errorMessage", e.getMessage());
                 userPath = "/cart";
             }
-            
 
         }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";

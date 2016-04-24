@@ -40,42 +40,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${sessionScope.cart.items}" var="item">
-                        <tr>
-                            <td class="text-center">
-                                <a href="product.html">
-                                    <img src="/ToyStore/getImage?productId=${item.product.id}" alt="Product Name" title="Product Name" class="img-thumbnail" />
-                                </a>
-                            </td>
-                            <td class="text-center">
-                                <a href="/ToyStore/productDetails?productId=${item.product.id}">${item.product.name}</a>
-                            </td>
-                            <td class="text-center">
-                                $ ${item.product.price}
-                            </td>
-                            <td class="text-center">
-                                $ ${item.total}
-                            </td>
-                            <td class="text-center">
-                                <form action="/ToyStore/updateCart" method="post">
-                                    <div class="input-group btn-block">
-                                        <input type="text" name="quantity" value="${item.quantity}" size="1" class="form-control"  />
-                                    </div>
-                                    <input type="hidden" name="productId" value="${item.product.id}">
-                                    <button type="submit" title="Update" class="btn btn-default tool-tip">
-                                        <i class="fa fa-refresh"></i>
-                                    </button>
+                        <c:forEach items="${sessionScope.cart.items}" var="item">
+                            <tr>
+                                <td class="text-center">
+                                    <a href="product.html">
+                                        <img src="/ToyStore/getImage?productId=${item.product.id}" alt="Product Name" title="Product Name" class="img-thumbnail" />
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="/ToyStore/productDetails?productId=${item.product.id}">${item.product.name}</a>
+                                </td>
+                                <td class="text-center">
+                                    $ ${item.product.price}
+                                </td>
+                                <td class="text-center">
+                                    $ ${item.total}
+                                </td>
+                                <td class="text-center">
+                                    <form action="/ToyStore/updateCart" method="post">
+                                        <div class="input-group btn-block">
+                                            <input type="text" name="quantity" value="${item.quantity}" size="1" class="form-control"  />
+                                        </div>
+                                        <input type="hidden" name="productId" value="${item.product.id}">
+                                        <button type="submit" title="Update" class="btn btn-default tool-tip">
+                                            <i class="fa fa-refresh"></i>
+                                        </button>
 
-                                </form>
-                                <form action="/ToyStore/removeCartItem" method="post">
-                                    <input type="hidden" name="productId" value="${item.product.id}"> 
-                                    <button type="submit" title="Remove" class="btn btn-default tool-tip">
-                                        <i class="fa fa-times-circle"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                                    </form>
+                                    <form action="/ToyStore/removeCartItem" method="post">
+                                        <input type="hidden" name="productId" value="${item.product.id}"> 
+                                        <button type="submit" title="Remove" class="btn btn-default tool-tip">
+                                            <i class="fa fa-times-circle"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -173,21 +173,21 @@
                         <!-- Total Panel Ends -->
                         <c:if test="${error ==true}">
                             <!-- Conditions Panel Starts -->
-                        <div class="panel panel-smart">
-                            <div class="panel-heading">
-                                <h3 class="panel-title" style="color:red;">
-                                    Error
-                                </h3>
+                            <div class="panel panel-smart">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title" style="color:red;">
+                                        Error
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        ${errorMessage}
+                                    </p>
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                <p>
-                                    ${errorMessage}
-                                </p>
-                            </div>
-                        </div>
-                        <!-- Conditions Panel Ends -->
+                            <!-- Conditions Panel Ends -->
                         </c:if>
-                        
+
                     </div>
                     <!-- Discount & Conditions Blocks Ends -->
                 </div>

@@ -140,8 +140,7 @@ public class adminControllerServlet extends HttpServlet {
             DiscountDAO discountDAO = new DiscountDAOImpl();
             List<Discount> discounts = discountDAO.getAll();
             request.setAttribute("discounts", discounts);
-        }
-        else if (userPath.equals("/adminInbox")) {
+        } else if (userPath.equals("/adminInbox")) {
             request.setAttribute("success", false);
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
@@ -177,7 +176,7 @@ public class adminControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(true);
         userPath = request.getServletPath();
         if (userPath.equals("/adminCustomer")) {
 
@@ -335,11 +334,10 @@ public class adminControllerServlet extends HttpServlet {
             request.setAttribute("discounts", discounts);
 
             request.setAttribute("success", false);
-            if(error ==true)
-            {
+            if (error == true) {
                 userPath = "/adminDiscount";
             }
-        }else if (userPath.equals("/adminInbox")) {
+        } else if (userPath.equals("/adminInbox")) {
             boolean success = true;
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
@@ -360,9 +358,9 @@ public class adminControllerServlet extends HttpServlet {
             }
             List<Review> reviews = reviewDAO.getAll();
             request.setAttribute("reviews", reviews);
-            
+
             request.setAttribute("success", success);
-            
+
         }
 
         if (userPath.equals("/adminDiscountDelete")) {
@@ -397,7 +395,7 @@ public class adminControllerServlet extends HttpServlet {
         CategoryDAO categoryDAO = new CategoryDAOImpl();
         List<Category> categories = categoryDAO.getAll();
         application.setAttribute("categories", categories);
-        
+
     }
 
 }
