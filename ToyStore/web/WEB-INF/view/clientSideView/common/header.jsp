@@ -110,12 +110,14 @@
                             <div class="col-md-7 col-xs-12">
                                 <div id="search">
                                     <div class="input-group">
-                                        <input type="text" class="form-control input-lg" placeholder="Search">
+                                        <form action="/ToyStore/search" method="post" style="display: inline-flex;">
+                                            <input type="text" class="form-control input-lg" placeholder="Search" name="search" value="${search}">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-lg" type="button">
+                                            <button class="btn btn-lg" type="submit" value="search">
                                                 <i class="fa fa-search"></i>
                                             </button>
                                         </span>
+                                        </form>
                                     </div>
                                 </div>	
                             </div>

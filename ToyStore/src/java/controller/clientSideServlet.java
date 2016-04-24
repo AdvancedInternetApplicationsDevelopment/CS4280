@@ -557,6 +557,21 @@ public class clientSideServlet extends HttpServlet {
             }
 
         }
+        else if(userPath.equals("/search")){
+            String search = request.getParameter("search");
+            ProductDAO productDAO = new ProductDAOImpl();
+            List<Product> products = productDAO.getProductFromName(search);
+            List<String> brands = productDAO.listAllBrands();
+            CategoryDAO categoryDAO = new CategoryDAOImpl();
+            List<Category> categorys = categoryDAO.getAll();
+
+            request.setAttribute("brands", brands);
+            request.setAttribute("categoriesUnChecked", categorys);
+            request.setAttribute("products", products);
+            
+            request.setAttribute("search", search);
+            userPath = "/productList";
+        }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);

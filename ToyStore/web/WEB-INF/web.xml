@@ -69,6 +69,7 @@
         <url-pattern>/updateCart</url-pattern>
         <url-pattern>/updateCoupon</url-pattern>
         <url-pattern>/checkout</url-pattern>
+        <url-pattern>/search</url-pattern>
         <url-pattern>/logoutClient</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
