@@ -97,7 +97,7 @@
                                             <i class="fa fa-caret-down"></i>
                                         </button>
                                         <ul class="pull-right dropdown-menu">
-                                            <li><a tabindex="-1" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>logout</a></li>
+                                            <li><a tabindex="-1" href="/ToyStore/logoutClient"><i class="fa fa-sign-out" aria-hidden="true"></i>logout</a></li>
                                         </ul>
                                     </div>
                                     <!-- login Ends -->
