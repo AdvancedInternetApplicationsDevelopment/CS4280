@@ -53,7 +53,8 @@ public class CCInfoDAOImpl implements CCInfoDAO
             {
                 CCInfo ccInfo = new CCInfo();
                 ccInfo.setCcNumber(this.rs.getString("cc_number"));
-                ccInfo.setCcName(this.rs.getString("cc_email"));
+                ccInfo.setCcHolder(this.rs.getString("cc_holder"));
+                ccInfo.setCcEmail(this.rs.getString("cc_email"));
                 ccInfo.setExpiryDate(this.rs.getString("expiry_date"));
                 ccInfo.setCcv(this.rs.getInt("ccv"));
                 ret.add(ccInfo);
@@ -89,7 +90,8 @@ public class CCInfoDAOImpl implements CCInfoDAO
             {
                 CCInfo ccInfo = new CCInfo();
                 ccInfo.setCcNumber(this.rs.getString("cc_number"));
-                ccInfo.setCcName(this.rs.getString("cc_email"));
+                ccInfo.setCcHolder(this.rs.getString("cc_holder"));
+                ccInfo.setCcEmail(this.rs.getString("cc_email"));
                 ccInfo.setExpiryDate(this.rs.getString("expiry_date"));
                 ccInfo.setCcv(this.rs.getInt("ccv"));
                 ret = ccInfo;
@@ -119,12 +121,13 @@ public class CCInfoDAOImpl implements CCInfoDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO cc_info "
-                    + "(cc_number, cc_email, expiry_date, ccv) "
-                    + "VALUES(?, ?, ?, ?)");
+                    + "(cc_number, cc_holder, cc_email, expiry_date, ccv) "
+                    + "VALUES(?, ?, ?, ?, ?)");
             ps.setString(1, ccinfo.getCcNumber());
-            ps.setString(2, ccinfo.getCcName());
-            ps.setString(3, ccinfo.getExpiryDate());
-            ps.setInt(4, ccinfo.getCcv());
+            ps.setString(2, ccinfo.getCcHolder());
+            ps.setString(3, ccinfo.getCcEmail());
+            ps.setString(4, ccinfo.getExpiryDate());
+            ps.setInt(5, ccinfo.getCcv());
             
             rows = ps.executeUpdate();
             
@@ -152,14 +155,16 @@ public class CCInfoDAOImpl implements CCInfoDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE cc_info SET "
+                    + "cc_holder = ?, "
                     + "cc_email = ?, "
                     + "expiry_date = ?, "
                     + "ccv = ? "
-                    + " WHERE cc_number = ?;");
-            ps.setString(1, ccinfo.getCcName());
-            ps.setString(2, ccinfo.getExpiryDate());
-            ps.setInt(3, ccinfo.getCcv());
-            ps.setString(4, ccinfo.getCcNumber());
+                    + "WHERE cc_number = ?;");
+            ps.setString(1, ccinfo.getCcHolder());
+            ps.setString(2, ccinfo.getCcEmail());
+            ps.setString(3, ccinfo.getExpiryDate());
+            ps.setInt(4, ccinfo.getCcv());
+            ps.setString(5, ccinfo.getCcNumber());
             
             rows = ps.executeUpdate();
             

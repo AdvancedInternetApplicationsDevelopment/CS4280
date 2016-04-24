@@ -49,8 +49,9 @@ DROP TABLE IF EXISTS `cc_info`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cc_info` (
   `cc_number` varchar(19) NOT NULL,
+  `cc_holder` varchar(25) NOT NULL,
   `cc_email` varchar(25) NOT NULL,
-  `expiry_date` date NOT NULL,
+  `expiry_date` varchar(12) NOT NULL,
   `ccv` int(4) NOT NULL,
   PRIMARY KEY (`cc_number`),
   UNIQUE KEY `unique` (`cc_number`),
@@ -66,7 +67,7 @@ CREATE TABLE `cc_info` (
 
 LOCK TABLES `cc_info` WRITE;
 /*!40000 ALTER TABLE `cc_info` DISABLE KEYS */;
-INSERT INTO `cc_info` VALUES ('340040799743575','email3@gmail.com','2020-05-04',1),('376986756768871','email1@gmail.com','2020-05-04',1),('4485685601098514','email5@gmail.com','2020-05-04',1),('4557457844259797','email2@gmail.com','2020-05-04',1),('5206351081144378','email6@gmail.com','2020-05-04',1),('5333063160259854','email4@gmail.com','2020-05-04',1);
+INSERT INTO `cc_info` VALUES ('340040799743575','Holder One','email3@gmail.com','2020-05-04',1),('376986756768871','Holder Two','email1@gmail.com','2020-05-04',1),('4485685601098514','Holder Three','email5@gmail.com','2020-05-04',1),('4557457844259797','Holder Four','email2@gmail.com','2020-05-04',1),('5206351081144378','Holder Five','email6@gmail.com','2020-05-04',1),('5333063160259854','Holder Six','email4@gmail.com','2020-05-04',1);
 /*!40000 ALTER TABLE `cc_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,4 +301,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-22 20:31:14
+-- Dump completed on 2016-04-24 13:40:55

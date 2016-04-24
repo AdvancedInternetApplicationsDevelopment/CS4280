@@ -13,7 +13,8 @@ package model;
 public class CCInfo
 {
     private String ccNumber;
-    private String ccName;
+    private String ccHolder;
+    private String ccEmail;
     private String expiryDate;
     private int ccv;
     
@@ -26,10 +27,11 @@ public class CCInfo
         this.ccNumber = ccNumber;
     }
 
-    public CCInfo(String ccNumber, String ccName, String expiryDate, int ccv)
+    public CCInfo(String ccNumber, String ccHolder, String ccEmail, String expiryDate, int ccv)
     {
         this.ccNumber = ccNumber;
-        this.ccName = ccName;
+        this.ccHolder = ccHolder;
+        this.ccEmail = ccEmail;
         this.expiryDate = expiryDate;
         this.ccv = ccv;
     }
@@ -44,14 +46,24 @@ public class CCInfo
         this.ccNumber = ccNumber;
     }
 
-    public String getCcName()
+    public String getCcHolder()
     {
-        return ccName;
+        return ccHolder;
     }
 
-    public void setCcName(String ccName)
+    public void setCcHolder(String ccHolder)
     {
-        this.ccName = ccName;
+        this.ccHolder = ccHolder;
+    }
+
+    public String getCcEmail()
+    {
+        return ccEmail;
+    }
+
+    public void setCcEmail(String ccEmail)
+    {
+        this.ccEmail = ccEmail;
     }
 
     public String getExpiryDate()
