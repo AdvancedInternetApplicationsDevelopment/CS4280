@@ -99,7 +99,7 @@
 			<div class="content-box text-center">
 				<h4 class="special-heading">oops !</h4>
 				<h5>
-					Session has expired or breach in session error
+					Error. Invalid call
 				</h5>
 				<br />
 				<p>
@@ -128,7 +128,7 @@
 				<div class="col-md-3 col-sm-6">
 					<h5>Service</h5>
 					<ul>
-						<li><a href="contact.html">Contact Us</a></li>
+						<li><a href="#">Contact Us</a></li>
 						<li><a href="#">Returns</a></li>
 						<li><a href="#">Site Map</a></li>
 						<li><a href="#">Affiliates</a></li>

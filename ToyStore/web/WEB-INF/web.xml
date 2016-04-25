@@ -104,6 +104,26 @@
         <error-code>404</error-code>
         <location>/WEB-INF/view/clientSideView/404.jsp</location>
     </error-page>
+    <error-page>
+        <!-- Missing login -->
+        <error-code>401</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Forbidden directory listing -->
+        <error-code>403</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Uncaught exception -->
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Unsupported servlet method -->
+        <error-code>503</error-code>
+        <location>/error.jsp</location>
+    </error-page>
     <security-constraint>
         <display-name>Admin</display-name>
         <web-resource-collection>
