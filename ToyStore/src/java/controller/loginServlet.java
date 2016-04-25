@@ -78,7 +78,7 @@ public class loginServlet extends HttpServlet {
             String email = request.getParameter("userName");
             String pass1 = request.getParameter("password");
             char[] pass = pass1.toCharArray();
-            boolean validate = true;
+            boolean validate = false;
             try {
                 LoginDAO loginDAO = new LoginDAOImpl();
                 Login login = loginDAO.getLoginFromID(email);
@@ -86,7 +86,7 @@ public class loginServlet extends HttpServlet {
                     byte[] salt = (login.getSalt()).getBytes();
                     char[] tempPass = pass1.toCharArray();
                     byte[] hash = (login.getIdpass()).getBytes();
-//                    validate = SaltHash.isExpectedPassword(pass, salt, hash);
+                    validate = SaltHash.isExpectedPassword(pass, salt, hash);
                     if (!(validate)) {
                         response.sendRedirect("/ToyStore/loginErrorCustomer");
                     } else {
