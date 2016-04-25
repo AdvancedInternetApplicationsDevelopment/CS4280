@@ -166,8 +166,8 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO
         try
         {
             this.conn = ds.getConnection();
-            this.rs = conn.prepareStatement("SELECT * FROM order_history"
-                    + " ORDER BY date_created DESC LIMIT 8;").executeQuery();
+            this.rs = conn.prepareStatement("SELECT TOP 8 * FROM order_history"
+                    + " ORDER BY date_created DESC;").executeQuery();
             while(this.rs.next())
             {
                 OrderHistory order = new OrderHistory();

@@ -139,17 +139,6 @@
         <description/>
         <role-name>storeAdmin</role-name>
     </security-role>
-    <resource-ref>
-        <description>MySQL LocalDB</description>
-        <res-ref-name>jdbc/toy</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-        <res-sharing-scope>Shareable</res-sharing-scope>
-    </resource-ref>
-    <context-param>
-        <param-name>upload.location</param-name>
-        <param-value>/home/bsft14/ntungare2/www/images</param-value>
-    </context-param>
     <jsp-property-group>
         <description>JSP configuration for the admin console</description>
         <url-pattern>/adminAddProducts</url-pattern>
@@ -171,4 +160,15 @@
         <include-prelude>/admin/jspf/header.jspf</include-prelude>
         <include-coda>/admin/jspf/footer.jspf</include-coda>
     </jsp-property-group>
+    <resource-ref>
+        <description>MySQL LocalDB</description>
+        <res-ref-name>jdbc/toy</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+    <context-param>
+        <param-name>upload.location</param-name>
+        <param-value>/home/bsft14/ntungare2/www/images</param-value>
+    </context-param>
 </web-app>

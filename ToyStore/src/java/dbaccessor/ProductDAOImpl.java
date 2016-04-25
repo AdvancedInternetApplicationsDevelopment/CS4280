@@ -169,11 +169,11 @@ public class ProductDAOImpl implements ProductDAO
         try
         {
             this.conn = ds.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT product.id,"
+            PreparedStatement ps = conn.prepareStatement("SELECT TOP 1 product.id,"
                     + " SUM(ordered_product.quantity) AS totquantity"
                     + " FROM product, ordered_product"
                     + " WHERE  product.id = ordered_product.product_id"
-                    + " GROUP BY product.id ORDER BY totquantity DESC LIMIT 1");
+                    + " GROUP BY product.id ORDER BY totquantity DESC;");
             this.rs = ps.executeQuery();
             if(this.rs.next())
             {
@@ -296,10 +296,9 @@ public class ProductDAOImpl implements ProductDAO
         try
         {
             this.conn = ds.getConnection();
-            this.rs = conn.prepareStatement("SELECT * FROM product"
+            this.rs = conn.prepareStatement("SELECT TOP 1 * FROM product"
                     + " WHERE product.new = '0' AND approved = '0'"
-                    + " ORDER BY last_update DESC"
-                    + " LIMIT 1;").executeQuery();
+                    + " ORDER BY last_update DESC;").executeQuery();
             if(this.rs.next())
             {
                 Product product = new Product();
@@ -342,10 +341,9 @@ public class ProductDAOImpl implements ProductDAO
         try
         {
             this.conn = ds.getConnection();
-            this.rs = conn.prepareStatement("SELECT * FROM product"
+            this.rs = conn.prepareStatement("SELECT TOP 8 * FROM product"
                     + " WHERE product.new = '1'"
-                    + " ORDER BY last_update DESC"
-                    + " LIMIT 8;").executeQuery();
+                    + " ORDER BY last_update DESC;").executeQuery();
             while(this.rs.next())
             {
                 Product product = new Product();
@@ -388,10 +386,9 @@ public class ProductDAOImpl implements ProductDAO
         try
         {
             this.conn = ds.getConnection();
-            this.rs = conn.prepareStatement("SELECT * FROM product"
+            this.rs = conn.prepareStatement("SELECT TOP 4 * FROM product"
                     + " WHERE product.new = '0' AND approved = '1'"
-                    + " ORDER BY last_update DESC"
-                    + " LIMIT 4;").executeQuery();
+                    + " ORDER BY last_update DESC;").executeQuery();
             while(this.rs.next())
             {
                 Product product = new Product();
@@ -929,11 +926,10 @@ public class ProductDAOImpl implements ProductDAO
     
     public String[] getRelated(String productId)
     {
-        String query = "SELECT DISTINCT(product_id) FROM ordered_product WHERE order_id IN "
-                    + "(SELECT order_id FROM order_history WHERE customer_id IN "
-                    + "(SELECT customer_id FROM order_history WHERE order_id IN "
-                    + "(SELECT order_id FROM ordered_product WHERE product_id = ?)))"
-                    + "LIMIT 3;";
+        String query = "SELECT DISTINCT(ordered_product.product_id) FROM ordered_product WHERE ordered_product.order_id IN "
+                    + "(SELECT order_history.id FROM order_history WHERE order_history.customer_id IN "
+                    + "(SELECT order_history.customer_id FROM order_history WHERE order_history.id IN "
+                    + "(SELECT ordered_product.order_id FROM ordered_product WHERE ordered_product.product_id = ?)));";
         String[] related = {"", "", ""};
         
         try
