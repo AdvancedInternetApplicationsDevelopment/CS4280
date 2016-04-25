@@ -55,6 +55,7 @@ public class LoginDAOImpl implements LoginDAO
                 Login login = new Login();
                 login.setIdlogin(this.rs.getString("idlogin"));
                 login.setIdpass(this.rs.getString("idpass"));
+                login.setSalt(this.rs.getString("salt"));
                 ret.add(login);
             }
             
@@ -89,6 +90,7 @@ public class LoginDAOImpl implements LoginDAO
                 Login login = new Login();
                 login.setIdlogin(this.rs.getString("idlogin"));
                 login.setIdpass(this.rs.getString("idpass"));
+                login.setSalt(this.rs.getString("salt"));
                 ret = login;
             }
             
@@ -116,10 +118,11 @@ public class LoginDAOImpl implements LoginDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO login "
-                    + "(idlogin, idpass) "
-                    + "VALUES(?, ?);");
+                    + "(idlogin, idpass, salt) "
+                    + "VALUES(?, ?, ?);");
             ps.setString(1, login.getIdlogin());
             ps.setString(2, login.getIdpass());
+            ps.setString(2, login.getSalt());
             
             rows = ps.executeUpdate();
             
@@ -140,17 +143,19 @@ public class LoginDAOImpl implements LoginDAO
         return (rows > 0);
     }
     
-    public boolean updatePass(String idLogin, String password)
+    public boolean updatePass(Login login)
     {
         int rows = 0;
         try
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE login SET "
-                    + "idpass = ? "
-                    + " WHERE idlogin = ?;");
-            ps.setString(1, password);
-            ps.setString(2, idLogin);
+                    + "idpass = ?,"
+                    + "salt = ? "
+                    + "WHERE idlogin = ?;");
+            ps.setString(1, login.getIdpass());
+            ps.setString(2, login.getSalt());
+            ps.setString(3, login.getIdlogin());
             
             rows = ps.executeUpdate();
             

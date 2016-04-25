@@ -13,6 +13,7 @@ public class Login
 {
     private String idlogin;
     private String idpass;
+    private String salt;
 
     public Login()
     {
@@ -25,10 +26,11 @@ public class Login
         this.idlogin = idlogin;
     }
 
-    public Login(String idlogin, String idpass)
+    public Login(String idlogin, String idpass, String salt)
     {
         this.idlogin = idlogin;
         this.idpass = idpass;
+        this.salt = salt;
     }
 
     public String getIdlogin()
@@ -49,6 +51,16 @@ public class Login
     public void setIdpass(String idpass)
     {
         this.idpass = idpass;
+    }
+
+    public String getSalt()
+    {
+        return salt;
+    }
+
+    public void setSalt(String salt)
+    {
+        this.salt = salt;
     }
 
     @Override

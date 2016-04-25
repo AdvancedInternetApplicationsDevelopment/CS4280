@@ -67,7 +67,7 @@ CREATE TABLE `cc_info` (
 
 LOCK TABLES `cc_info` WRITE;
 /*!40000 ALTER TABLE `cc_info` DISABLE KEYS */;
-INSERT INTO `cc_info` VALUES ('340040799743575','Holder One','email3@gmail.com','2020-05-04',1),('376986756768871','Holder Two','email1@gmail.com','2020-05-04',1),('4485685601098514','Holder Three','email5@gmail.com','2020-05-04',1),('4557457844259797','Holder Four','email2@gmail.com','2020-05-04',1),('5206351081144378','Holder Five','email6@gmail.com','2020-05-04',1),('5333063160259854','Holder Six','email4@gmail.com','2020-05-04',1);
+INSERT INTO `cc_info` VALUES ('340040799743575','Holder One','email3@gmail.com','2020-05-04',1),('376986756768871','hhh','email1@gmail.com','2020-05-04',1),('4485685601098514','Holder Three','email5@gmail.com','2020-05-04',1),('4557457844259797','Holder Four','email2@gmail.com','2020-05-04',1),('5206351081144378','Holder Five','email6@gmail.com','2020-05-04',1),('5333063160259854','Holder Six','email4@gmail.com','2020-05-04',1);
 /*!40000 ALTER TABLE `cc_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +106,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES ('email1@gmail.com','customer','one','12345678',NULL,'address1','address2','hk','kowloon','hk','hk','376986756768871',0.00),('email2@gmail.com','customer','two','23456781',NULL,'address1','address2','hk','hong kong','hk','hk','4557457844259797',0.00),('email3@gmail.com','customer','three','34567812',NULL,'address1','address2','hk','new terr','hk','hk','340040799743575',0.00),('email4@gmail.com','customer','four','45678123',NULL,'address1','address2','hk','tung chung','hk','hk','5333063160259854',0.00),('email5@gmail.com','customer','five','56781234',NULL,'address1','address2','hk','discovery','hk','hk','4485685601098514',0.00),('email6@gmail.com','customer','six','67812345',NULL,'address1','address2','hk','kowloon','hk','hk','5206351081144378',0.00);
+INSERT INTO `customer` VALUES ('email1@gmail.com','customer','one','12345678','','address1','address2','hk','kowloon','hk','hk','376986756768871',0.00),('email2@gmail.com','customer','two','23456781',NULL,'address1','address2','hk','hong kong','hk','hk','4557457844259797',0.00),('email3@gmail.com','customer','three','34567812',NULL,'address1','address2','hk','new terr','hk','hk','340040799743575',0.00),('email4@gmail.com','customer','four','45678123',NULL,'address1','address2','hk','tung chung','hk','hk','5333063160259854',0.00),('email5@gmail.com','customer','five','56781234',NULL,'address1','address2','hk','discovery','hk','hk','4485685601098514',0.00),('email6@gmail.com','customer','six','67812345',NULL,'address1','address2','hk','kowloon','hk','hk','5206351081144378',0.00);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +143,8 @@ DROP TABLE IF EXISTS `login`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `login` (
   `idlogin` varchar(25) NOT NULL,
-  `idpass` varchar(45) NOT NULL,
+  `idpass` varchar(60) NOT NULL,
+  `salt` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`idlogin`),
   UNIQUE KEY `unique` (`idlogin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -155,7 +156,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES ('email1@gmail.com','abcd123'),('email2@gmail.com','asdfgh'),('email3@gmail.com','123456'),('email4@gmail.com','qwerty'),('email5@gmail.com','zxcvb'),('email6@gmail.com','qwerty');
+INSERT INTO `login` VALUES ('email1@gmail.com','abcd123',NULL),('email2@gmail.com','asdfgh',NULL),('email3@gmail.com','123456',NULL),('email4@gmail.com','qwerty',NULL),('email5@gmail.com','zxcvb',NULL),('email6@gmail.com','qwerty',NULL);
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -301,4 +302,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-24 20:01:19
+-- Dump completed on 2016-04-25 11:14:57
