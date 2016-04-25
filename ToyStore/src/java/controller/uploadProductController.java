@@ -8,7 +8,11 @@ package controller;
 import dbaccessor.CategoryDAOImpl;
 import dbaccessor.ProductDAO;
 import dbaccessor.ProductDAOImpl;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -33,15 +37,14 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 public class uploadProductController extends HttpServlet {
 
-    private static final int MEMORY_THRESHOLD   = 1024 * 1024 * 3;  // 3MB
-    private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
-    private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
+    private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3;  // 3MB
+    private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
+    private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
+
     /**
      * Name of the directory where uploaded files will be saved, relative to the
      * web application directory.
      */
-
-   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -54,8 +57,7 @@ public class uploadProductController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
     }
 
     /**
@@ -68,12 +70,11 @@ public class uploadProductController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         String userPath = request.getServletPath();
-        if (userPath.equals("/uploadProduct"))
-        {
+        if (userPath.equals("/uploadProduct")) {
+            boolean success = true;
             // configures upload settings
             DiskFileItemFactory factory = new DiskFileItemFactory();
             // sets memory threshold - beyond which files are stored in disk
@@ -95,43 +96,41 @@ public class uploadProductController extends HttpServlet {
             //creates a HashMap of all inputs
             HashMap hashMap = new HashMap();
             String productId = UUID.randomUUID().toString();
-            try
-            {
+            try {
                 @SuppressWarnings("unchecked")
                 List<FileItem> formItems = upload.parseRequest(request);
-                for (FileItem item: formItems)
-                {
+                for (FileItem item : formItems) {
                     // processes only fields that are not form fields
-                    if (!item.isFormField())
-                    {
+                    if (!item.isFormField()) {
                         File file = new File(item.getName());
-                        file.renameTo(new File(productId + ".jpg"));
+                        File file2 = new File(productId + ".jpg");
+//                        
                         String filePath = uploadPath + File.separator + file.getName();
                         // saves the file on disk
                         File storeFile = new File(filePath);
                         item.write(storeFile);
-                    }
-                    else
-                    {
+                        File rename = new File(filePath);
+                        boolean flag = rename.renameTo(file2);
+                    } else {
                         hashMap.put(item.getFieldName(), item.getString());
                     }
                 }
-            }
-            catch (FileUploadException ex)
-            {
+            } catch (FileUploadException ex) {
                 Logger.getLogger(uploadProductController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            catch (Exception ex)
-            {
+                request.setAttribute("error", true);
+                request.setAttribute("errorMessage", ex.getMessage());
+                success = false;
+            } catch (Exception ex) {
                 Logger.getLogger(uploadProductController.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("error", true);
+                request.setAttribute("errorMessage", ex.getMessage());
+                success = false;
             }
             String owner = (String) session.getAttribute("customerEmail");
-            if(owner==null)
-            {
-                owner= "shop";
+            if (owner == null) {
+                owner = "shop";
             }
 
-            
             String pName = hashMap.get("pName").toString();
             String mNo = hashMap.get("mNo").toString();
             String brand = hashMap.get("brand").toString();
@@ -140,24 +139,28 @@ public class uploadProductController extends HttpServlet {
             String price = hashMap.get("price").toString();
             String addInfo = hashMap.get("addInfo").toString();
             int categoryId = Integer.parseInt(hashMap.get("category").toString());
-            boolean success = true;
+
             ProductDAO productDAO = new ProductDAOImpl();
             Product product;
-            
-            try
-            {
+
+            try {
                 double priceDouble = Double.parseDouble(price);
                 int quantityInt = Integer.parseInt(quantity);
                 Category category = (new CategoryDAOImpl()).getCategoryFromID(categoryId);
-                product = new Product(productId, pName, mNo, category, quantityInt, priceDouble, brand, description, addInfo, true, true, owner);
-
-                if (!(productDAO.addProduct(product, category.getName())))
+                if(owner.equals("shop"))
                 {
+                    product = new Product(productId, pName, mNo, category, quantityInt, priceDouble, brand, description, addInfo, true, true, owner);
+                }
+                else
+                {
+                    product = new Product(productId, pName, mNo, category, quantityInt, priceDouble, brand, description, addInfo, false, false, owner);
+                }
+                
+
+                if (!(productDAO.addProduct(product, category.getName()))) {
                     throw new Exception("update unsuccessful");
                 }
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 request.setAttribute("error", true);
                 request.setAttribute("errorMessage", e.getMessage());
                 success = false;
@@ -172,12 +175,25 @@ public class uploadProductController extends HttpServlet {
             request.setAttribute("addInfo", addInfo);
             request.setAttribute("categoryId", categoryId);
             request.setAttribute("success", success);
-            if (success == true)
-            {
+            if (success == true) {
                 request.setAttribute("error", false);
                 request.setAttribute("errorMessage", null);
             }
+            String url;
+            if (owner.equals("shop")) {
+                url = "/WEB-INF/view/adminAddProducts.jsp";
+            } else {
+                url = "/WEB-INF/view/clientSideView/addRecycleProduct.jsp";
+            }
+            try {
+                request.getRequestDispatcher(url).forward(request, response);
+            } catch (ServletException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
+
     }
 
     /**

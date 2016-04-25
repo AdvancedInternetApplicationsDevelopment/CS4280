@@ -43,8 +43,8 @@
                         <c:forEach items="${sessionScope.cart.items}" var="item">
                             <tr>
                                 <td class="text-center">
-                                    <a href="product.html">
-                                        <img src="/ToyStore/getImage?productId=${item.product.id}" alt="Product Name" title="Product Name" class="img-thumbnail" />
+                                    <a href="#">
+                                        <img src="/ToyStore/getImage?productId=${item.product.id}" alt="Product Name" title="Product Name" class="img-thumbnail" style="width: 100px" />
                                     </a>
                                 </td>
                                 <td class="text-center">

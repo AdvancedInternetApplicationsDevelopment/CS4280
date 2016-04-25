@@ -37,7 +37,7 @@
                         <c:forEach items="${compareProductList}" var="item">
                             <tr>
                                 <td>
-                                    <img src="/ToyStore/getImage?productId=${item.id}" alt="image" title="image" class="img-thumbnail" />
+                                    <img src="/ToyStore/getImage?productId=${item.id}" alt="image" title="image" class="img-thumbnail" style="width: 100px; height: 100px" />
                                 </td>
                                 <td class="name">
                                     <a href="/ToyStore/productDetails?productId=${item.id}">${item.name}</a>
