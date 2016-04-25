@@ -42,7 +42,9 @@ public class getImage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 
-//        String productId = request.getParameter("productId");
+        String productId = request.getParameter("productId");
+        String uploadPath = getServletContext().getInitParameter("upload.location");
+        File file = new File(uploadPath + File.separator + productId);
 //        if(productId!=null){
 //             response.setContentType("image/jpeg");
 //             response.getOutputStream().write( Files.readAllBytes(new File(getServletContext().getRealPath("****.jpg")).toPath()));

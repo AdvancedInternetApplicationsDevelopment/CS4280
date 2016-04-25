@@ -15,6 +15,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -99,6 +100,7 @@ public class uploadProductController extends HttpServlet {
             String uploadPath = getServletContext().getInitParameter("upload.location");
             //creates a HashMap of all inputs
             HashMap hashMap = new HashMap();
+            String productId = UUID.randomUUID().toString();
             try
             {
                 @SuppressWarnings("unchecked")
@@ -109,8 +111,7 @@ public class uploadProductController extends HttpServlet {
                     if (!item.isFormField())
                     {
                         File file = new File(item.getName());
-                        String fileName = file.getName();
-                        String filePath = uploadPath + File.separator + fileName;
+                        String filePath = uploadPath + File.separator + productId;
                         // saves the file on disk
                         File storeFile = new File(filePath);
                         item.write(storeFile);
@@ -131,7 +132,7 @@ public class uploadProductController extends HttpServlet {
             }
             String owner = (String) session.getAttribute("customerEmail");
 
-            String productId = null;
+            
             String pName = hashMap.get("pName").toString();
             String mNo = hashMap.get("mNo").toString();
             String brand = hashMap.get("brand").toString();

@@ -50,7 +50,7 @@
         <url-pattern>/adminDiscount</url-pattern>
         <url-pattern>/adminDiscountDelete</url-pattern>
         <url-pattern>/adminInbox</url-pattern>
-        <url-pattern>/adminlogout</url-pattern>
+        <url-pattern>/adminLogout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>clientSideServlet</servlet-name>
@@ -97,6 +97,48 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <security-constraint>
+        <display-name>Admin</display-name>
+        <web-resource-collection>
+            <web-resource-name>Toy Store Administration</web-resource-name>
+            <description/>
+            <url-pattern>/adminAddProducts</url-pattern>
+            <url-pattern>/adminApprovals</url-pattern>
+            <url-pattern>/adminCustomer</url-pattern>
+            <url-pattern>/adminDashboard</url-pattern>
+            <url-pattern>/adminEditProducts</url-pattern>
+            <url-pattern>/adminProducts</url-pattern>
+            <url-pattern>/adminRecycledProducts</url-pattern>
+            <url-pattern>/adminTransactions</url-pattern>
+            <url-pattern>/adminViewRecycled</url-pattern>
+            <url-pattern>/approveProduct</url-pattern>
+            <url-pattern>/adminDiscount</url-pattern>
+            <url-pattern>/adminDiscountDelete</url-pattern>
+            <url-pattern>/adminInbox</url-pattern>
+            <url-pattern>/adminLogout</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>storeAdmin</role-name>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>file</realm-name>
+        <form-login-config>
+            <form-login-page>/adminLogin.jsp</form-login-page>
+            <form-error-page>/loginError.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description/>
+        <role-name>admin</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>storeAdmin</role-name>
+    </security-role>
     <resource-ref>
         <description>MySQL LocalDB</description>
         <res-ref-name>jdbc/toy</res-ref-name>
@@ -108,4 +150,25 @@
         <param-name>upload.location</param-name>
         <param-value>/home/bsft14/ntungare2/www/images</param-value>
     </context-param>
+    <jsp-property-group>
+        <description>JSP configuration for the admin console</description>
+        <url-pattern>/adminAddProducts</url-pattern>
+        <url-pattern>/adminApprovals</url-pattern>
+        <url-pattern>/adminCustomer</url-pattern>
+        <url-pattern>/adminDashboard</url-pattern>
+        <url-pattern>/adminEditProducts</url-pattern>
+        <url-pattern>/adminProducts</url-pattern>
+        <url-pattern>/adminRecycledProducts</url-pattern>
+        <url-pattern>/adminTransactions</url-pattern>
+        <url-pattern>/adminViewRecycled</url-pattern>
+        <url-pattern>/approveProduct</url-pattern>
+        <url-pattern>/adminDiscount</url-pattern>
+        <url-pattern>/adminDiscountDelete</url-pattern>
+        <url-pattern>/adminInbox</url-pattern>
+        <url-pattern>/adminLogout</url-pattern>
+        <url-pattern>/adminLogin.jsp</url-pattern>
+        <url-pattern>/loginError.jsp</url-pattern>
+        <include-prelude>/admin/jspf/header.jspf</include-prelude>
+        <include-coda>/admin/jspf/footer.jspf</include-coda>
+    </jsp-property-group>
 </web-app>

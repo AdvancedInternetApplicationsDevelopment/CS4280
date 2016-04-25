@@ -108,7 +108,7 @@
 			<!-- Logo Starts -->
 				<div class="col-md-4 col-xs-12">
 					<div id="logo">
-						<a href="index.html"><img src="images/logo.png" title="Grocery Shoppe" alt="Grocery Shoppe" class="img-responsive" /></a>
+						<a href="#"><img src="images/logo.png" title="Grocery Shoppe" alt="Grocery Shoppe" class="img-responsive" /></a>
 					</div>
 				</div>
 			<!-- Logo Ends -->

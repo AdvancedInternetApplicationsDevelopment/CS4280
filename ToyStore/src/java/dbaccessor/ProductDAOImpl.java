@@ -697,7 +697,7 @@ public class ProductDAOImpl implements ProductDAO
                     + "(id, name, model_num, category_id, quantity, price, "
                     + "brand, description, add_info, last_update, new, approved, owner) "
                     + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?) ;");
-            ps.setString(1, UUID.randomUUID().toString());
+            ps.setString(1, product.getId());
             ps.setString(2, product.getName());
             ps.setString(3, product.getModelNum());
             CategoryDAO categoryDAO = new CategoryDAOImpl();

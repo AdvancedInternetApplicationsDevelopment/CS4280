@@ -149,6 +149,13 @@ public class adminControllerServlet extends HttpServlet {
             List<Review> reviews = reviewDAO.getAll();
             request.setAttribute("reviews", reviews);
         }
+        else if (userPath.equals("/adminLogout")) {
+            session.invalidate();
+            response.sendRedirect("/ToyStore/adminDashboard");
+        return;
+            
+        }
+        
 
         String url = "/WEB-INF/view" + userPath + ".jsp";
         try {
@@ -208,6 +215,22 @@ public class adminControllerServlet extends HttpServlet {
         } else if (userPath.equals("/approveProduct")) {
             ProductDAO productDAO = new ProductDAOImpl();
             productDAO.approveRecycled(request.getParameter("productId"));
+            CustomerDAO customerDAO = new CustomerDAOImpl();
+            OrderedProductDAO orderedProductDAO = new OrderedProductDAOImpl();
+            OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
+            noOfUsers = (customerDAO).getNoOfUsers();
+            pendingApprovals = (productDAO).getAllPending().size();
+            productsSold = (orderedProductDAO).getTotalQuantityOfProductSold();
+            totalNoOfProducts = (productDAO).getNoOfProducts();
+            latestApprovalItem = (productDAO).getLatestPending();
+            transactions = (orderHistoryDAO).getLatest();
+
+            request.setAttribute("noOfUsers", noOfUsers);
+            request.setAttribute("pendingApprovals", pendingApprovals);
+            request.setAttribute("productsSold", productsSold);
+            request.setAttribute("totalNoOfProducts", totalNoOfProducts);
+            request.setAttribute("latestApprovalItem", latestApprovalItem);
+            request.setAttribute("transactions", transactions);
             userPath = "/adminDashboard";
         } else if (userPath.equals("/adminTransactions")) {
             String customerId = request.getParameter("userId");
