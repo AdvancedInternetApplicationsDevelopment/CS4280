@@ -84,7 +84,8 @@ public class loginServlet extends HttpServlet {
                 Login login = loginDAO.getLoginFromID(email);
                 if (login != null) {
                     byte[] salt = (login.getSalt()).getBytes();
-                    byte[] hash = SaltHash.hash(pass, salt);
+                    char[] tempPass = pass1.toCharArray();
+                    byte[] hash = (login.getIdpass()).getBytes();
                     validate = SaltHash.isExpectedPassword(pass, salt, hash);
                     if (!(validate)) {
                         response.sendRedirect("/ToyStore/loginErrorCustomer");

@@ -131,7 +131,7 @@
                                         Please login using your existing account
                                     </p>
                                     <!-- Login Form Starts -->
-                                    <form class="form-inline" role="form" id="loginForm" novalidate='novalidate' action="/ToyStore/register" method="post">
+                                    <form class="form-inline" role="form" id="loginForm" novalidate='novalidate' action="/ToyStore/login" method="post">
                                         <div class="form-group">
                                             <label class="sr-only" for="exampleInputEmail2">Username</label>
                                             <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Username" name="userName">
