@@ -10,7 +10,6 @@ import dbaccessor.ProductDAO;
 import dbaccessor.ProductDAOImpl;
 import java.io.File;
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +27,6 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-
 /**
  *
  * @author suhag
@@ -42,7 +40,6 @@ public class uploadProductController extends HttpServlet {
      * Name of the directory where uploaded files will be saved, relative to the
      * web application directory.
      */
-    private static final String SAVE_DIR = "productImages";
 
    
 
