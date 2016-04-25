@@ -19,10 +19,12 @@ import javax.servlet.http.HttpSession;
 import model.CCInfo;
 import model.Category;
 import model.Customer;
+import model.Login;
 import model.Order;
 import model.OrderHistory;
 import model.Product;
 import model.Review;
+import saltHash.SaltHash;
 import validate.Validator;
 
 /**
@@ -285,16 +287,19 @@ public class clientSideServlet extends HttpServlet {
                 userPath = "/cart";
             }
 
-        }
-        else if (userPath.equals("/chooseLanguage")) {
+        } else if (userPath.equals("/chooseLanguage")) {
 
             // get language choice
             String language = request.getParameter("language");
 
             // place in request scope
             request.setAttribute("language", language);
-
-            String userView = (String) session.getAttribute("view");
+            ProductDAO productDAO = new ProductDAOImpl();
+            List<Product> latestProducts = productDAO.getLatest();
+            List<Product> latestRecycledProducts = productDAO.getLatestRecycled();
+            request.setAttribute("latestRecycledProducts", latestRecycledProducts);
+            request.setAttribute("latestProducts", latestProducts);
+      
             userPath = "/home";
         }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
@@ -420,13 +425,20 @@ public class clientSideServlet extends HttpServlet {
             String email = "email1@gmail.com";
             String pass1 = request.getParameter("password");
             String pass2 = request.getParameter("rePassword");
-            if (pass1.equals(pass2)) {
+            char[] pass = pass1.toCharArray();
+            if ((pass1.equals(pass2)) && pass1.length() >= 6) {
                 //TODO add salt hash 
 
                 try {
                     LoginDAO loginDAO = new LoginDAOImpl();
-                    //try Login login = new Login(email, pass1, salt);
-                    if (!(loginDAO.updatePass(email, pass1))) {
+                    byte[] salt = SaltHash.getNextSalt();
+                    byte[] hash = SaltHash.hash(pass, salt);
+                    Login login;
+                    login = new Login();
+                    login.setIdlogin(email);
+                    login.setIdpass(new String(hash));
+                    login.setSalt(new String(salt));
+                    if (!(loginDAO.updatePass(login))) {
                         throw new Exception("Cannot update password again.");
                     }
                 } catch (Exception e) {
@@ -439,7 +451,7 @@ public class clientSideServlet extends HttpServlet {
             } else {
                 request.setAttribute("success", false);
                 request.setAttribute("error", true);
-                request.setAttribute("errorMessage", "Password does not match");
+                request.setAttribute("errorMessage", "Password does not match or password too weak");
             }
             //have to edit 
         } else if (userPath.equals("/editCustomer")) {
@@ -568,8 +580,7 @@ public class clientSideServlet extends HttpServlet {
                 userPath = "/cart";
             }
 
-        }
-        else if(userPath.equals("/search")){
+        } else if (userPath.equals("/search")) {
             String search = request.getParameter("search");
             ProductDAO productDAO = new ProductDAOImpl();
             List<Product> products = productDAO.getProductFromName(search);
@@ -580,7 +591,7 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("brands", brands);
             request.setAttribute("categoriesUnChecked", categorys);
             request.setAttribute("products", products);
-            
+
             request.setAttribute("search", search);
             userPath = "/productList";
         }
