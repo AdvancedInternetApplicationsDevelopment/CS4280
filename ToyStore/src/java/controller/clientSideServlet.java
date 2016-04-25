@@ -425,6 +425,7 @@ public class clientSideServlet extends HttpServlet {
 
                 try {
                     LoginDAO loginDAO = new LoginDAOImpl();
+                    //try Login login = new Login(email, pass1, salt);
                     if (!(loginDAO.updatePass(email, pass1))) {
                         throw new Exception("Cannot update password again.");
                     }
