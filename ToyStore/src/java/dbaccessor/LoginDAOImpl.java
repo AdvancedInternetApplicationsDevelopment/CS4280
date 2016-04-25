@@ -122,7 +122,7 @@ public class LoginDAOImpl implements LoginDAO
                     + "VALUES(?, ?, ?);");
             ps.setString(1, login.getIdlogin());
             ps.setString(2, login.getIdpass());
-            ps.setString(2, login.getSalt());
+            ps.setString(3, login.getSalt());
             
             rows = ps.executeUpdate();
             

@@ -214,7 +214,7 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("region", customer.getRegion());
             request.setAttribute("ccNumber", cCInfo.getCcNumber());
             request.setAttribute("ccv", cCInfo.getCcv());
-            request.setAttribute("cardHolder", "hhh");
+            request.setAttribute("cardHolder", cCInfo.getCcHolder());
             request.setAttribute("expiryDate", cCInfo.getExpiryDate());
 
             request.setAttribute("success", false);

@@ -38,8 +38,12 @@ public class SessionTimeoutFilter implements Filter {
             return;
         }
 
+        else
+        {
+            chain.doFilter(new SanitizeWrapper((HttpServletRequest) request), response);
+        }
 //        chain.doFilter(request, response);
-        chain.doFilter(new SanitizeWrapper((HttpServletRequest) request), response);
+        
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {}

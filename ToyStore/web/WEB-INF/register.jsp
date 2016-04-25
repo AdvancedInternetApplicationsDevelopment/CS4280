@@ -3,7 +3,7 @@
     Created on : Apr 3, 2016, 3:27:48 PM
     Author     : suhag
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -279,18 +279,18 @@
                                     </div>
                                     <div class="panel-body">
                                         <!-- Registration Form Starts -->
-                                        <form class="form-horizontal" role="form" id="registerationForm" novalidate='novalidate'>
+                                        <form class="form-horizontal" role="form" id="registerationForm" novalidate='novalidate' action="/ToyStore/register" method="post">
                                             <!-- Personal Information Starts -->
                                             <div class="form-group">
                                                 <label for="inputFname" class="col-sm-3 control-label">First Name :</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" id="inputFname" placeholder="First Name" name="firstName">
+                                                    <input type="text" class="form-control" id="inputFname" placeholder="First Name" name="fname">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="inputLname" class="col-sm-3 control-label">Last Name :</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" id="inputLname" placeholder="Last Name" name="lastName">
+                                                    <input type="text" class="form-control" id="inputLname" placeholder="Last Name" name="lname">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -302,7 +302,7 @@
                                             <div class="form-group">
                                                 <label for="inputPhone" class="col-sm-3 control-label">Phone :</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" id="inputPhone" placeholder="Phone" name="phoneNumber">
+                                                    <input type="text" class="form-control" id="inputPhone" placeholder="Phone" name="phone">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -337,7 +337,7 @@
                                             <div class="form-group">
                                                 <label for="inputPostCode" class="col-sm-3 control-label">Postal Code :</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" id="inputPostCode" placeholder="Postal Code" name="postalCode">
+                                                    <input type="text" class="form-control" id="inputPostCode" placeholder="Postal Code" name="postal">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -366,7 +366,7 @@
                                             <div class="form-group">
                                                 <label for="inputRePassword" class="col-sm-3 control-label">Re-Password :</label>
                                                 <div class="col-sm-9">
-                                                    <input type="password" class="form-control" id="inputRePassword" placeholder="Re-Password" name="rePassword">
+                                                    <input type="password" class="form-control" id="inputRePassword" placeholder="Re-Password" name="repassword">
                                                 </div>
                                             </div>
                                             <!-- Password Area Ends -->
@@ -384,7 +384,7 @@
                                             <div class="form-group">
                                                 <label for="inputCreditCardNumber" class="col-sm-3 control-label">Credit Card Number :</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" id="inputCreditCardNumber" placeholder="Credit Card Number" name="creditCardNumber">
+                                                    <input type="text" class="form-control" id="inputCreditCardNumber" placeholder="Credit Card Number" name="ccNumber">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -396,7 +396,7 @@
                                             <div class="form-group">
                                                 <label for="inputCCV" class="col-sm-3 control-label">CCV :</label>
                                                 <div class="col-sm-9">
-                                                    <input type="password" class="form-control" id="inputCCV" placeholder="CCV" name="cvvNumber">
+                                                    <input type="password" class="form-control" id="inputCCV" placeholder="CCV" name="ccv">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -417,6 +417,12 @@
                                             </div>
                                             <!-- Payment Area Ends -->
                                         </form>
+
+                                        <c:if test="${error ==true}">
+                                            <div class="alert alert-danger">
+                                                <p> Error in registering customer. Error message: ${errorMessage} </p>
+                                            </div> 
+                                        </c:if>
                                     </div>
                                 </div>
                                 <!-- Registration Block Ends -->
