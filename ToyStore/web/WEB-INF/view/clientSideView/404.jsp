@@ -21,7 +21,7 @@
         </h5>
         <br />
         <p>
-            <a href="index.html" class="btn btn-danger text-uppercase">Back to Home</a>
+            <a href="/ToyStore/home" class="btn btn-danger text-uppercase">Back to Home</a>
         </p>
     </div>
     <!-- Content Ends -->

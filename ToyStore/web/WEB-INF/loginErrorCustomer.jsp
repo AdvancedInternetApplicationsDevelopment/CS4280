@@ -99,7 +99,7 @@
 								</p>
                                                                 <p>Login Error. wrong credentials</p>
                                                                 
-                                                                <a href="/ToyStore/login.jsp">
+                                                                <a href="/ToyStore/login">
                                                                     click to login again
 								</a>
 							</div>

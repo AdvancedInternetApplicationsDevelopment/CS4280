@@ -75,6 +75,8 @@
         <url-pattern>/checkout</url-pattern>
         <url-pattern>/chooseLanguage</url-pattern>
         <url-pattern>/search</url-pattern>
+        <url-pattern>/addWishList</url-pattern>
+        <url-pattern>/addCompareList</url-pattern>
         <url-pattern>/logoutClient</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -87,7 +89,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>loginServlet</servlet-name>
-        <url-pattern>/loginServlet</url-pattern>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/logout</url-pattern>
+        <url-pattern>/register</url-pattern>
+        <url-pattern>/loginErrorCustomer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -95,8 +100,12 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/view/clientSideView/404.jsp</location>
+    </error-page>
     <security-constraint>
         <display-name>Admin</display-name>
         <web-resource-collection>

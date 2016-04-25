@@ -54,7 +54,7 @@ public class clientSideServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(false);
         String userPath = request.getServletPath();
 
         if (userPath.equals("/productList")) {
@@ -90,15 +90,15 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("ratingRecived", ratingRecived);
             request.setAttribute("ratingLeft", ratingLeft);
         } else if (userPath.equals("/compareProducts")) {
-            //TODO
-            //to remove later 
-            List<String> cp = new ArrayList<String>();
-            cp.add("1");
-            cp.add("2");
-            cp.add("3");
-            cp.add("9");
-            cp.add("10");
-            session.setAttribute("compareProducts", cp);
+//            //TODO
+//            //to remove later 
+//            List<String> cp = new ArrayList<String>();
+//            cp.add("1");
+//            cp.add("2");
+//            cp.add("3");
+//            cp.add("9");
+//            cp.add("10");
+//            session.setAttribute("compareProducts", cp);
             @SuppressWarnings("unchecked")
             List<String> compareProducts = (List<String>) session.getAttribute("compareProducts");
 
@@ -112,15 +112,15 @@ public class clientSideServlet extends HttpServlet {
             }
             request.setAttribute("compareProductList", compareProductList);
         } else if (userPath.equals("/wishList")) {
-            //TODO
-            //please remove later 
-            List<String> wl = new ArrayList<String>();
-            wl.add("1");
-            wl.add("2");
-            wl.add("3");
-            wl.add("9");
-            wl.add("10");
-            session.setAttribute("wishListOfProducts", wl);
+//            //TODO
+//            //please remove later 
+//            List<String> wl = new ArrayList<String>();
+//            wl.add("1");
+//            wl.add("2");
+//            wl.add("3");
+//            wl.add("9");
+//            wl.add("10");
+//            session.setAttribute("wishListOfProducts", wl);
             @SuppressWarnings("unchecked")
             List<String> wishList = (List<String>) session.getAttribute("wishListOfProducts");
 
@@ -135,15 +135,15 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("wishList", wishListProducts);
         } else if (userPath.equals("/recycleProductList")) {
             //TODO convert the to session variable 
-//            String email = (String) session.getAttribute("customerEmail");
-            String email = "email1@gmail.com";
+            String email = (String) session.getAttribute("customerEmail");
+//            String email = "email1@gmail.com";
             ProductDAO productDAO = new ProductDAOImpl();
             List<Product> products = productDAO.getRecycledByOwner(email);
             request.setAttribute("recycleProduct", products);
         } else if (userPath.equals("/orderHistory")) {
             //TODO convert the to session variable 
-//            String email = (String) session.getAttribute("customerEmail");
-            String email = "email1@gmail.com";
+            String email = (String) session.getAttribute("customerEmail");
+//            String email = "email1@gmail.com";
             OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
             OrderedProductDAO orderedProductDAO = new OrderedProductDAOImpl();
             List<OrderHistory> orderHistorys = orderHistoryDAO.getOrderHistoryFromCustomerID(email);
@@ -156,8 +156,8 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("orderHistory", orderHistorys);
         } else if (userPath.equals("/orderConfirmation")) {
             //TODO convert the to session variable 
-//            String email = (String) session.getAttribute("customerEmail");
-            String email = "email1@gmail.com";
+            String email = (String) session.getAttribute("customerEmail");
+//            String email = "email1@gmail.com";
             String orderId = (String) request.getAttribute("orderId");
             OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
             OrderedProductDAO orderedProductDAO = new OrderedProductDAOImpl();
@@ -184,8 +184,8 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("errorMessage", null);
         } else if (userPath.equals("/accountDetails")) {
             //TODO convert the to session variable 
-//            String email = (String) session.getAttribute("customerEmail");
-            String email = "email1@gmail.com";
+            String email = (String) session.getAttribute("customerEmail");
+//            String email = "email1@gmail.com";
             CustomerDAO customerDAO = new CustomerDAOImpl();
             Customer customerDetails = customerDAO.getCustomerFromID(email);
             request.setAttribute("customerDetails", customerDetails);
@@ -196,8 +196,8 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("errorMessage", null);
         } else if (userPath.equals("/editCustomer")) {
             //TODO convert the to session variable 
-//            String email = (String) session.getAttribute("customerEmail");
-            String email = "email1@gmail.com";
+            String email = (String) session.getAttribute("customerEmail");
+//            String email = "email1@gmail.com";
             CustomerDAO customerDAO = new CustomerDAOImpl();
             Customer customer = customerDAO.getCustomerFromID(email);
             CCInfoDAO cCInfoDAO = new CCInfoDAOImpl();
@@ -236,9 +236,9 @@ public class clientSideServlet extends HttpServlet {
             // if checkout page is requested
         } else if (userPath.equals("/checkout")) {
             //TODO convert the to session variable 
-//            String email = (String) session.getAttribute("customerEmail");
+            String email = (String) session.getAttribute("customerEmail");
             boolean error = false;
-            String email = "email1@gmail.com";
+//            String email = "email1@gmail.com";
             ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
             List<String> ordeConfirmation = null;
             OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAOImpl();
@@ -302,6 +302,11 @@ public class clientSideServlet extends HttpServlet {
       
             userPath = "/home";
         }
+        else if (userPath.equals("/logoutClient"))
+        {
+            session.invalidate();
+            response.sendRedirect("/ToyStore/login");
+        }
         String url = "/WEB-INF/view/clientSideView/" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -321,7 +326,7 @@ public class clientSideServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(false);
         String userPath = request.getServletPath();
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
 
@@ -373,8 +378,8 @@ public class clientSideServlet extends HttpServlet {
 
         } else if (userPath.equals("/productDetails")) {
             //TODO convert the to session variable 
-//            String email = (String) session.getAttribute("customerEmail");
-            String email = "email1@gmail.com";
+            String email = (String) session.getAttribute("customerEmail");
+//            String email = "email1@gmail.com";
             boolean success = true;
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
@@ -418,11 +423,11 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("ratingLeft", ratingLeft);
         } else if (userPath.equals("/editPassword")) {
             //TODO convert the to session variable 
-//            String email = (String) session.getAttribute("customerEmail");
+            String email = (String) session.getAttribute("customerEmail");
             boolean success = true;
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
-            String email = "email1@gmail.com";
+//            String email = "email1@gmail.com";
             String pass1 = request.getParameter("password");
             String pass2 = request.getParameter("rePassword");
             char[] pass = pass1.toCharArray();
@@ -456,11 +461,11 @@ public class clientSideServlet extends HttpServlet {
             //have to edit 
         } else if (userPath.equals("/editCustomer")) {
             //TODO convert the to session variable 
-//            String email = (String) session.getAttribute("customerEmail");
+            String email = (String) session.getAttribute("customerEmail");
             boolean success = true;
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
-            String email = "email1@gmail.com";
+//            String email = "email1@gmail.com";
             String fname = request.getParameter("fname");
             String lname = request.getParameter("lname");
             String phone = request.getParameter("phone");
@@ -537,7 +542,68 @@ public class clientSideServlet extends HttpServlet {
             request.setAttribute("error", false);
             request.setAttribute("errorMessage", null);
             userPath = "/cart";
-        } else if (userPath.equals("/removeCartItem")) {
+        } 
+        else if (userPath.equals("/addWishList")) {
+
+            // if user is adding item to cart for first time
+            // create cart object and attach it to user session
+            List<String> wishList = (List<String>) session.getAttribute("wishListOfProducts");
+            
+            if (wishList == null) {
+
+                wishList = new ArrayList<String>();
+                session.setAttribute("wishListOfProducts", wishList);
+            }
+
+            // get user input from request
+            String productId = request.getParameter("productId");
+
+            if (!productId.isEmpty()) {
+                wishList.add(productId);
+                session.setAttribute("wishListOfProducts", wishList);
+            }
+            List<Product> wishListProducts = new ArrayList<Product>();
+            try {
+                ProductDAO productDAO = new ProductDAOImpl();
+                for (String p : wishList) {
+                    wishListProducts.add(productDAO.getProductFromID(p));
+                }
+            } catch (Exception e) {
+            }
+            request.setAttribute("wishList", wishListProducts);
+            userPath = "/wishList";
+        } 
+        else if (userPath.equals("/addCompareList")) {
+
+            // if user is adding item to cart for first time
+            // create cart object and attach it to user session
+            List<String> compareList = (List<String>) session.getAttribute("compareProducts");
+            
+            if (compareList == null) {
+
+                compareList = new ArrayList<String>();
+                session.setAttribute("compareProducts", compareList);
+            }
+
+            // get user input from request
+            String productId = request.getParameter("productId");
+
+            if (!productId.isEmpty()) {
+                compareList.add(productId);
+                session.setAttribute("compareProducts", compareList);
+            }
+            List<Product> compareProductList = new ArrayList<Product>();
+            try {
+                ProductDAO productDAO = new ProductDAOImpl();
+                for (String p : compareList) {
+                    compareProductList.add(productDAO.getProductFromID(p));
+                }
+            } catch (Exception e) {
+            }
+            request.setAttribute("compareProductList", compareProductList);
+            userPath="/compareProducts";
+        } 
+        else if (userPath.equals("/removeCartItem")) {
 
             // if user is adding item to cart for first time
             // create cart object and attach it to user session

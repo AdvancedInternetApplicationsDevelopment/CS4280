@@ -144,7 +144,7 @@
                                     <!-- login Starts -->
                                     <div class="btn-group">
                                         <button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
-                                            ${customerFname}
+                                            ${sessionScope.customerFname}
                                             <i class="fa fa-caret-down"></i>
                                         </button>
                                         <ul class="pull-right dropdown-menu">

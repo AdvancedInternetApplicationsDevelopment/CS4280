@@ -467,7 +467,7 @@
                                         </h3>
                                     </div>
                                     <div class="panel-body">
-                                        <a href="/ToyStore/login.jsp">Click here for login page</a>
+                                        <a href="/ToyStore/login">Click here for login page</a>
                                     </div>
                                 </div>
                             </div>

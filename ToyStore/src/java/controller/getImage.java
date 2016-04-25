@@ -44,15 +44,15 @@ public class getImage extends HttpServlet {
                 
         String productId = request.getParameter("productId");
         String uploadPath = getServletContext().getInitParameter("upload.location");
-        File file = new File(uploadPath + File.separator + productId);
-//        if(productId!=null){
-//             response.setContentType("image/jpeg");
-//             response.getOutputStream().write( Files.readAllBytes(new File(getServletContext().getRealPath("****.jpg")).toPath()));
-//             response.getOutputStream().close();
-//        }else {
-//             response.getWriter().println("Sample text");
-//             response.getWriter().close();
-//        }
+        File file = new File(uploadPath + File.separator + productId + ".jpg");
+        if(productId!=null){
+             response.setContentType("image/jpeg");
+             response.getOutputStream().write( Files.readAllBytes(file.toPath()));
+             response.getOutputStream().close();
+        }else {
+             response.getWriter().println("image not found");
+             response.getWriter().close();
+        }
     }
 
     /**

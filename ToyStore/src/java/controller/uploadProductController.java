@@ -10,9 +10,7 @@ import dbaccessor.ProductDAO;
 import dbaccessor.ProductDAOImpl;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -23,14 +21,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sql.rowset.serial.SerialBlob;
 import model.Category;
 import model.Product;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
+
 
 /**
  *
@@ -111,7 +108,8 @@ public class uploadProductController extends HttpServlet {
                     if (!item.isFormField())
                     {
                         File file = new File(item.getName());
-                        String filePath = uploadPath + File.separator + productId;
+                        file.renameTo(new File(productId + ".jpg"));
+                        String filePath = uploadPath + File.separator + file.getName();
                         // saves the file on disk
                         File storeFile = new File(filePath);
                         item.write(storeFile);
@@ -131,6 +129,10 @@ public class uploadProductController extends HttpServlet {
                 Logger.getLogger(uploadProductController.class.getName()).log(Level.SEVERE, null, ex);
             }
             String owner = (String) session.getAttribute("customerEmail");
+            if(owner==null)
+            {
+                owner= "shop";
+            }
 
             
             String pName = hashMap.get("pName").toString();
