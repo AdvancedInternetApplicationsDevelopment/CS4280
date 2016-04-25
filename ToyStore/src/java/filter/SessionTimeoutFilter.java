@@ -26,10 +26,10 @@ public class SessionTimeoutFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
 
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
 
         // if session doesn't exist, forward user to welcome page
-        if (session == null) {
+        if (session.getAttribute("customerEmail") == null) {
             try {
                 req.getRequestDispatcher("/login.jsp").forward(request, response);
             } catch (Exception ex) {
@@ -38,6 +38,7 @@ public class SessionTimeoutFilter implements Filter {
             return;
         }
 
+//        chain.doFilter(request, response);
         chain.doFilter(new SanitizeWrapper((HttpServletRequest) request), response);
     }
 

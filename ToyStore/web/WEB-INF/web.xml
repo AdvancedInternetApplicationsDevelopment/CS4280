@@ -10,9 +10,7 @@
     </filter>
     <filter-mapping>
         <filter-name>SessionTimeoutFilter</filter-name>
-        <url-pattern>/loginServlet</url-pattern>
-        <!--        <servlet-name>adminControllerServlet</servlet-name>
-        <servlet-name>clientSideServlet</servlet-name>-->
+        <servlet-name>clientSideServlet</servlet-name>
     </filter-mapping>
     <servlet>
         <servlet-name>adminControllerServlet</servlet-name>
