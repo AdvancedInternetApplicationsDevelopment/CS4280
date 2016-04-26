@@ -83,10 +83,9 @@ public class loginServlet extends HttpServlet {
                 LoginDAO loginDAO = new LoginDAOImpl();
                 Login login = loginDAO.getLoginFromID(email);
                 if (login != null) {
-                    byte[] salt = (login.getSalt()).getBytes();
-                    char[] tempPass = pass1.toCharArray();
-                    byte[] hash = (login.getIdpass()).getBytes();
-//                    validate = SaltHash.isExpectedPassword(pass, salt, hash);
+                    byte[] salt = SaltHash.toByteArray(login.getSalt());
+                    byte[] hash = SaltHash.toByteArray(login.getIdpass());
+                    validate = SaltHash.isExpectedPassword(pass, salt, hash);
                     if (!(validate)) {
                         response.sendRedirect("/ToyStore/loginErrorCustomer");
                     } else {
@@ -132,11 +131,13 @@ public class loginServlet extends HttpServlet {
                 LoginDAO loginDAO = new LoginDAOImpl();
                 byte[] salt = SaltHash.getNextSalt();
                 byte[] hash = SaltHash.hash(pass, salt);
+                String salted = SaltHash.toHexString(salt);
+                String hashed = SaltHash.toHexString(hash);
                 Login login;
                 login = new Login();
                 login.setIdlogin(email);
-                login.setIdpass(new String(hash));
-                login.setSalt(new String(salt));
+                login.setIdpass(hashed);
+                login.setSalt(salted);
                 loginDAO.addLogin(login);
                 int ccv = Integer.parseInt(ccvS);
                 CustomerDAO customerDAO = new CustomerDAOImpl();
@@ -145,7 +146,7 @@ public class loginServlet extends HttpServlet {
                 if (!(customerDAO.addCustomer(customer, ccInfo))) {
                     throw new Exception("Cannot add customer details.");
                 }
-                
+
                 response.sendRedirect("/ToyStore/login");
 
             } catch (Exception e) {

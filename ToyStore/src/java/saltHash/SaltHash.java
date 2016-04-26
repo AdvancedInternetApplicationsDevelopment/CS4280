@@ -5,9 +5,11 @@
  */
 package saltHash;
 
+import javax.xml.bind.DatatypeConverter;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.UUID;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -31,9 +33,14 @@ public class SaltHash {
      *
      * @return a 16 bytes random salt
      */
-    public static byte[] getNextSalt() {
-        byte[] salt = new byte[16];
-        RANDOM.nextBytes(salt);
+    public static byte[] getNextSalt()
+    {
+        byte[] salt = new byte[10];
+        byte[] uuid = UUID.randomUUID().toString().getBytes();
+        for(int i = 0; i < 10; i++)
+        {
+            salt[i] = uuid[i];
+        }
         return salt;
     }
 
@@ -107,6 +114,14 @@ public class SaltHash {
             }
         }
         return sb.toString();
+    }
+    
+    public static String toHexString(byte[] array) {
+        return DatatypeConverter.printHexBinary(array);
+    }
+
+    public static byte[] toByteArray(String s) {
+        return DatatypeConverter.parseHexBinary(s);
     }
 }
 

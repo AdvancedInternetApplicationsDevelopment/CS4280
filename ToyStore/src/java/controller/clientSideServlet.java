@@ -438,11 +438,13 @@ public class clientSideServlet extends HttpServlet {
                     LoginDAO loginDAO = new LoginDAOImpl();
                     byte[] salt = SaltHash.getNextSalt();
                     byte[] hash = SaltHash.hash(pass, salt);
+                    String salted = SaltHash.toHexString(salt);
+                    String hashed = SaltHash.toHexString(hash);
                     Login login;
                     login = new Login();
                     login.setIdlogin(email);
-                    login.setIdpass(new String(hash));
-                    login.setSalt(new String(salt));
+                    login.setIdpass(hashed);
+                    login.setSalt(salted);
                     if (!(loginDAO.updatePass(login))) {
                         throw new Exception("Cannot update password again.");
                     }

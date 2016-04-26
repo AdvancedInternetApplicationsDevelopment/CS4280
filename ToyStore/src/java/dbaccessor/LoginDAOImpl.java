@@ -150,7 +150,7 @@ public class LoginDAOImpl implements LoginDAO
         {
             this.conn = ds.getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE login SET "
-                    + "idpass = ?,"
+                    + "idpass = ?, "
                     + "salt = ? "
                     + "WHERE idlogin = ?;");
             ps.setString(1, login.getIdpass());

@@ -195,9 +195,9 @@
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
     <context-param>
-        <description>/home/bsft14/sbyaraval2/images</description>
+        <description>/home/bsft14/sbyaraval2</description>
         <param-name>upload.location</param-name>
-        <param-value>/home/bsft14/ntungare2</param-value>
+        <param-value>/home/bsft14/sbyaraval2</param-value>
     </context-param>
     <listener>
         <listener-class>
