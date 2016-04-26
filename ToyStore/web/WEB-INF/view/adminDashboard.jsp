@@ -241,7 +241,7 @@
                                                         </c:when>
                                                         <c:otherwise>
                                                             <div class="image" style="float: left; padding: 20px 30px 10px 0;">
-                                                                <img src="/ToyStore/getImage?productId=${latestApprovalItem.id}" alt="product" class="img-responsive" />
+                                                                <img src="/ToyStore/getImage?productId=${latestApprovalItem.id}" alt="product" class="img-responsive" style="width: 170px"/>
                                                             </div>
                                                             <div class="caption" style="color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif;padding: 20px 0;">
                                                                 <h4 style="color: #252a2f; font-weight: bold; font-size: 16px; text-transform: uppercase;"><a style= "color: #252a2f;"href="/ToyStore/adminViewRecycled?productId=${approveProduct.name}">${latestApprovalItem.name}</a></h4>

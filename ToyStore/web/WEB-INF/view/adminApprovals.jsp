@@ -155,7 +155,7 @@
                                                         <c:forEach var="approveProduct" items="${approveProducts}">
                                                             <div class="product-col list clearfix" style=" padding: 15px 15px 10px;  margin-bottom: 20px; background: #fff; border: 1px solid #e8e8e8;">
                                                                 <div class="image" style="float: left; padding: 20px 30px 10px 0;">
-                                                                    <img src="/ToyStore/getImage?productId=${approveProduct.id}" alt="product" class="img-responsive" />
+                                                                    <img src="/ToyStore/getImage?productId=${approveProduct.id}" alt="product" class="img-responsive" style="width: 170px" />
                                                                 </div>
                                                                 <div class="caption" style="color: #252a2f;font: 14px/22px 'Open Sans', Arial, Helvetica, sans-serif;padding: 20px 0;">
                                                                     <h4 style="color: #252a2f; font-weight: bold; font-size: 16px; text-transform: uppercase;"><a style= "color: #252a2f;"href="/ToyStore/adminViewRecycled?productId=${approveProduct.id}">${approveProduct.name}</a></h4>

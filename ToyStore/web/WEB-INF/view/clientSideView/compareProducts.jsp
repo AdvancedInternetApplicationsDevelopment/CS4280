@@ -70,7 +70,7 @@
                                         <input type="hidden"
                                                name="productId"
                                                value="${item.id}">
-                                        <button type="button" class="btn btn-cart">
+                                        <button type="submit" class="btn btn-cart">
                                             Add to cart
                                             <i class="fa fa-shopping-cart"></i>
                                         </button>

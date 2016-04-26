@@ -100,7 +100,6 @@ public class uploadProductController extends HttpServlet {
                     if (!item.isFormField()) {
                         File file = new File(item.getName());
                         File file2 = new File(productId + ".jpg");
-//                        
                         String filePath = uploadPath + File.separator + file.getName();
                         // saves the file on disk
                         File storeFile = new File(filePath);
@@ -188,6 +187,7 @@ public class uploadProductController extends HttpServlet {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+
         }
 
     }

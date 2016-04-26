@@ -28,7 +28,7 @@
                             <div class="col-xs-12">
                                 <div class="product-col list clearfix">
                                     <div class="image">
-                                        <img src="/ToyStore/getImage?productId=${item.id}" alt="product" class="img-responsive" />
+                                        <img src="/ToyStore/getImage?productId=${item.id}" alt="product" class="img-responsive" style="width: 170px"/>
                                     </div>
                                     <div class="caption">
                                         <h4><a href="#">${item.name}</a></h4>

@@ -24,7 +24,7 @@
                         <!-- Left Starts -->
                         <div class="col-sm-5 images-block">
                             <p>
-                                <img src="/ToyStore/getImage?productId=${product.id}" alt="Image" class="img-responsive thumbnail" />
+                                <img src="/ToyStore/getImage?productId=${product.id}" alt="Image" class="img-responsive thumbnail" style="width: 170px"/>
                             </p>
                         </div>
                         <!-- Left Ends -->
@@ -146,7 +146,7 @@
                                         <div class="col-md-4 col-sm-6">
                                             <div class="product-col">
                                                 <div class="image">
-                                                    <img src="/ToyStore/getImage?productId=${item.id}" alt="product" class="img-responsive" />
+                                                    <img src="/ToyStore/getImage?productId=${item.id}" alt="product" class="img-responsive" style="width: 150px"/>
                                                 </div>
                                                 <div class="caption">
                                                     <h4><a href="/ToyStore/productDetails?productId=${item.id}">${item.name}</a></h4>
@@ -313,7 +313,7 @@
                 <c:otherwise>
                     <div class="product-col">
                         <div class="image">
-                            <img src="/ToyStore/getImage?productId=${bestProduct.id}" alt="product" class="img-responsive" />
+                            <img src="/ToyStore/getImage?productId=${bestProduct.id}" alt="product" class="img-responsive" style="width: 150px"/>
                         </div>
                         <div class="caption">
                             <h4><a href="/ToyStore/productDetails?productId=${bestProduct.id}">${bestProduct.name}</a></h4>

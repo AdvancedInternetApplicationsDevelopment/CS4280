@@ -22,7 +22,7 @@
                             <c:forEach items="${products}" var="item">
                                 <div class="product-col list clearfix">
                                     <div class="image">
-                                        <img src="/ToyStore/getImage?productId=${item.id}" alt="product" class="img-responsive" />
+                                        <img src="/ToyStore/getImage?productId=${item.id}" alt="product" class="img-responsive" style="width: 170px"/>
                                     </div>
                                     <div class="caption">
                                         <h4><a href="/ToyStore/productDetails?productId=${item.id}">${item.name}</a></h4>

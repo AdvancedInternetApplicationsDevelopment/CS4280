@@ -215,7 +215,7 @@
                         </div>
                         <div class="col-sm-6">
                             <a href="/ToyStore/getImage?productId=${product.id}">
-                                <img src="/ToyStore/getImage?productId=${product.id}" alt="Image" class="img-responsive thumbnail" />
+                                <img src="/ToyStore/getImage?productId=${product.id}" alt="Image" class="img-responsive thumbnail" style="width: 200px"/>
                             </a>
                         </div>
                     </div>
