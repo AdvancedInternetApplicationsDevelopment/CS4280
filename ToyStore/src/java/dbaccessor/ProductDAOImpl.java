@@ -427,7 +427,7 @@ public class ProductDAOImpl implements ProductDAO
     
     public List<Product> getByFilter(String name, String modelNum, int categoryId)
     {
-        String query = getQueryFromFilter(name, modelNum, categoryId, false);
+        String query = getQueryFromFilter(name, modelNum, categoryId, false, "shop");
         
         List<Product> ret = new ArrayList<Product>();
         try
@@ -471,9 +471,9 @@ public class ProductDAOImpl implements ProductDAO
         return ret;
     }
     
-    public List<Product> getRecycledByFilter(String name, String model, int categoryId)
+    public List<Product> getRecycledByFilter(String name, String model, int categoryId, String owner)
     {
-        String query = getQueryFromFilter(name, model, categoryId, true);
+        String query = getQueryFromFilter(name, model, categoryId, true, owner);
         
         List<Product> ret = new ArrayList<Product>();
         try
@@ -508,7 +508,7 @@ public class ProductDAOImpl implements ProductDAO
         return ret;
     }
     
-    public String getQueryFromFilter(String name, String model, int categoryId, boolean recycled)
+    public String getQueryFromFilter(String name, String model, int categoryId, boolean recycled, String owner)
     {
         List<String> query = new ArrayList<String>();
         query.add("SELECT * FROM product");
@@ -526,16 +526,24 @@ public class ProductDAOImpl implements ProductDAO
         {
             query.add(" category_id = '" + categoryId + "'");
         }
+        if(!owner.equalsIgnoreCase(""))
+        {
+            query.add(" owner LIKE '%" + owner + "%'");
+        }
+        if(recycled)
+        {
+            query.add(" new = '0'");
+        }
+        else
+        {
+            query.add(" new = '1'");
+        }
         
         query.add(";");
         
         String ret = "";
         
         ret += query.get(0) + query.get(1);
-        if(recycled)
-        {
-            ret += " new = '0'";
-        }
         
         for(int i = 2; i <= (query.size() - 2); i++)
         {

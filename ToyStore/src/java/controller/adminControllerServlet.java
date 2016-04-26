@@ -259,7 +259,7 @@ public class adminControllerServlet extends HttpServlet {
             String owner = request.getParameter("owner");
             int categoryId = Integer.parseInt(request.getParameter("category"));
             ProductDAO productDAO = new ProductDAOImpl();
-            products = productDAO.getRecycledByFilter(pName, owner, categoryId);
+            products = productDAO.getRecycledByFilter(pName, mNo, categoryId, owner);
             request.setAttribute("pName", pName);
             request.setAttribute("mNo", mNo);
             request.setAttribute("owner", owner);

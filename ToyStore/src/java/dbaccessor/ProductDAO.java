@@ -5,7 +5,6 @@
  */
 package dbaccessor;
 
-import java.sql.Blob;
 import java.util.*;
 
 import model.Product;
@@ -37,7 +36,7 @@ public interface ProductDAO
     
     public List<Product> getByFilter(String name, String modelNum, int categoryId);
     
-    public List<Product> getRecycledByFilter(String name, String modelNum, int categoryId);
+    public List<Product> getRecycledByFilter(String name, String modelNum, int categoryId, String owner);
     
     public List<Product> getByFilter(List<String> brand, List<Integer> categoryId);
     
